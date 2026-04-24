@@ -1,0 +1,211 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+html {
+  scroll-behavior: smooth;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-lora);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius: 0.5rem;
+}
+
+:root {
+  --background: oklch(0.98 0.01 220);
+  --foreground: oklch(0.15 0.02 260);
+
+  --primary: oklch(0.35 0.13 260);
+  --primary-foreground: oklch(0.98 0.01 247);
+
+  --secondary: oklch(0.45 0.15 45);
+  --secondary-foreground: oklch(0.98 0.01 247);
+
+  /* --- AJUSTE TOM SOBRE TOM (SIDEBAR & HEADER ESCUROS) --- */
+  /* Azul Marinho Profundo para o fundo do Sidebar/Header */
+  --sidebar: oklch(0.2 0.04 260);
+  --sidebar-foreground: oklch(0.98 0.01 247); /* Texto branco */
+
+  /* Azul um pouco mais claro para itens ativos no menu */
+  --sidebar-primary: oklch(0.45 0.15 250);
+  --sidebar-primary-foreground: oklch(1 0 0);
+
+  /* Hover dos itens do menu */
+  --sidebar-accent: oklch(0.28 0.05 260);
+  --sidebar-accent-foreground: oklch(0.98 0.01 247);
+
+  --sidebar-border: oklch(0.25 0.04 260);
+  --sidebar-ring: oklch(0.45 0.15 250);
+
+  --border: oklch(0.9 0.02 260);
+  --input: oklch(0.9 0.02 260);
+  --ring: oklch(0.35 0.13 260);
+}
+
+.dark {
+  --background: oklch(0.12 0.02 260);
+  --foreground: oklch(0.98 0.01 247);
+
+  /* Precisamos redefinir os containers no Dark Mode */
+  --card: oklch(0.15 0.02 260);
+  --card-foreground: oklch(0.98 0.01 247);
+
+  --popover: oklch(0.15 0.02 260);
+  --popover-foreground: oklch(0.98 0.01 247);
+
+  /* Azul Marinho ajustado para brilhar no Dark Mode */
+  --primary: oklch(0.98 0.01 247);
+  --primary-foreground: oklch(0.12 0.02 260);
+
+  /* Terracota ajustado para o Dark Mode */
+  --secondary: oklch(0.55 0.12 45);
+  --secondary-foreground: oklch(0.98 0.01 247);
+
+  --muted: oklch(0.2 0.02 260);
+  --muted-foreground: oklch(0.7 0.02 260);
+
+  --accent: oklch(0.2 0.02 260);
+  --accent-foreground: oklch(0.98 0.01 247);
+
+  --sidebar: oklch(0.08 0.02 260);
+  --sidebar-foreground: oklch(0.98 0.01 247);
+  --sidebar-border: oklch(1 1 1 / 10%);
+
+  --border: oklch(0.25 0.02 260);
+  --input: oklch(0.25 0.02 260);
+  --ring: oklch(0.65 0.12 250);
+}
+
+/* ============================= */
+/*  TEMA 3 - MUSEU HISTÓRICO    */
+/* ============================= */
+
+.theme-museu {
+  --background: oklch(0.95 0.02 85); /* Tom pergaminho */
+  --foreground: oklch(0.25 0.03 70); /* Marrom escuro */
+
+  --card: oklch(0.98 0.01 85);
+  --card-foreground: oklch(0.25 0.03 70);
+
+  --popover: oklch(0.98 0.01 85);
+  --popover-foreground: oklch(0.25 0.03 70);
+
+  /* Verde institucional museológico */
+  --primary: oklch(0.45 0.08 140);
+  --primary-foreground: oklch(0.98 0.01 85);
+
+  /* Terracota histórica */
+  --secondary: oklch(0.55 0.1 45);
+  --secondary-foreground: oklch(0.98 0.01 85);
+
+  --muted: oklch(0.9 0.02 85);
+  --muted-foreground: oklch(0.45 0.03 70);
+
+  --accent: oklch(0.85 0.04 95);
+  --accent-foreground: oklch(0.25 0.03 70);
+
+  /* Sidebar estilo madeira escura */
+  --sidebar: oklch(0.3 0.04 70);
+  --sidebar-foreground: oklch(0.98 0.01 85);
+
+  --sidebar-primary: oklch(0.45 0.08 140);
+  --sidebar-primary-foreground: oklch(0.98 0.01 85);
+
+  --sidebar-accent: oklch(0.38 0.04 70);
+  --sidebar-accent-foreground: oklch(0.98 0.01 85);
+
+  --sidebar-border: oklch(0.35 0.03 70);
+  --sidebar-ring: oklch(0.45 0.08 140);
+
+  --border: oklch(0.85 0.02 85);
+  --input: oklch(0.85 0.02 85);
+  --ring: oklch(0.45 0.08 140);
+}
+
+.theme-birigui {
+  /* Fundo "Papel de Museu" (Amarelo Creme Suave da Bandeira) */
+  --background: oklch(0.98 0.02 95);
+  --foreground: oklch(0.12 0.01 0);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.12 0.01 0);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.12 0.01 0);
+
+  /* Verde da Bandeira - Cor Institucional */
+  --primary: oklch(0.42 0.18 145);
+  --primary-foreground: oklch(0.98 0.02 95);
+
+  /* Amarelo da Bandeira - Destaques e Suportes */
+  --secondary: oklch(0.85 0.18 95);
+  --secondary-foreground: oklch(0.2 0.05 95);
+
+  /* Vermelho da Bandeira - Ações de Destaque / Alertas */
+  --accent: oklch(0.55 0.22 25);
+  --accent-foreground: oklch(0.98 0.02 95);
+
+  --muted: oklch(0.93 0.03 95);
+  --muted-foreground: oklch(0.4 0.05 95);
+
+  /* Sidebar: Verde Profundo para contraste "Tom sobre Tom" */
+  --sidebar: oklch(0.25 0.1 145);
+  --sidebar-foreground: oklch(0.98 0.02 95);
+  --sidebar-primary: oklch(0.42 0.18 145);
+  --sidebar-accent: oklch(0.3 0.12 145);
+  --sidebar-border: oklch(0.2 0.08 145);
+  --sidebar-ring: oklch(0.42 0.18 145);
+
+  --border: oklch(0.88 0.03 95);
+  --input: oklch(0.88 0.03 95);
+  --ring: oklch(0.42 0.18 145);
+
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.98 0.02 95);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+}

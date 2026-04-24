@@ -1,0 +1,361 @@
+{
+  "lang": "en",
+  "navigation": {
+    "dashboards": "Dashboard",
+    "usuario": {
+      "usuario": "User",
+      "gestao": "User Management",
+      "listagem": "User List",
+      "novo": "Register New User"
+    },
+    "roles": {
+      "roles": "Roles",
+      "gestao": "Role Management",
+      "listagem": "Role List",
+      "novo": "Register New Role"
+    },
+    "permissions": {
+      "permissions": "Permissions",
+      "gestao": "Permission Management",
+      "listagem": "Permission List",
+      "novo": "Register New Permission"
+    },
+    "resources": {
+      "resources": "Resources",
+      "gestao": "Resource Management",
+      "listagem": "Resource List",
+      "novo": "Register New Resource"
+    },
+    "contato": {
+      "contato": "Contact",
+      "gestao": "Contact Management",
+      "listagem": "Contact List",
+      "novo": "Register New Contact"
+    },
+    "eventos": "Events"
+  },
+  "label": {
+    "novo": "New",
+    "raro": "Rare Item"
+  },
+  "search": {
+    "search": "Search ...",
+    "noResults": "No results found.",
+    "typeCommand": "Type a command or search...",
+    "inputPlaceholder": "Enter search term",
+    "button": "Search"
+  },
+  "project": {
+    "designed": "Federal Institute of São Paulo - Birigui Campus",
+    "institution": "IFSP - Birigui"
+  },
+  "app": {
+    "name": "Museum System",
+    "welcome": "Welcome",
+    "endpoint": {
+      "message": "The destination endpoint could not be identified.",
+      "error": "Resource URL not provided by the Provider.",
+      "api_message": "Error connecting to the server.",
+      "api_error": "Check if the IFSP backend is running.",
+      "api_success": "Registration completed successfully.",
+      "api_resources": "API configuration not found."
+    }
+  },
+  "auth": {
+    "access": "Access",
+    "signIn": "Sign in with your email",
+    "dontHaveAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "orContinueWith": "Or continue with ",
+    "setNewPassword": "Set a new password",
+    "backToSignIn": "Back to sign in",
+    "sendInstruction": "Send instructions",
+    "skipForNow": "Skip this for now.",
+    "didntReceiveEmail": "Didn't receive the email?",
+    "resend": "Resend",
+    "alreadyHaveAccount": "Already have an account?",
+    "login": {
+      "title": "System Access",
+      "description": "Enter your email and password to access your account",
+      "password": "Password:",
+      "placeholderSenha": "Enter your password",
+      "email": "Email",
+      "placeholderEmail": "Enter your email",
+      "forgotPassword": "Forgot your password?",
+      "signIn": "Logged in successfully"
+    },
+    "newPassword": {
+      "title": "New Password",
+      "description": "Enter your new password",
+      "password": "Password:",
+      "placeholderPassword": "Enter your password",
+      "confirmPassword": "Confirm Password:",
+      "placeholderConfirmPassword": "Enter password confirmation",
+      "updatePassword": "Password changed successfully"
+    },
+    "forgotPassword": {
+      "title": "Forgot your Password",
+      "description": "Enter your email below to receive instructions on how to reset your password.",
+      "email": "Email",
+      "placeholderEmail": "Enter your email"
+    },
+    "verifyEmail": {
+      "title": "Revalidate your email",
+      "description": "Enter your email for revalidation.",
+      "email": "Email",
+      "placeholderEmail": "john@gmail.com"
+    },
+    "register": {
+      "title": "Sign up",
+      "description": "Check your inbox for an email from us and follow the verification link.",
+      "firstName": "First Name",
+      "placeholderFirstName": "John",
+      "lastName": "Last Name",
+      "placeholderLastName": "Doe",
+      "username": "Username",
+      "placeholderUserName": "johndoe",
+      "email": "Email",
+      "placeholderEmail": "johndoe@gmail.com",
+      "password": "Password",
+      "placeholderPassword": "Enter your password",
+      "confirmPassword": "Confirm Password",
+      "placeholderConfirmPassword": "Enter password confirmation"
+    },
+    "validation": {
+      "invalidEmail": "Invalid email",
+      "invalidMinPassword": "Password must contain at least 8 characters",
+      "invalidMaxPassword": "Password contains more than 250 characters",
+      "invalidCaracterPassword": "Password must contain at least one letter",
+      "invalidNumberDigit": "Password must contain at least one number",
+      "passwordsMustMatch": "Passwords do not match",
+      "invalidMinFirstName": "First Name must contain at least 2 characters.",
+      "invalidMaxFirstName": "First Name must contain at most 50 characters.",
+      "invalidMinLastName": "Last Name must contain at least 2 characters.",
+      "invalidMaxLastName": "Last Name must contain at most 50 characters.",
+      "invalidMinUserName": "Username must contain at least 3 characters.",
+      "invalidMaxUserName": "Username must contain at most 50 characters."
+    }
+  },
+  "usuario": {
+    "management": {
+      "title": "User Management",
+      "description": "Manage user data in the system.",
+      "lista_usuario": "User List",
+      "not_found": "User not found",
+      "id_not_found": "User identifier not found "
+    },
+    "form": {
+      "create_title": "New User",
+      "create_description": "Fill in the details to create a new user",
+      "edit_title": "Edit User",
+      "edit_description": "Edit the details to change user information",
+      "delete_title": "Delete User",
+      "delete_description": "Delete user data from the system",
+      "consult_title": "View User",
+      "consult_description": "Consult user details and information",
+      "action": "Sending",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "new_user": "New User",
+      "confirm_title": "Are you sure you want to change the user's data?",
+      "confirm_description": "This action will change the user's data in the system. Please verify that the information is correct.",
+      "label": {
+        "firstName": "First Name",
+        "placeHolderFirstName": "Enter first name",
+        "lastName": "Last Name",
+        "placeHolderLastName": "Enter last name",
+        "name": "Name",
+        "email": "E-mail",
+        "password": "Password",
+        "confirmPassword": "Confirm Password"
+      }
+    },
+    "foto": {
+      "label": "Profile Picture",
+      "actions": {
+        "update": "Change",
+        "remove": "Remove",
+        "send": "Sending"
+      }
+    },
+    "validation": {
+      "invalidMinFirstname": "First name must be at least 8 characters long",
+      "invalidMaxFirstname": "First name cannot exceed 100 characters",
+      "invalidMinLastname": "Last name must be at least 8 characters long",
+      "invalidMaxLastname": "Last name cannot exceed 100 characters",
+      "invalidMinUsername": "The name must contain at least 8 characters",
+      "invalidMaxUsername": "The name exceeds 100 characters",
+      "invalidEmail": "Invalid email",
+      "invalidMinPassword": "Password must contain at least 8 characters",
+      "invalidMaxPassword": "Password exceeds 250 characters",
+      "invalidCaracterPassword": "Password must contain at least one character",
+      "invalidNumberDigit": "Password must contain at least one number",
+      "passwordsMustMatch": "Passwords do not match"
+    }
+  },
+  "contact": {
+    "management": {
+      "title": "Contact Management",
+      "description": "Manage contact data in the system.",
+      "lista_contact": "Contact List",
+      "id_not_found": "Contact identifier not found"
+    },
+    "form": {
+      "create_contact": "New Contact",
+      "create_description": "Fill in the details to create a new contact",
+      "edit_title": "Edit Contact",
+      "edit_description": "Edit the details to change contact information",
+      "delete_title": "Delete Contact",
+      "delete_description": "Delete contact data",
+      "consult_title": "View Contact",
+      "consult_description": "View contact details",
+      "action": "Sending",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "new_contact": "Novo Contact",
+      "open": "Open",
+      "close": "Close",
+      "label": {
+        "firstName": "First Name:",
+        "placeHolderFirstName": "Enter name",
+        "lastName": "Last Name:",
+        "placeHolderLastName": "Enter last name",
+        "phone": "Phone Number:",
+        "placeHolderPhone": "Enter your phone number",
+        "email": "Email",
+        "placeHolderEmail": "Enter your@email.com",
+        "status": "Situation",
+        "message": "Message",
+        "placeHolderMessage": "Type your message",
+        "agreedToPrivacy": "I agree to the privacy policy."
+      }
+    },
+    "validation": {
+      "invalidMinFirstName": "First name must contain at least 8 characters",
+      "invalidMaxFirstName": "First name contains more than 100 characters",
+      "invalidMinLastName": "Last name must contain at least 8 characters",
+      "invalidMaxLastName": "Last name contains more than 100 characters",
+      "invalidMaxPhone": "Phone number contains more than 100 characters",
+      "invalidMinPhone": "Phone number must contain at least 8 characters",
+      "invalidEmail": "Invalid email address",
+      "invalidMinMessage": "Message must contain at least 8 characters",
+      "invalidMaxMessage": "Message contains more than 250 characters",
+      "invalidAgreedToPrivacy": "You must accept the privacy policy"
+    }
+  },
+  "event": {
+    "management": {
+      "title": "Event Management",
+      "description": "Manage events in the system.",
+      "lista_contact": "List of Events"
+    },
+    "calendarDndProvider": {
+      "activeData_overData": "Missing required event data",
+      "month": "month",
+      "week": "week",
+      "day": "day",
+      "agenda": "agenda"
+    },
+    "dialog": {
+      "edit_event": "Edit Event",
+      "create_event": "Create Event",
+      "description": "Description",
+      "title:": "Title",
+      "start_date": "Start Date",
+      "start_time": "Start Time",
+      "end_date": "End Date",
+      "end_time": "End Time",
+      "all_day": "All Day",
+      "location": "location"
+    },
+    "agenda_view": {
+      "no_events": "No events found",
+      "no_period": "There are no events scheduled for this time period."
+    },
+    "calendar": {
+      "event": "Event",
+      "update": "upated",
+      "add": "added",
+      "deleted": "deleted",
+      "moved": "moved",
+      "month": "Month",
+      "week": "Week",
+      "day": "Day",
+      "agenda": "Agenda",
+      "previous": "Previous",
+      "next": "Next",
+      "more": "more"
+    }
+  },
+  "permissions": {
+    "management": {
+      "title": "Permissions Management",
+      "description": "Manage permission data in the system.",
+      "lista_permissions": "Permissions List",
+      "message_permissions": "Changes to this matrix affect all users linked to this profile.",
+      "matrix_permissions": "Permissions Matrix"
+    },
+    "form": {
+      "create_title": "New Permissions",
+      "create_description": "Fill in the details to create a new permission",
+      "edit_title": "Edit Roles",
+      "edit_description": "Edit the details to change permission information",
+      "delete_title": "Delete Permissions",
+      "delete_description": "Delete permission data",
+      "consult_title": "View Permissions",
+      "consult_description": "Consult permission data",
+      "action": "Sending",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "new_permissions": "New Permissions",
+      "open": "Open",
+      "close": "Closed",
+      "confirm_title": "Are you sure you want to change the permission data?",
+      "confirm_description": "This action will change the permission data in the system. Please verify if the information is correct.",
+      "label": {
+        "namePermission": "Permission:",
+        "placeHolderNamePermission": "Enter permission name"
+      }
+    },
+    "validation": {
+      "roleId": "The role identifier is required.",
+      "resourceId": "The resource identifier is required.",
+      "action": "Action is not allowed",
+      "possession": "Possession type is not valid"
+    }
+  },
+  "roles": {
+    "management": {
+      "title": "Role Management",
+      "description": "Manage role data in the system.",
+      "lista_roles": "Role List",
+      "id_not_found": "Role identifier not found"
+    },
+    "form": {
+      "create_title": "New Role",
+      "create_description": "Fill in the details to create a new role",
+      "edit_title": "Edit Role",
+      "edit_description": "Edit the data to change role information",
+      "delete_title": "Delete Role",
+      "delete_description": "Delete role data",
+      "consult_title": "Consult Role",
+      "consult_description": "Consult role data",
+      "action": "Sending",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "new_roles": "New Roles",
+      "open": "Open",
+      "close": "Closed",
+      "confirm_title": "Are you sure you want to change the role's data?",
+      "confirm_description": "This action will change the role's data in the system. Please verify that the information is correct.",
+      "label": {
+        "nameRole": "Role:",
+        "placeHolderNameRole": "Enter role name"
+      }
+    },
+    "validation": {
+      "invalidMinNameRole": "The name must be at least 8 characters long",
+      "invalidMaxNameRole": "The name contains more than 100 characters"
+    }
+  }
+}

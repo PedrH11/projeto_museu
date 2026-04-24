@@ -1,0 +1,11 @@
+# node_modules de todos os projetos
+**/node_modules/
+
+# dist de todos os projetos
+**/dist/
+
+# arquivos temporários
+**/.turbo/
+**/.next/
+**/.DS_Store
+**/.env*

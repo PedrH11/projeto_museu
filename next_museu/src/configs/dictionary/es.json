@@ -1,0 +1,360 @@
+{
+  "lang": "es",
+  "navigation": {
+    "dashboards": "Panel Principal",
+    "usuario": {
+      "usuario": "Usuario",
+      "gestao": "Gestión de Usuarios",
+      "listagem": "Lista de Usuarios",
+      "novo": "Registrar nuevo Usuario"
+    },
+    "roles": {
+      "roles": "Roles",
+      "gestao": "Gestión de Roles",
+      "listagem": "Lista de Roles",
+      "novo": "Registrar novo Rol"
+    },
+    "permissions": {
+      "permissions": "Permisos",
+      "gestao": "Gestión de Permisos",
+      "listagem": "Lista de Permisos",
+      "novo": "Registrar novo Permiso"
+    },
+    "resources": {
+      "resources": "Recursos",
+      "gestao": "Gestión de Recursos",
+      "listagem": "Lista de Recursos",
+      "novo": "Registrar novo Recurso"
+    },
+    "contato": {
+      "contato": "Contact",
+      "gestao": "Gestión de Contactos",
+      "listagem": "Lista de contactos",
+      "novo": "Registrar nuevo contacto"
+    },
+    "eventos": "Eventos"
+  },
+  "label": {
+    "novo": "Nuevo",
+    "raro": "Objeto Raro"
+  },
+  "search": {
+    "search": "Buscar ...",
+    "noResults": "No se encontraron resultados.",
+    "typeCommand": "Escriba un comando o realice una búsqueda...",
+    "inputPlaceholder": "Ingrese el término de búsqueda",
+    "button": "Buscar"
+  },
+  "project": {
+    "designed": "Instituto Federal de São Paulo - Campus Birigui",
+    "institution": "IFSP - Birigui"
+  },
+  "app": {
+    "name": "Sistema de Museo",
+    "welcome": "Bienvenido",
+    "endpoint": {
+      "message": "No se pudo identificar el punto final de destino.",
+      "error": "El proveedor no ha proporcionado la URL del recurso.",
+      "api_message": "Error al conectar con el servidor.",
+      "api_error": "Verifique si el backend del IFSP está en ejecución.",
+      "api_success": "Registro realizado con éxito.",
+      "api_resources": "Configuración de API no encontrada."
+    }
+  },
+  "auth": {
+    "access": "Acceso",
+    "signIn": "Acceda con su correo electrónico",
+    "dontHaveAccount": "¿No tiene una cuenta?",
+    "signUp": "Registrarse",
+    "orContinueWith": "O continúe con ",
+    "setNewPassword": "Defina una nueva contraseña",
+    "backToSignIn": "Volver a iniciar sesión",
+    "sendInstruction": "Enviar instrucciones",
+    "skipForNow": "Por ahora, sáltese este paso.",
+    "didntReceiveEmail": "¿No recibió el correo electrónico?",
+    "resend": "Reenviar",
+    "alreadyHaveAccount": "¿Ya tiene una cuenta?",
+    "login": {
+      "title": "Acceso al Sistema",
+      "description": "Ingrese su correo electrónico y contraseña para acceder a su cuenta",
+      "password": "Contraseña:",
+      "placeholderSenha": "Escriba su contraseña",
+      "email": "Correo electrónico",
+      "placeholderEmail": "Escriba su correo electrónico",
+      "forgotPassword": "¿Olvidó su contraseña?",
+      "signIn": "Sesión iniciada con éxito"
+    },
+    "newPassword": {
+      "title": "Nueva Contraseña",
+      "description": "Escriba su nueva contraseña",
+      "password": "Contraseña:",
+      "placeholderPassword": "Escriba su contraseña",
+      "confirmPassword": "Confirme la Contraseña:",
+      "placeholderConfirmPassword": "Escriba la confirmación de la contraseña",
+      "updatePassword": "Contraseña cambiada con éxito"
+    },
+    "forgotPassword": {
+      "title": "Olvidó su Contraseña",
+      "description": "Ingrese su correo electrónico a continuación para recibir instrucciones sobre cómo restablecer su contraseña.",
+      "email": "Correo electrónico",
+      "placeholderEmail": "Escriba su correo electrónico"
+    },
+    "verifyEmail": {
+      "title": "Revalidar su correo electrónico",
+      "description": "Ingrese su correo electrónico para la revalidación.",
+      "email": "Correo electrónico",
+      "placeholderEmail": "juan@gmail.com"
+    },
+    "register": {
+      "title": "Registrarse",
+      "description": "Revise su bandeja de entrada para encontrar un correo nuestro y siga el enlace de verificación.",
+      "firstName": "Nombre",
+      "placeholderFirstName": "Juan",
+      "lastName": "Apellido",
+      "placeholderLastName": "Silva",
+      "username": "Nombre de usuario",
+      "placeholderUserName": "juan",
+      "email": "Correo electrónico",
+      "placeholderEmail": "juan@gmail.com",
+      "password": "Contraseña",
+      "placeholderPassword": "Escriba su contraseña",
+      "confirmPassword": "Confirme la Contraseña",
+      "placeholderConfirmPassword": "Escriba la confirmación de la contraseña"
+    },
+    "validation": {
+      "invalidEmail": "Correo electrónico inválido",
+      "invalidMinPassword": "La contraseña debe tener al menos 8 caracteres",
+      "invalidMaxPassword": "La contraseña debe tener como máximo 250 caracteres",
+      "invalidCharacterPassword": "La contraseña debe contener al menos una letra",
+      "invalidNumberDigit": "La contraseña debe contener al menos un número",
+      "passwordsMustMatch": "Las contraseñas no coinciden",
+      "invalidMinFirstName": "El nombre debe tener al menos 2 caracteres",
+      "invalidMaxFirstName": "El nombre debe tener como máximo 50 caracteres",
+      "invalidMinLastName": "El apellido debe tener al menos 2 caracteres",
+      "invalidMaxLastName": "El apellido debe tener como máximo 50 caracteres",
+      "invalidMinUserName": "El nombre de usuario debe tener al menos 3 caracteres",
+      "invalidMaxUserName": "El nombre de usuario debe tener como máximo 50 caracteres"
+    }
+  },
+  "usuario": {
+    "management": {
+      "title": "Gestión de Usuarios",
+      "description": "Gestionar los datos de los usuarios en el sistema.",
+      "lista_usuario": "Lista de Usuarios",
+      "not_found": "Usuário no encontrado",
+      "id_not_found": "Identificador de usuario no encontrado"
+    },
+    "form": {
+      "create_title": "Nuevo Usuario",
+      "create_description": "Complete los datos para crear un nuevo usuario",
+      "edit_title": "Editar Usuario",
+      "edit_description": "Edite los datos para modificar la información del usuario",
+      "delete_title": "Eliminar Usuario",
+      "delete_description": "Eliminar los datos del usuario del sistema",
+      "consult_title": "Consultar Usuario",
+      "consult_description": "Consultar los datos y la información del usuario",
+      "action": "Enviando",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar",
+      "confirm_title": "¿Está seguro de que desea modificar los datos del usuario?",
+      "confirm_description": "Esta acción modificará los datos del usuario en el sistema. Por favor, verifique que la información sea correcta.",
+      "label": {
+        "firstName": "Nombre",
+        "placeHolderFirstName": "Ingrese el nombre",
+        "lastName": "Apellido",
+        "placeHolderLastName": "Ingrese el apellido",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "confirmPassword": "Confirmar Contraseña"
+      }
+    },
+    "foto": {
+      "label": "Foto de Perfil",
+      "actions": {
+        "update": "Cambiar",
+        "remove": "Eliminar",
+        "send": "Enviando"
+      }
+    },
+    "validation": {
+      "invalidMinFirstname": "El nombre debe tener al menos 8 caracteres",
+      "invalidMaxFirstname": "El nombre no puede tener más de 100 caracteres",
+      "invalidMinLastname": "El apellido debe tener al menos 8 caracteres",
+      "invalidMaxLastname": "El apellido no puede tener más de 100 caracteres",
+      "invalidMinUsername": "El nombre debe tener al menos 8 caracteres",
+      "invalidMaxUsernam": "El nombre supera los 100 caracteres",
+      "invalidEmail": "Correo electrónico inválido",
+      "invalidMinPassword": "La contraseña debe tener al menos 8 caracteres",
+      "invalidMaxPassword": "La contraseña supera los 250 caracteres",
+      "invalidCaracterPassword": "La contraseña debe contener al menos un carácter",
+      "invalidNumberDigit": "La contraseña debe contener al menos un número",
+      "passwordsMustMatch": "Las contraseñas no coinciden"
+    }
+  },
+  "contact": {
+    "management": {
+      "title": "Gestión de Contactos",
+      "description": "Gestionar los datos de contactos en el sistema.",
+      "lista_contact": "Lista de Contactos",
+      "id_not_found": "Identificador de contactos no encontrado"
+    },
+    "form": {
+      "create_contact": "Nuevo Contacto",
+      "create_description": "Complete los datos para crear un nuevo contacto",
+      "edit_title": "Editar Contacto",
+      "edit_description": "Edite los datos para cambiar la información del contacto",
+      "delete_title": "Eliminar contacto",
+      "delete_description": "Eliminar los datos del contacto",
+      "consult_title": "Consultar contacto",
+      "consult_description": "Consultar los datos del contacto",
+      "action": "Enviando",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar",
+      "new_contact": "Novo Contacto",
+      "open": "Abierto",
+      "close": "cerrado",
+      "label": {
+        "firstName": "Nombre:",
+        "placeHolderFirstName": "Ingrese el nombre",
+        "lastName": "Apellido:",
+        "placeHolderLastName": "Ingrese el apellido",
+        "phone": "Número de Teléfono:",
+        "placeHolderPhone": "Ingrese su número de teléfono",
+        "email": "Correo electrónico",
+        "placeHolderEmail": "Ingrese su@correo.com",
+        "status": "situación",
+        "message": "Mensaje",
+        "placeHolderMessage": "Escriba su mensaje",
+        "agreedToPrivacy": "Acepto la política de privacidad."
+      }
+    },
+    "validation": {
+      "invalidMinFirstName": "El nombre debe contener al menos 8 caracteres",
+      "invalidMaxFirstName": "El nombre contiene más de 100 caracteres",
+      "invalidMinLastName": "El apellido debe contener al menos 8 caracteres",
+      "invalidMaxLastName": "El apellido contiene más de 100 caracteres",
+      "invalidMaxPhone": "El teléfono contiene más de 100 caracteres",
+      "invalidMinPhone": "El teléfono debe contener al menos 8 caracteres",
+      "invalidEmail": "Correo electrónico inválido",
+      "invalidMinMessage": "El mensaje debe contener al menos 8 caracteres",
+      "invalidMaxMessage": "El mensaje contiene más de 250 caracteres",
+      "invalidAgreedToPrivacy": "Debe aceptar la política de privacidad"
+    },
+    "event": {
+      "management": {
+        "title": "Gestão de Eventos",
+        "description": "Gerenciar os dados dos eventos no sistema.",
+        "lista_contact": "Lista de Eventos"
+      },
+      "calendarDndProvider": {
+        "activeData_overData": "Faltan datos de eventos obligatorios",
+        "month": "más",
+        "week": "semana",
+        "day": "dia",
+        "agenda": "agenda"
+      },
+      "dialog": {
+        "edit_event": "Editar Evento",
+        "create_event": "Nuevo Evento",
+        "description": "Descripción",
+        "title": "Titulo",
+        "start_date": "Datos Iniciales",
+        "start_time": "Hora Inicial",
+        "end_date": "Datos Finales",
+        "end_time": "Hora Final",
+        "all_day": "Todos os Dias",
+        "location": "Local"
+      },
+      "agenda_view": {
+        "no_events": "No se encontraron eventos",
+        "no_period": "No hay eventos programados para este período de tiempo."
+      },
+      "calendar": {
+        "event": "Evento",
+        "update": "actualizada",
+        "add": "agregada",
+        "deleted": "eliminada",
+        "moved": "movido correctamente",
+        "month": "Más",
+        "week": "Semana",
+        "day": "Dia",
+        "agenda": "Agenda",
+        "previous": "Anterior",
+        "next": "Próximo",
+        "more": "más"
+      }
+    }
+  },
+  "permissions": {
+    "management": {
+      "title": "Gestión de Permisos",
+      "description": "Gestionar los datos de los permisos en el sistema.",
+      "lista_permissions": "Lista de Permisos",
+      "message_permissions": "Los cambios en esta matriz afectan a todos los usuarios vinculados a este perfil.",
+      "matrix_permissions": "Matriz de Permisos"
+    },
+    "form": {
+      "create_title": "Nuevos Permisos",
+      "create_description": "Complete los datos para crear un nuevo permiso",
+      "edit_title": "Editar Roles",
+      "edit_description": "Edite los datos para modificar la información del permiso",
+      "delete_title": "Eliminar Permisos",
+      "delete_description": "Eliminar los datos del permiso",
+      "consult_title": "Consultar Permisos",
+      "consult_description": "Consultar los datos del permiso",
+      "action": "Enviando",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar",
+      "new_permissions": "Nuevos Permisos",
+      "open": "Abierto",
+      "close": "Cerrado",
+      "confirm_title": "¿Está seguro de que deseja cambiar los datos del permiso?",
+      "confirm_description": "Esta acción cambiará los datos del permiso en el sistema. Verifique si la información es correcta.",
+      "label": {
+        "namePermission": "Permiso:",
+        "placeHolderNamePermission": "Ingrese el nombre del permiso"
+      }
+    },
+    "validation": {
+      "roleId": "El identificador del rol es obligatorio.",
+      "resourceId": "El identificador del recurso es obligatorio.",
+      "action": "Acción no permitida",
+      "possession": "El tipo de posesión no es válido"
+    }
+  },
+  "roles": {
+    "management": {
+      "title": "Gestión de Roles",
+      "description": "Gestionar los datos de los roles en el sistema.",
+      "lista_roles": "Lista de Roles",
+      "id_not_found": "Identificador de roles no encontrado"
+    },
+    "form": {
+      "create_title": "Nuevo Role",
+      "create_description": "Complete los datos para crear un nuevo role",
+      "edit_title": "Editar Role",
+      "edit_description": "Edite los datos para cambiar la información del role",
+      "delete_title": "Eliminar role",
+      "delete_description": "Eliminar los datos del role",
+      "consult_title": "Consultar role",
+      "consult_description": "Consultar los datos del role",
+      "action": "Enviando",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar",
+      "new_roles": "Nuevos Roles",
+      "open": "Abierto",
+      "close": "Cerrado",
+      "confirm_title": "¿Está seguro de que desea modificar los datos del roles?",
+      "confirm_description": "Esta acción modificará los datos del roles en el sistema. Por favor, verifique que la información sea correcta.",
+      "label": {
+        "nameRole": "Role:",
+        "placeHolderNameRole": "Ingrese el nombre del role"
+      }
+    },
+    "validation": {
+      "invalidMinNameRole": "El nombre debe contener al menos 8 caracteres",
+      "invalidMaxNameRole": "El nombre contiene más de 100 caracteres"
+    }
+  }
+}
