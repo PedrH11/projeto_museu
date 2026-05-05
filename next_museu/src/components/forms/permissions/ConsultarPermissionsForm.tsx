@@ -1,57 +1,61 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 import {
-  getUsuarioUpdateSchema,
-  UsuarioConsultar,
-  UsuarioResponse,
-} from '../../../schemas/usuario-schemas';
-import { useDictionary } from '../../../service/providers/i18n-providers';
-import { UploadAvatar } from '../../shared/crop/upload-avatar';
-import { Field, FieldError, FieldGroup, FieldLabel } from '../../ui/field';
-import { Input } from '../../ui/input';
-import { FormContainer } from '../form-layout';
+  getPermissionsSchema,
+  PermissionsConsultar,
+  PermissionsResponse,
+} from "../../../schemas/permissions-schemas";
+import { useDictionary } from "../../../service/providers/i18n-providers";
+import { Field, FieldError, FieldGroup, FieldLabel } from "../../ui/field";
+import { Input } from "../../ui/input";
+import { FormContainer } from "../form-layout";
 
-type UsuarioResponseProps = UsuarioResponse;
-
-export default function ConsultarUsuarioForm({
-  usuario,
+export default function ConsultarPermissionsForm({
+  permissions,
 }: {
-  usuario: UsuarioResponseProps;
+  permissions: PermissionsResponse;
 }) {
+  //console.log(JSON.stringify(permissions));
   const dict = useDictionary();
-  const form = useForm<UsuarioConsultar>({
-    resolver: zodResolver(getUsuarioUpdateSchema(dict)),
-    defaultValues: {
-      idUsuario: usuario.idUsuario,
-      username: usuario.username,
-      email: usuario.email,
-      imagePath: usuario.imagePath ?? '',
+  const form = useForm<PermissionsConsultar>({
+    resolver: zodResolver(getPermissionsSchema(dict)),
+    values: {
+      idPermissions: permissions.idPermissions,
+      roleId: permissions.role?.idRoles ?? 0,
+      nomeRoles: permissions.role?.nomeRoles ?? "",
+      resourceId: permissions.resource?.idResources ?? "",
+      nomeResources: permissions.resource?.nomeResources ?? "",
+      action: permissions.action,
+      possession: permissions.possession,
     },
   });
 
   return (
     <FormContainer
-      title={dict.usuario.form.consult_title}
-      description={dict.usuario.form.consult_description}
-      formId="form-usuario"
-      href="/dashboard/usuario"
-      cancel={dict.usuario.form.cancel}
+      title={dict.permissions.form.consult_title}
+      description={dict.permissions.form.consult_description}
+      formId="form-permissions"
+      href="/dashboard/permissions"
+      cancel={dict.permissions.form.cancel}
+      ariaLabelCon={dict.permissions.management.action_delete}
+      ariaLabelCancel={dict.permissions.management.action_cancel}
     >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
         <div className="md:col-span-8 space-y-6">
           <FieldGroup>
-            {/* Nome */}
             <Controller
-              name="username"
+              name="nomeRoles"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>{dict.usuario.form.label.name}:</FieldLabel>
+                  <FieldLabel>
+                    {dict.permissions.form.label.roleName}:
+                  </FieldLabel>
                   <Input
                     {...field}
-                    value={field.value ?? ''}
+                    value={field.value ?? ""}
                     autoComplete="off"
                     readOnly
                   />
@@ -62,17 +66,60 @@ export default function ConsultarUsuarioForm({
               )}
             />
 
-            {/* Email */}
             <Controller
-              name="email"
+              name="nomeResources"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel>{dict.usuario.form.label.email}:</FieldLabel>
+                  <FieldLabel>
+                    {dict.permissions.form.label.resourcesName}
+                  </FieldLabel>
                   <Input
                     {...field}
-                    value={field.value ?? ''}
-                    type="email"
+                    value={field.value ?? ""}
+                    type="text"
+                    autoComplete="off"
+                    readOnly
+                  />
+                  {fieldState.invalid && fieldState.error && (
+                    <FieldError>{fieldState.error.message}</FieldError>
+                  )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="action"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel>{dict.permissions.form.label.action}:</FieldLabel>
+                  <Input
+                    {...field}
+                    value={field.value ?? ""}
+                    type="text"
+                    autoComplete="off"
+                    readOnly
+                  />
+                  {fieldState.invalid && fieldState.error && (
+                    <FieldError>{fieldState.error.message}</FieldError>
+                  )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="possession"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel>
+                    {dict.permissions.form.label.possession}:
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    value={field.value ?? ""}
+                    type="text"
                     autoComplete="off"
                     readOnly
                   />
@@ -83,13 +130,6 @@ export default function ConsultarUsuarioForm({
               )}
             />
           </FieldGroup>
-        </div>
-
-        <div className="md:col-span-4 flex flex-col items-center justify-start space-y-4">
-          <UploadAvatar
-            type="usuarios"
-            onChange={(url) => form.setValue('imagePath', url ?? '')}
-          />
         </div>
       </div>
     </FormContainer>

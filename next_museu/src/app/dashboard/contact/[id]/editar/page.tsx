@@ -2,7 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import { AtualizarContact } from '../../../../../components/contact/atualizar-contato';
 import { ContactResponse } from '../../../../../schemas/contact-schema';
 import { ContactService } from '../../../../../service/connection/ContactService';
-import { getResource } from '../../../../../service/connection/ResourceService';
+import { getResource } from '../../../../../service/connection/RecursosService';
 import { ApiResponse } from '../../../../../type/api';
 
 async function getPorId(id: string): Promise<ApiResponse<ContactResponse>> {

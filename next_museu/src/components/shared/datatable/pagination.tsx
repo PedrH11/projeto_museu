@@ -57,7 +57,7 @@ export function DataTablePagination<TData>({ table }: PaginationProps<TData>) {
               variant="ghost"
               size="icon"
               className="hidden sm:inline-flex"
-              onClick={() => table.setPageIndex(1)}
+              onClick={() => table.setPageIndex(0)}
               disabled={!table.getCanPreviousPage()}
             >
               <DoubleArrowLeftIcon className="h-4 w-4" />
@@ -72,26 +72,17 @@ export function DataTablePagination<TData>({ table }: PaginationProps<TData>) {
               <ChevronLeftIcon className="h-4 w-4" />
             </Button>
 
-            {pageNumbers.map((page, index) =>
-              page === '...' ? (
-                <span
-                  key={index}
-                  className="px-2 text-sm text-muted-foreground"
-                >
-                  ...
-                </span>
-              ) : (
-                <Button
-                  key={index}
-                  variant={currentPage === page ? 'default' : 'ghost'}
-                  size="sm"
-                  className="min-w-8"
-                  onClick={() => table.setPageIndex((page as number) - 1)}
-                >
-                  {page}
-                </Button>
-              ),
-            )}
+            {pageNumbers.map((page, index) => (
+              <Button
+                key={index}
+                variant={currentPage === page ? 'default' : 'ghost'}
+                size="sm"
+                className="min-w-8"
+                onClick={() => table.setPageIndex((page as number) - 1)}
+              >
+                {page}
+              </Button>
+            ))}
 
             <Button
               variant="ghost"

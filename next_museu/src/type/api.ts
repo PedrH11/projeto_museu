@@ -17,12 +17,14 @@ export type ApiResponse<T> = {
 };
 
 export interface PageResponse<T> {
-  content: T[];
-  totalPages: number;
-  totalElements: number;
-  pageSize: number;
-  page: number;
-  lastPage: number;
+  content?: T[];
+  totalPages?: number;
+  totalElements?: number;
+  pageSize?: number;
+  page?: number;
+  lastPage?: number;
+  order?: string;
+  fields?: string;
 }
 
 export interface SearchParams {

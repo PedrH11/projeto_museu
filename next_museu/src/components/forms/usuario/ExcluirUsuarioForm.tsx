@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import React, { startTransition, useActionState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { excluirUsuarioAction } from '../../../actions/usuario/excluir-usuario-actions';
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { startTransition, useActionState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { excluirUsuarioAction } from "../../../actions/usuario/excluir-usuario-actions";
 import {
   getUsuarioUpdateSchema,
   UsuarioDelete,
   UsuarioResponse,
   UsuarioUpdate,
-} from '../../../schemas/usuario-schemas';
-import { useDictionary } from '../../../service/providers/i18n-providers';
-import { useResources } from '../../../service/providers/resource-providers';
-import { ApiResponse } from '../../../type/api';
-import { UploadAvatar } from '../../shared/crop/upload-avatar';
+} from "../../../schemas/usuario-schemas";
+import { useDictionary } from "../../../service/providers/i18n-providers";
+import { useResources } from "../../../service/providers/resource-providers";
+import { ApiResponse } from "../../../type/api";
+import { UploadAvatar } from "../../shared/crop/upload-avatar";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,14 +24,14 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '../../ui/alert-dialog';
-import { Field, FieldError, FieldGroup, FieldLabel } from '../../ui/field';
-import { Input } from '../../ui/input';
-import { FormContainer } from '../form-layout';
+} from "../../ui/alert-dialog";
+import { Field, FieldError, FieldLabel } from "../../ui/field";
+import { Input } from "../../ui/input";
+import { FormContainer } from "../form-layout";
 
 const initialState: ApiResponse<UsuarioResponse> = {
   status: 0,
-  mensagem: '',
+  mensagem: "",
   erro: null,
   dados: undefined,
   errors: undefined,
@@ -57,13 +57,13 @@ export default function ExcluirUsuarioForm({
       idUsuario: usuario.idUsuario,
       username: usuario.username,
       email: usuario.email,
-      imagePath: usuario.imagePath ?? '',
+      imagePath: usuario.imagePath ?? "",
     },
   });
 
   const { getEndpoint } = useResources();
   const urlDelete = React.useMemo(
-    () => getEndpoint('usuario', usuario.idUsuario ?? ''),
+    () => getEndpoint("usuario", usuario.idUsuario ?? ""),
     [getEndpoint, usuario.idUsuario],
   );
 
@@ -78,17 +78,17 @@ export default function ExcluirUsuarioForm({
     if (status === 0) return;
 
     if (status >= 400) {
-      toast.error('Erro', { description: erro || mensagem });
+      toast.error("Erro", { description: erro || mensagem });
       if (errors) {
         Object.entries(errors).forEach(([field, messages]) => {
           form.setError(field as keyof UsuarioUpdate, {
-            type: 'server',
+            type: "server",
             message: messages?.[0],
           });
         });
       }
     } else {
-      toast.success('Sucesso!', { description: mensagem });
+      toast.success("Sucesso!", { description: mensagem });
     }
   }, [status, mensagem, errors, erro, form]);
 
@@ -111,7 +111,7 @@ export default function ExcluirUsuarioForm({
   }
 
   React.useEffect(() => {
-    form.register('imagePath');
+    form.register("imagePath");
   }, [form]);
 
   return (
@@ -127,11 +127,54 @@ export default function ExcluirUsuarioForm({
         confirm={dict.usuario.form.confirm}
         href="/dashboard/usuario"
         cancel={dict.usuario.form.cancel}
+        ariaLabelCon={dict.usuario.management.action_delete}
+        ariaLabelCancel={dict.usuario.management.action_cancel}
       >
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-20">
           <div className="md:col-span-8 space-y-6">
-            <FieldGroup>
-              {/* Nome */}
+            {/* GRID INTERNA DE 3 COLUNAS */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Primeiro Nome */}
+              <Controller
+                name="firstName"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel>
+                      {dict.usuario.form.label.firstName}:
+                    </FieldLabel>
+                    <Input
+                      {...field}
+                      value={field.value ?? ""}
+                      placeholder={dict.usuario.form.label.placeHolderFirstName}
+                    />
+                    {fieldState.error && (
+                      <FieldError>{fieldState.error.message}</FieldError>
+                    )}
+                  </Field>
+                )}
+              />
+
+              {/* Último Nome */}
+              <Controller
+                name="lastName"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel>{dict.usuario.form.label.lastName}:</FieldLabel>
+                    <Input
+                      {...field}
+                      value={field.value ?? ""}
+                      placeholder={dict.usuario.form.label.placeHolderLastName}
+                    />
+                    {fieldState.error && (
+                      <FieldError>{fieldState.error.message}</FieldError>
+                    )}
+                  </Field>
+                )}
+              />
+
+              {/* Username */}
               <Controller
                 name="username"
                 control={form.control}
@@ -140,44 +183,65 @@ export default function ExcluirUsuarioForm({
                     <FieldLabel>{dict.usuario.form.label.name}:</FieldLabel>
                     <Input
                       {...field}
-                      value={field.value ?? ''}
-                      autoComplete="off"
-                      readOnly
+                      value={field.value ?? ""}
+                      placeholder={dict.usuario.form.label.placeHolderName}
                     />
-                    {fieldState.invalid && fieldState.error && (
+                    {fieldState.error && (
                       <FieldError>{fieldState.error.message}</FieldError>
                     )}
                   </Field>
                 )}
               />
 
-              {/* Email */}
-              <Controller
-                name="email"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel>{dict.usuario.form.label.email}:</FieldLabel>
-                    <Input
-                      {...field}
-                      value={field.value ?? ''}
-                      type="email"
-                      autoComplete="off"
-                      readOnly
-                    />
-                    {fieldState.invalid && fieldState.error && (
-                      <FieldError>{fieldState.error.message}</FieldError>
-                    )}
-                  </Field>
-                )}
-              />
-            </FieldGroup>
+              {/* Email - md:col-span-3 faz ele ocupar a linha toda se desejar, ou deixe 1 p/ manter 3 por linha */}
+              <div className="md:col-span-1">
+                <Controller
+                  name="email"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel>{dict.usuario.form.label.email}:</FieldLabel>
+                      <Input
+                        {...field}
+                        type="email"
+                        value={field.value ?? ""}
+                        placeholder={dict.usuario.form.label.placeHolderEmail}
+                      />
+                      {fieldState.error && (
+                        <FieldError>{fieldState.error.message}</FieldError>
+                      )}
+                    </Field>
+                  )}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-muted-foreground">
+                  Roles:
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {usuario.roles?.map((role) => (
+                    <div
+                      key={role.idRoles}
+                      className="inline-flex items-center rounded-md border border-transparent bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground transition-colors"
+                    >
+                      {role.nomeRoles}
+                    </div>
+                  ))}
+                  {(!usuario.roles || usuario.roles.length === 0) && (
+                    <span className="text-sm italic text-destructive">
+                      Sem permissões
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="md:col-span-4 flex flex-col items-center justify-start space-y-4">
+          {/* Coluna do Avatar */}
+          <div className="md:col-span-4 flex flex-col items-center justify-start pt-8">
             <UploadAvatar
               type="usuarios"
-              onChange={(url) => form.setValue('imagePath', url ?? '')}
+              onChange={(url) => form.setValue("imagePath", url ?? "")}
             />
           </div>
         </div>

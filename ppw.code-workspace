@@ -1,5 +1,8 @@
 {
-  "folders": [{ "path": "." }],
+  "folders": [
+    { "name": "Frontend - Next", "path": "next_museu" },
+    { "name": "Backend - Nest", "path": "nest_museu" },
+  ],
   "settings": {
     "window.zoomLevel": 0,
     "editor.fontSize": 18,
@@ -22,7 +25,6 @@
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.list.smoothScrolling": true,
     "workbench.localHistory.enabled": true,
-    "workbench.fontAliasing": "antialiased",
     "workbench.layoutControl.enabled": false,
 
     "explorer.confirmDelete": true,
@@ -33,7 +35,7 @@
     "editor.renderControlCharacters": true,
     "editor.tabSize": 2,
     "editor.renderLineHighlight": "gutter",
-    "editor.rulers": [80, 120],
+    "editor.rulers": [80],
     "editor.detectIndentation": true,
     "editor.snippetSuggestions": "bottom",
     "editor.wordBasedSuggestions": "off",
@@ -63,23 +65,19 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "never",
-      "source.organizeImports": "always",
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "explicit",
     },
     "eslint.enable": true,
-    "eslint.format.enable": true,
+    "eslint.format.enable": false,
 
     "files.eol": "\n",
     "prettier.endOfLine": "lf",
 
-    "typescript.preferences.importModuleSpecifier": "relative",
-
     "[typescript]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode",
     },
-
-    "typescript.updateImportsOnFileMove.enabled": "always",
-    "files.autoSave": "afterDelay",
+    "files.autoSave": "onFocusChange",
     "editor.stickyScroll.enabled": false,
 
     "[typescriptreact]": {

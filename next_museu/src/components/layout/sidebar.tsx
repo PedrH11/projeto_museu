@@ -92,10 +92,10 @@ export function Sidebar({ dictionary }: { dictionary: DictionaryType }) {
 
         {/* --- ADIÇÃO DO COMMAND MENU --- */}
         <div className="px-3">
-          <CommandMenu
+          {/*  <CommandMenu
             dictionary={dictionary}
             buttonClassName="w-full border-2"
-          />
+          /> */}
         </div>
       </SidebarHeader>
 
@@ -213,11 +213,11 @@ export function Sidebar({ dictionary }: { dictionary: DictionaryType }) {
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton
                             asChild
-                            isActive={pathname === '/dashboard/recursos'}
+                            isActive={pathname === '/dashboard/resources'}
                             className={subItemStyle}
                           >
                             <Link
-                              href="/dashboard/recursos"
+                              href="/dashboard/resources"
                               onClick={() => isMobile && setOpenMobile(false)}
                             >
                               <span>{nav.resources?.listagem}</span>
@@ -227,7 +227,7 @@ export function Sidebar({ dictionary }: { dictionary: DictionaryType }) {
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton
                             asChild
-                            isActive={pathname === '/dashboard/recursos/novo'}
+                            isActive={pathname === '/dashboard/resources/novo'}
                             className={subItemStyle}
                           >
                             <Link

@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import ListarUsuarios from '../../../components/usuario/lista-usuario';
 import { UsuarioResponse } from '../../../schemas/usuario-schemas';
-import { getResource } from '../../../service/connection/ResourceService';
+import { getResource } from '../../../service/connection/RecursosService';
 import { UsuarioService } from '../../../service/connection/UsuarioService';
 import { ApiResponse, PageResponse } from '../../../type/api';
 

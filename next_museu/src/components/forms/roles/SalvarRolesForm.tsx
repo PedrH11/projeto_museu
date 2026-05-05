@@ -32,18 +32,6 @@ export default function SalvarRolesForm() {
     initialState,
   );
 
-  const [localState, setLocalState] = React.useState(initialState);
-
-  const resetLocalState = React.useCallback(() => {
-    setLocalState(initialState);
-  }, []);
-
-  React.useEffect(() => {
-    if (serverState.status !== 0) {
-      setLocalState(serverState);
-    }
-  }, [serverState]);
-
   const dict = useDictionary();
   const { getEndpoint } = useResources();
   const urlCreate = getEndpoint('roles');
@@ -51,20 +39,17 @@ export default function SalvarRolesForm() {
   const form = useForm<RolesCreate>({
     resolver: zodResolver(getRolesSchema(dict)),
     defaultValues: {
-      nameRoles: '',
+      nomeRoles: '',
     },
   });
 
-  React.useEffect(() => {
-    const { status, mensagem, erro, errors } = localState;
+  const { status, mensagem, erro, errors } = serverState;
 
-    if (status === 0) return;
+  React.useEffect(() => {
+    if (status === 0 || (!mensagem && !erro)) return;
 
     if (status >= 400) {
-      toast.error('Erro', {
-        description: erro || mensagem,
-      });
-
+      toast.error('Erro', { description: erro || mensagem });
       if (errors) {
         Object.entries(errors).forEach(([field, messages]) => {
           form.setError(field as keyof RolesCreate, {
@@ -74,12 +59,9 @@ export default function SalvarRolesForm() {
         });
       }
     } else {
-      toast.success('Sucesso!', { description: mensagem });
-      form.reset();
+      toast.success(mensagem);
     }
-
-    resetLocalState();
-  }, [localState, form, resetLocalState]);
+  }, [status, mensagem, errors, erro, form]);
 
   function onSubmit(data: RolesCreate) {
     if (!urlCreate) {
@@ -88,7 +70,8 @@ export default function SalvarRolesForm() {
 
     React.startTransition(async () => {
       action({
-        rolesCreate: data, url: urlCreate,
+        rolesCreate: data,
+        url: urlCreate,
       });
     });
   }
@@ -97,7 +80,7 @@ export default function SalvarRolesForm() {
     <FormContainer
       title={dict.roles.form.create_title}
       description={dict.roles.form.create_description}
-      state={localState}
+      state={serverState}
       isPending={isPending}
       formId="form-roles"
       onSubmit={form.handleSubmit(onSubmit)}
@@ -105,13 +88,15 @@ export default function SalvarRolesForm() {
       confirm={dict.roles.form.confirm}
       href="/dashboard/roles"
       cancel={dict.roles.form.cancel}
+      ariaLabelCon={dict.roles.management.action_new}
+      ariaLabelCancel={dict.roles.management.action_cancel}
     >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
         <div className="md:col-span-8 space-y-6">
           <FieldGroup>
             {/* Primeiro Nome */}
             <Controller
-              name="nameRoles"
+              name="nomeRoles"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
@@ -128,9 +113,8 @@ export default function SalvarRolesForm() {
                 </Field>
               )}
             />
-          </FieldGroup>  
+          </FieldGroup>
         </div>
-
       </div>
     </FormContainer>
   );

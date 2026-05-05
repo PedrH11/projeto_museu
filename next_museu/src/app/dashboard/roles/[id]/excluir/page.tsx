@@ -1,7 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 import { ExcluirRoles } from '../../../../../components/roles/excluir-roles';
 import { RolesResponse } from '../../../../../schemas/roles-schemas';
-import { getResource } from '../../../../../service/connection/ResourceService';
+import { getResource } from '../../../../../service/connection/RecursosService';
 import { RolesService } from '../../../../../service/connection/RolesService';
 import { ApiResponse } from '../../../../../type/api';
 
@@ -13,7 +13,7 @@ async function getPorId(id: string): Promise<ApiResponse<RolesResponse>> {
 
     endpoint = resources
       .find((r) => r.name === 'roles' && r.endpoint.includes(':id'))
-      ?.endpoint.replace(':id', '');
+      ?.endpoint.replace('/:id', '');
   } catch (error) {
     const apiError = error as ApiResponse<never> & { isNetworkError?: boolean };
     if (apiError.isNetworkError || apiError.status === 503) {

@@ -1,43 +1,46 @@
 'use client';
 
 import Link from 'next/link';
-import { UsuarioResponse } from '../../schemas/usuario-schemas';
+import { PermissionsResponse } from '../../schemas/permissions-schemas';
 import { useDictionary } from '../../service/providers/i18n-providers';
 import { ApiResponse } from '../../type/api';
-import ConsultarUsuarioForm from '../forms/usuario/ConsultarUsuarioForm';
+import ConsultarPermissionsForm from '../forms/permissions/ConsultarPermissionsForm';
 import { ToastHandler } from '../message/DisplayMessage';
 import { PageShell } from '../pageshell/page-shell';
 import { Button } from '../ui/button';
 
-export function ConsultarUsuario({
+export function ConsultarPermissions({
   result,
 }: {
-  result: ApiResponse<UsuarioResponse>;
+  result: ApiResponse<PermissionsResponse>;
 }) {
   const dict = useDictionary();
+  console.log(JSON.stringify(result, null, 2));
   return (
     <>
-      <section aria-labelledby="usuarios-heading">
+      <section aria-labelledby="permissions-heading">
         {result.mensagem && <ToastHandler message={result.mensagem} />}
         <PageShell
-          title={dict.usuario.management.title}
-          description={dict.usuario.management.description}
+          title={dict.permissions.management.title}
+          description={dict.permissions.management.description}
+          headingId="permissions-heading"
           actions={
             <Button
               asChild
               className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-sans"
+              aria-label={dict.permissions.management.action_consult}
             >
-              <Link href="/dashboard/usuario">
-                {dict.usuario.management.lista_usuario}
+              <Link href="/dashboard/permissions">
+                {dict.permissions.management.lista_permissions}
               </Link>
             </Button>
           }
         >
           {result.dados ? (
-            <ConsultarUsuarioForm usuario={result.dados} />
+            <ConsultarPermissionsForm permissions={result.dados} />
           ) : (
             <div className="p-4 text-center border rounded-lg bg-muted">
-              <p>{dict.usuario.management.not_found}</p>
+              <p>{dict.permissions.management.not_found}</p>
             </div>
           )}
         </PageShell>

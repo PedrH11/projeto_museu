@@ -2,7 +2,7 @@
 
 import { LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
-import { ResourcesResponse } from '../../schemas/resources-schemas';
+import { ResourcesMatrizResponse } from '../../schemas/resources-schemas';
 import { useDictionary } from '../../service/providers/i18n-providers';
 import { ApiResponse, PageResponse } from '../../type/api';
 import PermissionMatrixForm from '../forms/permissions/PermissionsMatrixForm';
@@ -10,11 +10,9 @@ import { PageShell } from '../pageshell/page-shell';
 import { Button } from '../ui/button';
 
 export default function PermissionsMatriz({
-  nomeRole,
   resources,
 }: {
-  nomeRole: string;
-  resources: ApiResponse<PageResponse<ResourcesResponse>>;
+  resources: ApiResponse<PageResponse<ResourcesMatrizResponse>>;
 }) {
   const dict = useDictionary();
   return (
@@ -36,10 +34,7 @@ export default function PermissionsMatriz({
             </Button>
           }
         >
-          <PermissionMatrixForm
-            nomeRoles={nomeRole}
-            resources={resources.dados?.content ?? []}
-          />
+          <PermissionMatrixForm resources={resources.dados?.content ?? []} />
         </PageShell>
       </section>
     </>

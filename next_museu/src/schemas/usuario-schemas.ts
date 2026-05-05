@@ -1,11 +1,28 @@
-import z from 'zod';
-import { DictionaryType } from '../type/type';
+import z from "zod";
+import { DictionaryType } from "../type/type";
+import { RolesResponseSchema } from "./roles-schemas";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const getUsuarioSchema = (dict: DictionaryType) => {
   const { validation } = dict.usuario;
   return z.object({
     idUsuario: z.number().int().positive().optional(),
+    firstName: z
+      .string()
+      .min(8, {
+        message: validation.invalidMinFirstname,
+      })
+      .max(100, {
+        message: validation.invalidMaxFirstname,
+      }),
+    lastName: z
+      .string()
+      .min(8, {
+        message: validation.invalidMinLastname,
+      })
+      .max(100, {
+        message: validation.invalidMaxLastname,
+      }),
     username: z
       .string()
       .min(8, {
@@ -22,6 +39,18 @@ const getUsuarioSchema = (dict: DictionaryType) => {
       .email({ message: validation.invalidEmail }),
 
     imagePath: z.string().optional(),
+
+    roleIds: z.array(z.number()).min(1, "Selecione pelo menos uma role"),
+    roles: z
+      .array(
+        z.object({
+          idRoles: z.number(),
+          nomeRoles: z.string(),
+        }),
+      )
+      .optional()
+      .nullable()
+      .default([]),
   });
 };
 
@@ -76,10 +105,12 @@ export const getUsuarioCreateFormSchema = (dict: DictionaryType) => {
         }),
       confirmPassword: z.string(),
       imagePath: z.string().optional(),
+      roleIds: z.array(z.number()).min(1, "Selecione pelo menos uma role"),
+      roles: z.array(RolesResponseSchema).optional().default([]),
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: validation.passwordsMustMatch,
-      path: ['confirmSenha'],
+      path: ["confirmSenha"],
     });
 };
 
@@ -103,18 +134,24 @@ export type UsuarioUpdate = z.infer<ReturnType<typeof getUsuarioUpdateSchema>>;
 
 export type UsuarioDelete = z.infer<ReturnType<typeof getUsuarioUpdateSchema>>;
 
+export type UsuarioList = z.infer<typeof getUsuarioSchema>; // usando para consulta
+
+export type UsuarioConsultar = z.infer<
+  ReturnType<typeof getUsuarioUpdateSchema>
+>; // usando para consulta
+
 /* ================= UPDATE SENHA ================= */
 
 export const UsuarioUpdateSenhaSchema = (dict: DictionaryType) => {
   const { validation } = dict.usuario;
   return z
     .object({
-      password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
+      password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
       confirmPassword: z.string().min(6),
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: validation.passwordsMustMatch,
-      path: ['confirmPassword'],
+      path: ["confirmPassword"],
     })
     .transform(({ confirmPassword: _confirmPassword, ...rest }) => rest);
 };
@@ -123,26 +160,33 @@ export type UsuarioUpdateSenha = z.infer<
   ReturnType<typeof UsuarioUpdateSenhaSchema>
 >;
 
-/* ================= LIST ================= */
-
-export type UsuarioList = z.infer<typeof getUsuarioSchema>; // usando para consulta
-
-/* ================= Consultar ================= */
-
-export type UsuarioConsultar = z.infer<
-  ReturnType<typeof getUsuarioUpdateSchema>
->; // usando para consulta
-
 /* ================= USUÁRIO RESPONSE - RESPOSTA DA API  ================= */
 
 export const UsuarioResponseSchema = z.object({
   idUsuario: z.number().int().positive().optional(),
+
+  firstName: z.string(),
+
+  lastName: z.string(),
 
   username: z.string(),
 
   email: z.string(),
 
   active: z.boolean(),
+
+  roleIds: z.array(z.number()),
+
+  roles: z
+    .array(
+      z.object({
+        idRoles: z.number(),
+        nomeRoles: z.string(),
+      }),
+    )
+    .optional()
+    .nullable()
+    .default([]),
 
   imagePath: z.string().nullable().optional(),
 });

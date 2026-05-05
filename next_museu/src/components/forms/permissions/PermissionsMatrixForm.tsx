@@ -16,29 +16,51 @@ import {
   Camera,
   Check,
   Contact2Icon,
+  Loader2,
   Lock,
   LockIcon,
+  Save,
   ShieldCheck,
   ShieldUser,
   User,
   X,
 } from 'lucide-react';
-import { ResourcesResponse } from '../../../schemas/resources-schemas';
+import React from 'react';
+import { toast } from 'sonner';
+import { atualizarPermissionsAction } from '../../../actions/permissions/atualizar-matriz-permissions-actions';
+import {
+  PermissionsMatrizCreate,
+  PermissionsResponse
+} from '../../../schemas/permissions-schemas';
+import { ResourcesMatrizResponse } from '../../../schemas/resources-schemas';
 import { useDictionary } from '../../../service/providers/i18n-providers';
+import { useResources } from '../../../service/providers/resource-providers';
+import { ApiResponse } from '../../../type/api';
+import { Button } from '../../ui/button';
 
-interface PermissionMatrixProps {
-  nomeRoles: string;
-  resources: ResourcesResponse[];
+const initialState: ApiResponse<PermissionsResponse> = {
+  status: 0,
+  mensagem: '',
+  erro: null,
+  dados: undefined,
+  errors: undefined,
+};
+
+interface PermissionMatrixFormProps {
+  resources: ResourcesMatrizResponse[];
 }
 
 export default function PermissionMatrixForm({
-  nomeRoles,
   resources,
-}: PermissionMatrixProps) {
+}: PermissionMatrixFormProps) {
   const dict = useDictionary();
+  const { getEndpoint } = useResources();
   const nav = dict.navigation;
 
-  console.log(nomeRoles);
+  //Mapped {/api/v1/permissions/sync/:roleId, POST}
+
+  const baseEndpoint = getEndpoint('permissions');
+  const urlSync = baseEndpoint ? `${baseEndpoint}/sync` : undefined;
 
   const iconResources = [
     { id: 'dashboard', label: nav.dashboards, icon: ShieldCheck },
@@ -52,25 +74,87 @@ export default function PermissionMatrixForm({
   ];
 
   const actions = [
-    { id: 'view', label: 'Visualizar' },
-    { id: 'create', label: 'Criar' },
-    { id: 'edit', label: 'Editar' },
-    { id: 'delete', label: 'Excluir' },
+    { id: 'read', label: dict.permissions.management.enums.action.read },
+    { id: 'create', label: dict.permissions.management.enums.action.create },
+    { id: 'update', label: dict.permissions.management.enums.action.update },
+    { id: 'delete', label: dict.permissions.management.enums.action.delete },
   ];
 
-  // Função auxiliar para encontrar o ícone e label traduzido
+  const [state, action, isPending] = React.useActionState(
+    atualizarPermissionsAction,
+    initialState,
+  );
+
+  const infoRole = {
+    nome: resources[0]?.nomeRole || 'N/A',
+    id: resources[0]?.roleId,
+  };
+
+  const [matrix, setMatrix] = React.useState<
+    Record<number, Record<string, boolean>>
+  >(() => {
+    const initialState: Record<number, Record<string, boolean>> = {};
+
+    resources.forEach((res: any) => {
+      initialState[res.idResources] = {
+        create: res.acoesAtivas.includes('create'),
+        read: res.acoesAtivas.includes('read'),
+        update: res.acoesAtivas.includes('update'),
+        delete: res.acoesAtivas.includes('delete'),
+      };
+    });
+
+    return initialState;
+  });
+
+  React.useEffect(() => {
+    if (state.status === 200 || state.status === 201) {
+      toast.success(state.mensagem);
+    } else if (state.erro) {
+      toast.error(state.mensagem);
+    }
+  }, [state]);
+
   const getResourceConfig = (nomeBanco: string) => {
     const normalized = nomeBanco
       .toLowerCase()
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove acentos
+      .replace(/[\u0300-\u036f]/g, '')
       .trim();
 
-    // Tenta encontrar o match exato ou por começo da palavra (ex: usuario x usuarios)
     return iconResources.find(
       (item) =>
         normalized.startsWith(item.id) || item.id.startsWith(normalized),
     );
+  };
+
+  const handleSave = async () => {
+    const permissionsMatrizCreate: PermissionsMatrizCreate[] = [];
+    for (const [resId, actionsObj] of Object.entries(matrix)) {
+      for (const [actionName, isSelected] of Object.entries(actionsObj)) {
+        if (isSelected) {
+          permissionsMatrizCreate.push({
+            roleId: infoRole.id,
+            resourceId: Number(resId),
+            action: actionName,
+            possession: 'any',
+          });
+        }
+      }
+    }
+
+    const url = urlSync;
+
+    if (!url) {
+      return toast.error(dict.app.endpoint.api_resources);
+    }
+    React.startTransition(() => {
+      action({
+        roleId: infoRole.id,
+        permissionsMatrizCreate,
+        url,
+      });
+    });
   };
 
   return (
@@ -78,20 +162,39 @@ export default function PermissionMatrixForm({
       <div className="flex items-center justify-between p-4 border-b">
         <div className="flex items-center gap-2">
           <Lock className="h-5 w-5 text-primary" />
-          <h3 className="font-semibold text-lg">Matriz de Permissões</h3>
+          <h3 className="font-semibold text-lg">
+            {dict.permissions.management.matrix_permissions}
+          </h3>
         </div>
-        <Badge
-          variant="outline"
-          className="bg-primary/10 text-primary border-primary/20"
-        >
-          Perfil: {nomeRoles}
-        </Badge>
+        <div className="flex items-center gap-3">
+          <Badge
+            variant="outline"
+            className="bg-primary/10 text-primary border-primary/20"
+          >
+            Perfil: {infoRole.nome}
+          </Badge>
+          <Button
+            onClick={handleSave}
+            disabled={isPending }
+            size="sm"
+          >
+            {isPending ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Save className="mr-2 h-4 w-4" />
+            )}
+            Salvar
+          </Button>
+        </div>
       </div>
 
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/50 hover:bg-muted/50">
-            <TableHead className="w-[300px]">Recurso / Módulo</TableHead>
+            <TableHead className="w-[300px]">
+              {dict.permissions.management.resources} /{' '}
+              {dict.permissions.management.module}
+            </TableHead>
             {actions.map((action) => (
               <TableHead key={action.id} className="text-center">
                 {action.label}
@@ -101,7 +204,6 @@ export default function PermissionMatrixForm({
         </TableHeader>
         <TableBody>
           {resources.map((resource) => {
-            // Buscamos a configuração correspondente
             const config = getResourceConfig(resource.nomeResources);
             const Icon = config?.icon || Box; // Fallback para Box
             const label = config?.label || resource.nomeResources; // Fallback para o nome do banco
@@ -127,9 +229,20 @@ export default function PermissionMatrixForm({
                   >
                     <div className="flex justify-center">
                       <Checkbox
-                        id={`${resource.idResources}-${action.id}`}
-                        defaultChecked={nomeRoles === 'Administrador'}
-                        className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        checked={
+                          matrix[resource.idResources]?.[action.id] || false
+                        }
+                        onCheckedChange={(checked) => {
+                          setMatrix((prev) => ({
+                            ...prev,
+                            [resource.idResources]: {
+                              ...prev[resource.idResources],
+                              [action.id]: !!checked,
+                            },
+                          }));
+                        }}
+                        //disabled={infoRole.nome === 'Administrador'}
+                        className="data-[state=checked]:bg-primary"
                       />
                     </div>
                   </TableCell>
@@ -144,10 +257,12 @@ export default function PermissionMatrixForm({
         <span>{dict.permissions.management.message_permissions}</span>
         <div className="flex gap-4">
           <div className="flex items-center gap-1">
-            <Check className="h-3 w-3 text-green-500" /> Permitido
+            <Check className="h-3 w-3 text-green-500" />{' '}
+            {dict.permissions.management.matrix_allowed}
           </div>
           <div className="flex items-center gap-1">
-            <X className="h-3 w-3 text-red-500" /> Negado
+            <X className="h-3 w-3 text-red-500" />{' '}
+            {dict.permissions.management.matrix_denied}
           </div>
         </div>
       </div>

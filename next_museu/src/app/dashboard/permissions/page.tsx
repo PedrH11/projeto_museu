@@ -1,23 +1,23 @@
 import { redirect } from 'next/navigation';
-import ListarRoles from '../../../components/roles/lista-roles';
-import { RolesResponse } from '../../../schemas/roles-schemas';
-import { getResource } from '../../../service/connection/ResourceService';
-import { RolesService } from '../../../service/connection/RolesService';
+import ListarPermissions from '../../../components/permissions/lista-permissions';
+import { PermissionsResponse } from '../../../schemas/permissions-schemas';
+import { PermissionsService } from '../../../service/connection/PermissionsService';
+import { getResource } from '../../../service/connection/RecursosService';
 import { ApiResponse, PageResponse } from '../../../type/api';
 
-async function listarRoles(
+async function listarPermissions(
   page?: string,
   pageSize?: string,
   field?: string,
   order?: string,
   search?: string,
-): Promise<ApiResponse<PageResponse<RolesResponse>>> {
+): Promise<ApiResponse<PageResponse<PermissionsResponse>>> {
   let endpoint: string | undefined;
 
   try {
     const resources = await getResource();
     endpoint = resources.find(
-      (r) => r.name === 'roles' && !r.endpoint.includes(':id'),
+      (r) => r.name === 'permissions' && !r.endpoint.includes(':id'),
     )?.endpoint;
   } catch (error) {
     const apiError = error as ApiResponse<never> & { isNetworkError?: boolean };
@@ -31,7 +31,7 @@ async function listarRoles(
   }
 
   try {
-    const rolesService = new RolesService(endpoint);
+    const permissionsService = new PermissionsService(endpoint);
 
     const param = {
       page: page ? Number(page) : undefined,
@@ -41,7 +41,7 @@ async function listarRoles(
       search,
     };
 
-    const data = await rolesService.listar(param);
+    const data = await permissionsService.listar(param);
 
     if (!data || !data.dados) {
       return {
@@ -73,7 +73,7 @@ async function listarRoles(
   }
 }
 
-export default async function ListarRolesPage({
+export default async function ListarPermissionsPage({
   searchParams,
 }: {
   searchParams: {
@@ -85,12 +85,13 @@ export default async function ListarRolesPage({
   };
 }) {
   const params = await searchParams;
-  const result = await listarRoles(
+  const result = await listarPermissions(
     params.page,
     params.pageSize,
     params.field,
     params.order,
     params.search,
   );
-  return <ListarRoles result={result} />;
+
+  return <ListarPermissions result={result} />;
 }

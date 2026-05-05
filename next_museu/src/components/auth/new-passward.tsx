@@ -13,14 +13,18 @@ import {
 export function NewPassword() {
   const dict = useDictionary();
   return (
-    <Auth>
-      <AuthHeader>
-        <AuthTitle>{dict.auth.newPassword.title}</AuthTitle>
-        <AuthDescription>{dict.auth.newPassword.description}</AuthDescription>
-      </AuthHeader>
-      <AuthForm>
-        <NewPasswordForm />
-      </AuthForm>
-    </Auth>
+    <section aria-labelledby="newpassword-heading">
+      <Auth>
+        <AuthHeader>
+          <AuthTitle headingId="newpassword-heading">
+            {dict.auth.newPassword.title}
+          </AuthTitle>
+          <AuthDescription>{dict.auth.newPassword.description}</AuthDescription>
+        </AuthHeader>
+        <AuthForm>
+          <NewPasswordForm />
+        </AuthForm>
+      </Auth>
+    </section>
   );
 }

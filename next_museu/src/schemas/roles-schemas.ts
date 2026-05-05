@@ -1,7 +1,6 @@
 import z from 'zod';
 import { DictionaryType } from '../type/type';
 
-
 export const getRolesSchema = (dict: DictionaryType) => {
   const { validation } = dict.roles;
   return z.object({
@@ -26,7 +25,7 @@ export type RolesDelete = z.infer<ReturnType<typeof getRolesSchema>>;
 export type RolesConsultar = z.infer<ReturnType<typeof getRolesSchema>>;
 
 export const RolesResponseSchema = z.object({
-  idRoles: z.number().int().positive().optional(),
+  idRoles: z.number().int().positive(),
   nomeRoles: z.string(),
 });
 

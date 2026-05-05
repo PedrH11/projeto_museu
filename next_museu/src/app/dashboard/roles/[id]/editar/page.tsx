@@ -1,7 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 import { AtualizarRoles } from '../../../../../components/roles/atualizar-roles';
 import { RolesResponse } from '../../../../../schemas/roles-schemas';
-import { getResource } from '../../../../../service/connection/ResourceService';
+import { getResource } from '../../../../../service/connection/RecursosService';
 import { RolesService } from '../../../../../service/connection/RolesService';
 import { ApiResponse } from '../../../../../type/api';
 

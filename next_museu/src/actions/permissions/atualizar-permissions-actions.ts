@@ -1,20 +1,22 @@
-'use server';
+"use server";
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath } from "next/cache";
+import { getServerDictionary } from "../../lib/get-dictionary";
+import {
+  PermissionsResponse,
+  PermissionsUpdate,
+} from "../../schemas/permissions-schemas";
+import { PermissionsService } from "../../service/connection/PermissionsService";
+import { ApiResponse } from "../../type/api";
 
-import { getServerDictionary } from '../../lib/get-dictionary';
-import { RolesResponse, RolesUpdate } from '../../schemas/roles-schemas';
-import { RolesService } from '../../service/connection/RolesService';
-import { ApiResponse } from '../../type/api';
-
-export async function atualizarRolesAction(
-  prevState: ApiResponse<RolesResponse>,
+export async function atualizarPermissionsAction(
+  prevState: ApiResponse<PermissionsResponse>,
   payload: {
-    id: number | string;
-    rolesUpdate: RolesUpdate;
+    id: string;
+    permissionsUpdate: PermissionsUpdate;
     url: string;
   },
-): Promise<ApiResponse<RolesResponse>> {
+): Promise<ApiResponse<PermissionsResponse>> {
   const dict = await getServerDictionary();
   if (!payload.url) {
     return {
@@ -26,15 +28,14 @@ export async function atualizarRolesAction(
   }
 
   try {
-    const rolesService = new RolesService(payload.url);
-
-    const result = await rolesService.atualizar(
+    const permissionsService = new PermissionsService(payload.url);
+    const result = await permissionsService.atualizar(
       payload.id,
-      payload.rolesUpdate,
+      payload.permissionsUpdate,
     );
 
     if (result.status >= 200 && result.status < 300) {
-      revalidatePath('/dashboard/roles');
+      revalidatePath("/dashboard/permissions");
     }
 
     return result;
@@ -48,6 +49,6 @@ export async function atualizarRolesAction(
       errors: apiError.dados || {},
       timestamp: new Date().toISOString(),
       isNetworkError: true,
-    } as ApiResponse<RolesResponse> & { isNetworkError: boolean };
+    } as ApiResponse<PermissionsResponse> & { isNetworkError: boolean };
   }
 }

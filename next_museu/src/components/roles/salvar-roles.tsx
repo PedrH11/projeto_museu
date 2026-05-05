@@ -10,10 +10,11 @@ export function SalvarRoles() {
   const dict = useDictionary();
   return (
     <>
-      <section aria-labelledby="usuarios-heading">
+      <section aria-labelledby="roles-heading">
         <PageShell
           title={dict.roles.management.title}
           description={dict.roles.management.description}
+          headingId='roles-heading'
           actions={
             <Button
               asChild

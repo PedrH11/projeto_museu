@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { RESOURCES_NAME } from '../../../commons/constants/resources.constants';
 import { Resources } from '../entities/resources.entity';
 
@@ -16,16 +16,9 @@ export class ResourcesSeedService implements OnModuleInit {
 
   async seedResources() {
     const nomes = Object.values(RESOURCES_NAME);
-    for (const nome of nomes) {
-      const existe = await this.resourcesRepository.findOne({
-        where: { nomeResources: nome } as FindOptionsWhere<Resources>,
-      });
-      if (!existe) {
-        const novoRecurso = this.resourcesRepository.create({
-          nomeResources: nome,
-        });
-        await this.resourcesRepository.save(novoRecurso);
-      }
-    }
+    const resourcesToUpsert = nomes.map((nome) => ({
+      nomeResources: nome,
+    }));
+    await this.resourcesRepository.upsert(resourcesToUpsert, ['nomeResources']);
   }
 }

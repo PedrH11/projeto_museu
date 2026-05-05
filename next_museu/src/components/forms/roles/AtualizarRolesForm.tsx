@@ -50,20 +50,12 @@ export default function AtualizarRolesForm({
     initialState,
   );
 
-  const [localState, setLocalState] = React.useState(initialState);
-
-  React.useEffect(() => {
-    if (serverState.status !== 0) {
-      setLocalState(serverState);
-    }
-  }, [serverState]);
-
   const dict = useDictionary();
   const form = useForm<RolesUpdate>({
     resolver: zodResolver(getRolesSchema(dict)),
     defaultValues: {
       idRoles: roles.idRoles,
-      nameRoles: roles.nameRoles,
+      nomeRoles: roles.nomeRoles,
     },
   });
 
@@ -77,20 +69,10 @@ export default function AtualizarRolesForm({
     null,
   );
 
-  React.useEffect(() => {
-    if (serverState.status !== 0) {
-      setLocalState(serverState);
-    }
-  }, [serverState]);
-
-  const resetLocalState = React.useCallback(() => {
-    setLocalState(initialState);
-  }, []);
-
-  const { status, mensagem, erro, errors } = localState;
+  const { status, mensagem, erro, errors } = serverState;
 
   React.useEffect(() => {
-    if (status === 0) return;
+    if (status === 0 || (!mensagem && !erro)) return;
 
     if (status >= 400) {
       toast.error('Erro', { description: erro || mensagem });
@@ -105,9 +87,7 @@ export default function AtualizarRolesForm({
     } else {
       toast.success('Sucesso!', { description: mensagem });
     }
-
-    resetLocalState();
-  }, [status, mensagem, errors, erro, form, resetLocalState]);
+  }, [status, mensagem, errors, erro, form]);
 
   function onSubmit(rolesUpdate: RolesUpdate) {
     try {
@@ -143,7 +123,7 @@ export default function AtualizarRolesForm({
       <FormContainer
         title={dict.roles.form.edit_title}
         description={dict.roles.form.edit_description}
-        state={localState}
+        state={serverState}
         isPending={isPending}
         formId="form-roles"
         onSubmit={form.handleSubmit(onSubmit)}
@@ -151,13 +131,15 @@ export default function AtualizarRolesForm({
         confirm={dict.roles.form.confirm}
         href="/dashboard/roles"
         cancel={dict.roles.form.cancel}
+        ariaLabelCon={dict.roles.management.action_edit}
+        ariaLabelCancel={dict.roles.management.action_cancel}
       >
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           <div className="md:col-span-8 space-y-6">
             <FieldGroup>
               {/* Nome */}
               <Controller
-                name="nameRoles"
+                name="nomeRoles"
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
@@ -174,7 +156,7 @@ export default function AtualizarRolesForm({
                   </Field>
                 )}
               />
-            </FieldGroup>  
+            </FieldGroup>
           </div>
         </div>
       </FormContainer>

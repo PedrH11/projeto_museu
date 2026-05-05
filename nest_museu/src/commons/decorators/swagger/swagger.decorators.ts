@@ -1,5 +1,12 @@
 import { applyDecorators, HttpStatus, Type } from '@nestjs/common';
-import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiProduces, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiParam,
+  ApiProduces,
+  ApiResponse,
+} from '@nestjs/swagger';
 
 export interface ApiOperationConfigProps {
   ACAO: string;
@@ -11,7 +18,11 @@ export interface ApiOperationConfigProps {
 
 export const JSON_APPLICATION = 'application/json';
 
-export function ApiPostDoc(config: ApiOperationConfigProps, request: Type<any>, response: Type<any>) {
+export function ApiPostDoc(
+  config: ApiOperationConfigProps,
+  request: Type<any>,
+  response: Type<any>,
+) {
   return applyDecorators(
     ApiOperation({ summary: config.ACAO }),
     ApiBody({ type: request }),
@@ -37,7 +48,11 @@ export function ApiPostDoc(config: ApiOperationConfigProps, request: Type<any>, 
   );
 }
 
-export function ApiPutDoc(config: ApiOperationConfigProps, request: Type<any>, response: Type<any>) {
+export function ApiPutDoc(
+  config: ApiOperationConfigProps,
+  request: Type<any>,
+  response: Type<any>,
+) {
   return applyDecorators(
     ApiOperation({ summary: config.ACAO }),
     ApiBody({ type: request }),
@@ -63,7 +78,10 @@ export function ApiPutDoc(config: ApiOperationConfigProps, request: Type<any>, r
   );
 }
 
-export function ApiGetDoc(config: ApiOperationConfigProps, response: Type<any>) {
+export function ApiGetDoc(
+  config: ApiOperationConfigProps,
+  response: Type<any>,
+) {
   return applyDecorators(
     ApiOperation({ summary: config.ACAO }),
     ApiParam({ name: 'id', description: 'ID único do recurso.' }),
@@ -84,7 +102,10 @@ export function ApiGetDoc(config: ApiOperationConfigProps, response: Type<any>) 
   );
 }
 
-export function ApiListDoc(config: ApiOperationConfigProps, response: Type<any>) {
+export function ApiListDoc(
+  config: ApiOperationConfigProps,
+  response: Type<any>,
+) {
   return applyDecorators(
     ApiOperation({ summary: config.ACAO }),
     ApiResponse({
@@ -103,7 +124,10 @@ export function ApiListDoc(config: ApiOperationConfigProps, response: Type<any>)
 export function ApiDeleteDoc(config: ApiOperationConfigProps) {
   return applyDecorators(
     ApiOperation({ summary: config.ACAO }),
-    ApiParam({ name: 'id', description: 'ID único do recurso a ser excluído.' }),
+    ApiParam({
+      name: 'id',
+      description: 'ID único do recurso a ser excluído.',
+    }),
     ApiResponse({
       status: HttpStatus.OK,
       description: config.SUCESSO,

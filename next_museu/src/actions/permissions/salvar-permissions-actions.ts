@@ -1,18 +1,21 @@
-'use server';
+"use server";
 
-import { revalidatePath } from 'next/cache';
-import { getServerDictionary } from '../../lib/get-dictionary';
-import { RolesCreate, RolesResponse } from '../../schemas/roles-schemas';
-import { RolesService } from '../../service/connection/RolesService';
-import { ApiResponse } from '../../type/api';
+import { revalidatePath } from "next/cache";
+import { getServerDictionary } from "../../lib/get-dictionary";
+import {
+  PermissionsCreate,
+  PermissionsResponse,
+} from "../../schemas/permissions-schemas";
+import { PermissionsService } from "../../service/connection/PermissionsService";
+import { ApiResponse } from "../../type/api";
 
-export async function salvarRolesAction(
-  prevState: ApiResponse<RolesResponse>,
+export async function salvarPermissionsAction(
+  prevState: ApiResponse<PermissionsResponse>,
   payload: {
-    rolesCreate: RolesCreate;
+    permissionsCreate: PermissionsCreate;
     url: string;
   },
-): Promise<ApiResponse<RolesResponse>> {
+): Promise<ApiResponse<PermissionsResponse>> {
   const dict = await getServerDictionary();
   if (!payload.url) {
     return {
@@ -24,11 +27,11 @@ export async function salvarRolesAction(
   }
 
   try {
-    const rolesService = new RolesService(payload.url);
-    const result = await rolesService.salvar(payload.rolesCreate);
+    const permissionsService = new PermissionsService(payload.url);
+    const result = await permissionsService.salvar(payload.permissionsCreate);
 
     if (result.status >= 200 && result.status < 300) {
-      revalidatePath('/dashboard/usuario');
+      revalidatePath("/dashboard/permissions");
     }
 
     return result;
@@ -42,6 +45,6 @@ export async function salvarRolesAction(
       errors: apiError.dados || {},
       timestamp: new Date().toISOString(),
       isNetworkError: true,
-    } as ApiResponse<RolesResponse> & { isNetworkError: boolean };
+    } as ApiResponse<PermissionsResponse> & { isNetworkError: boolean };
   }
 }

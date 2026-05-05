@@ -3,7 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 import { ExcluirContact } from '../../../../../components/contact/excluir-contato';
 import { ContactResponse } from '../../../../../schemas/contact-schema';
 import { ContactService } from '../../../../../service/connection/ContactService';
-import { getResource } from '../../../../../service/connection/ResourceService';
+import { getResource } from '../../../../../service/connection/RecursosService';
 import { ApiResponse } from '../../../../../type/api';
 
 async function getPorId(id: string): Promise<ApiResponse<ContactResponse>> {
@@ -14,7 +14,7 @@ async function getPorId(id: string): Promise<ApiResponse<ContactResponse>> {
 
     endpoint = resources
       .find((r) => r.name === 'contact' && r.endpoint.includes(':id'))
-      ?.endpoint.replace(':id', '');
+      ?.endpoint.replace('/:id', '');
   } catch (error) {
     const apiError = error as ApiResponse<never> & { isNetworkError?: boolean };
     if (apiError.isNetworkError || apiError.status === 503) {

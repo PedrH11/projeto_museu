@@ -1,20 +1,23 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DeepPartial, Repository } from 'typeorm';
-import { GenericConverter } from '../../../commons/converter/converter.commons';
-import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
-import { Pageable } from '../../../commons/pagination/page.response';
-import { Page } from '../../../commons/pagination/paginacao.sistema';
-import { fieldsSession, SESSION } from '../constants/session.constants';
-import { SessionRequest } from '../dto/request/session.request';
-import { SessionResponse } from '../dto/response/session.response';
-import { Session } from '../entities/session.entity';
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { InjectRepository } from "@nestjs/typeorm";
+import * as crypto from "crypto";
+import { DeepPartial, MoreThan, Not, Repository } from "typeorm";
+import { GenericConverter } from "../../../commons/converter/converter.commons";
+import { EntityNotFoundException } from "../../../commons/excpetions/error/entityNotFound.exceptions";
+import { Pageable } from "../../../commons/pagination/page.response";
+import { Page } from "../../../commons/pagination/paginacao.sistema";
+import { fieldsSession, SESSION } from "../constants/session.constants";
+import { SessionRequest } from "../dto/request/session.request";
+import { SessionResponse } from "../dto/response/session.response";
+import { Session } from "../entities/session.entity";
 
 @Injectable()
 export class SessionService {
   constructor(
     @InjectRepository(Session)
-    private sessionRepository: Repository<Session>,
+    private readonly sessionRepository: Repository<Session>,
+    private readonly configService: ConfigService,
   ) {}
 
   async listar(
@@ -65,7 +68,7 @@ export class SessionService {
 
   async salvar(session: DeepPartial<Session>): Promise<void> {
     if (!session) {
-      throw new InternalServerErrorException('Dados da sessão não informados.');
+      throw new InternalServerErrorException("Dados da sessão não informados.");
     }
     try {
       const newSession = this.sessionRepository.create(session);
@@ -136,5 +139,152 @@ export class SessionService {
     } catch (error: any) {
       throw new InternalServerErrorException(error.message);
     }
+  }
+
+  async validateSession(token: string): Promise<Session | null> {
+    const session = await this.sessionRepository.findOne({
+      where: {
+        token: token,
+        isValid: true,
+        expiresAt: MoreThan(new Date()),
+      },
+      relations: ["usuario"],
+    });
+
+    if (!session) {
+      return null;
+    }
+    session.lastUsedAt = new Date();
+
+    return await this.sessionRepository.save(session);
+  }
+
+  async createSession(
+    usuarioId: number, // No Postgres usamos geralmente number ou uuid
+    userAgent: string,
+    ipAddress: string,
+  ): Promise<string> {
+    const token = crypto.randomBytes(32).toString("hex");
+    const cookieMaxAge = this.configService.get<number>(
+      "session.cookieMaxAge",
+      604800000,
+    );
+
+    const expiresAt = new Date(Date.now() + cookieMaxAge);
+
+    const session = this.sessionRepository.create({
+      usuario: { idUsuario: usuarioId },
+      token,
+      userAgent: userAgent,
+      ipAddress,
+      expiresAt,
+    });
+
+    await this.sessionRepository.save(session);
+
+    return token;
+  }
+
+  /**
+   * Invalida uma sessão (logout)
+   */
+  async invalidateSession(token: string): Promise<boolean> {
+    const result = await this.sessionRepository.update(
+      { token: token },
+      { isValid: false },
+    );
+
+    const affected = result.affected ?? 0;
+
+    return affected > 0;
+  }
+
+  /**
+   * Invalida todas as sessões de um usuário
+   */
+  async invalidateAllSessions(usuarioId: number): Promise<number> {
+    const result = await this.sessionRepository.update(
+      { usuario: { idUsuario: usuarioId } },
+      { isValid: false },
+    );
+
+    const affected = result.affected ?? 0;
+
+    return affected;
+  }
+
+  /**
+   * Obtém todas as sessões ativas de um usuário
+   */
+  async getUserSessions(usuarioId: number): Promise<Session[]> {
+    return this.sessionRepository.find({
+      where: {
+        usuario: { idUsuario: usuarioId },
+        isValid: true,
+        expiresAt: MoreThan(new Date()),
+      },
+      order: { lastUsedAt: "DESC" },
+    });
+  }
+
+  /**
+   * Obtém sessão por ID
+   */
+  async getSessionById(sessionId: string): Promise<Session | null> {
+    return this.sessionRepository.findOneBy({ idSession: sessionId });
+  }
+
+  /**
+   * Invalida uma sessão específica por ID (com verificação de posse)
+   */
+  async invalidateSessionById(
+    sessionId: string,
+    usuarioId: number,
+  ): Promise<boolean> {
+    const result = await this.sessionRepository.update(
+      {
+        idSession: sessionId,
+        usuario: { idUsuario: usuarioId },
+        isValid: true,
+      },
+      { isValid: false },
+    );
+
+    const affected = result.affected ?? 0;
+    if (affected > 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Invalida todas as sessões exceto a atual
+   */
+  async invalidateAllSessionsExcept(
+    usuarioId: number,
+    exceptToken: string,
+  ): Promise<number> {
+    const result = await this.sessionRepository.update(
+      {
+        usuario: { idUsuario: usuarioId },
+        token: Not(exceptToken),
+        isValid: true,
+      },
+      { isValid: false },
+    );
+
+    const affected = result.affected ?? 0;
+
+    return affected;
+  }
+
+  /**
+   * Busca sessão pelo token
+   */
+  async getSessionByToken(token: string): Promise<Session | null> {
+    return this.sessionRepository.findOne({
+      where: { token: token },
+    });
   }
 }

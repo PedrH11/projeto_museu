@@ -1,7 +1,11 @@
-import { UsuarioResponse } from '../../schemas/usuario-schemas';
+import { PermissionsResponse } from '../../schemas/permissions-schemas';
 import { ApiResponse, PageResponse } from '../../type/api';
-import ListarUsuarioForm from '../forms/usuario/ListarUsuarioForm';
+import ListarPermissionsForm from '../forms/permissions/ListarPermissionsForm';
 
-export default async function ListarUsuarios({ result }: { result: ApiResponse<PageResponse<UsuarioResponse>> }) {
-  return <ListarUsuarioForm result={result} />;
+export default async function ListarPermissions({
+  result,
+}: {
+  result: ApiResponse<PageResponse<PermissionsResponse>>;
+}) {
+  return <ListarPermissionsForm result={result} />;
 }

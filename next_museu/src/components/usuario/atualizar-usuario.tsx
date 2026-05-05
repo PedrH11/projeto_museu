@@ -1,22 +1,27 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 
-import { UsuarioResponse } from '../../schemas/usuario-schemas';
-import { useDictionary } from '../../service/providers/i18n-providers';
-import { ApiResponse } from '../../type/api';
-import AtualizarUsuarioForm from '../forms/usuario/AtualizarUsuarioForm';
-import { ToastHandler } from '../message/DisplayMessage';
-import { PageShell } from '../pageshell/page-shell';
-import { Button } from '../ui/button';
+import { RolesResponse } from "@/schemas/roles-schemas";
+import { ApiResponse, PageResponse } from "@/type/api";
+import { UsuarioResponse } from "../../schemas/usuario-schemas";
+import { useDictionary } from "../../service/providers/i18n-providers";
+import AtualizarUsuarioForm from "../forms/usuario/AtualizarUsuarioForm";
+import { ToastHandler } from "../message/DisplayMessage";
+import { PageShell } from "../pageshell/page-shell";
+import { Button } from "../ui/button";
+
+interface UpdateUsuarioRolesProps {
+  result: ApiResponse<UsuarioResponse>;
+  idUsuario: string;
+  roles: ApiResponse<PageResponse<RolesResponse>>;
+}
 
 export function AtualizarUsuario({
   result,
   idUsuario,
-}: {
-  idUsuario: string;
-  result: ApiResponse<UsuarioResponse>;
-}) {
+  roles,
+}: UpdateUsuarioRolesProps) {
   const dict = useDictionary();
   return (
     <>
@@ -30,6 +35,7 @@ export function AtualizarUsuario({
             <Button
               asChild
               className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-sans"
+              aria-label={dict.usuario.management.action_edit}
             >
               <Link href="/dashboard/usuario">
                 {dict.usuario.management.lista_usuario}
@@ -41,6 +47,7 @@ export function AtualizarUsuario({
             <AtualizarUsuarioForm
               usuario={result.dados}
               idUsuario={idUsuario}
+              roles={roles.dados?.content ?? []}
             />
           ) : (
             <div className="p-4 text-center border rounded-lg bg-muted">

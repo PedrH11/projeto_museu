@@ -1,7 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 import { ConsultarUsuario } from '../../../../../components/usuario/consultar-usuario';
 import { UsuarioResponse } from '../../../../../schemas/usuario-schemas';
-import { getResource } from '../../../../../service/connection/ResourceService';
+import { getResource } from '../../../../../service/connection/RecursosService';
 import { UsuarioService } from '../../../../../service/connection/UsuarioService';
 import { ApiResponse } from '../../../../../type/api';
 
@@ -13,7 +13,7 @@ async function getPorId(id: string): Promise<ApiResponse<UsuarioResponse>> {
 
     endpoint = resources
       .find((r) => r.name === 'usuario' && r.endpoint.includes(':id'))
-      ?.endpoint.replace(':id', id);
+      ?.endpoint.replace('/:id', id);
   } catch (error) {
     const apiError = error as ApiResponse<never> & { isNetworkError?: boolean };
     if (apiError.isNetworkError || apiError.status === 503) {

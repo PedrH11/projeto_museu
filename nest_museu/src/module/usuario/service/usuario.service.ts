@@ -1,37 +1,48 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   UnauthorizedException,
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import * as bcrypt from 'bcrypt';
-import { DataSource, Repository } from 'typeorm';
-import { GenericConverter } from '../../../commons/converter/converter.commons';
-import PostgresErrorCode from '../../../commons/enum/postgre.code.enun';
-import { EmailException } from '../../../commons/excpetions/error/email.exceptions';
-import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
-import { ServerErrorExceptions } from '../../../commons/excpetions/error/server.error.exceptions';
-import { Pageable } from '../../../commons/pagination/page.response';
-import { Page } from '../../../commons/pagination/paginacao.sistema';
-import { RegisterUsuarioRequest } from '../../auth/dto/request/register.usuario.request';
-import { Credentials } from '../../auth/entities/credentials.entity';
-import { EmailConfirmationService } from '../../email/service/emailConfirmation.service';
-import { fieldsUsuario, USUARIO } from '../constants/usuario.constantes';
-import { UsuarioConverter } from '../dto/converter/usuario.converter';
-import { UsuarioRequest } from '../dto/request/usuario.request';
-import { UsuarioResponse } from '../dto/response/usuario.response';
-import { Usuario } from '../entities/usuario.entity';
+} from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { JwtService } from "@nestjs/jwt";
+import { InjectRepository } from "@nestjs/typeorm";
+import * as bcrypt from "bcrypt";
+import { DataSource, Repository } from "typeorm";
+import { GenericConverter } from "../../../commons/converter/converter.commons";
+import { BaseService } from "../../../commons/entities/base.service";
+import PostgresErrorCode from "../../../commons/enum/postgre.code.enun";
+import { EmailException } from "../../../commons/excpetions/error/email.exceptions";
+import { EntityNotFoundException } from "../../../commons/excpetions/error/entityNotFound.exceptions";
+import { ServerErrorExceptions } from "../../../commons/excpetions/error/server.error.exceptions";
+import { Pageable } from "../../../commons/pagination/page.response";
+import { Page } from "../../../commons/pagination/paginacao.sistema";
+import { AUTH } from "../../auth/constants/login.constants";
+import { RegisterUsuarioRequest } from "../../auth/dto/request/register.usuario.request";
+import { Credentials } from "../../auth/entities/credentials.entity";
+import EmailService from "../../email/service/email.service";
+import { fieldsUsuario, USUARIO } from "../constants/usuario.constantes";
+import { UsuarioConverter } from "../dto/converter/usuario.converter";
+import { UsuarioRequest } from "../dto/request/usuario.request";
+import { UsuarioResponse } from "../dto/response/usuario.response";
+import { Usuario } from "../entities/usuario.entity";
 
 @Injectable()
-export class UsuarioService {
+export class UsuarioService extends BaseService<Usuario> {
   constructor(
     @InjectRepository(Usuario)
     private usuarioRepository: Repository<Usuario>,
+    @InjectRepository(Credentials)
+    private credentialsRepository: Repository<Credentials>,
     private readonly dataSource: DataSource,
-    private readonly emailConfirmationService: EmailConfirmationService,
-    //private readonly jwtService: JwtService,
-    //private readonly configService: ConfigService,
-  ) {}
+    @Inject(forwardRef(() => EmailService))
+    private readonly emailService: EmailService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {
+    super(usuarioRepository);
+  }
 
   async listar(
     page: number,
@@ -44,11 +55,11 @@ export class UsuarioService {
     try {
       const query = this.usuarioRepository
         .createQueryBuilder(USUARIO.ENTITY)
-        .innerJoin('usuario.credentials', 'cred')
-        .select('usuario.id_usuario', 'idUsuario')
-        .addSelect('cred.email', 'email')
-        .where('usuario.deleted_at IS NULL')
-        .andWhere('cred.deleted_at IS NULL');
+        .innerJoin("usuario.credentials", "cred")
+        .select("usuario.id_usuario", "idUsuario")
+        .addSelect("cred.email", "email")
+        .where("usuario.deleted_at IS NULL")
+        .andWhere("cred.deleted_at IS NULL");
 
       if (search) {
         query.where(`${USUARIO.ENTITY}.${field} LIKE :search`, {
@@ -91,33 +102,38 @@ export class UsuarioService {
   }
 
   async salvar(usuarioRequest: UsuarioRequest): Promise<UsuarioResponse> {
+    const passwordHash = await bcrypt.hash(usuarioRequest.password, 10);
+
     try {
       return await this.dataSource.transaction(async (manager) => {
-        const novoUsuario = GenericConverter.toEntity(Usuario, usuarioRequest);
-
+        const novoUsuario = manager.create(Usuario, {
+          firstName: usuarioRequest.firstName,
+          lastName: usuarioRequest.lastName,
+          username: usuarioRequest.username,
+          imagePath: usuarioRequest.imagePath,
+          emailConfirmado: false, // Inicializa como não confirmado
+        });
+        if (usuarioRequest.roleIds?.length > 0) {
+          novoUsuario.role = usuarioRequest.roleIds.map((id) => ({
+            idRoles: id,
+          })) as any;
+        }
         const usuarioSalvo = await manager.save(Usuario, novoUsuario);
-
-        const passwordHash = await bcrypt.hash(usuarioRequest.password, 10);
 
         const credentials = manager.create(Credentials, {
           email: usuarioRequest.email,
-          passwordHash,
+          password: passwordHash,
           usuarioId: usuarioSalvo.idUsuario,
         });
 
         await manager.save(Credentials, credentials);
-
         return GenericConverter.toResponse(UsuarioResponse, usuarioSalvo);
       });
     } catch (error: any) {
       if (error?.code === PostgresErrorCode.UniqueViolation) {
         throw new EmailException(USUARIO.MENSAGEM.EMAIL_CADASTRADO);
       }
-
-      throw new ServerErrorExceptions(
-        USUARIO.MENSAGEM.SERVER_ERROR,
-        error.message,
-      );
+      throw new ServerErrorExceptions(USUARIO.MENSAGEM.SERVER_ERROR);
     }
   }
 
@@ -125,7 +141,7 @@ export class UsuarioService {
     id: number,
     usuarioRequest: UsuarioRequest,
   ): Promise<UsuarioResponse | null> {
-    const usuarioCadastrado = await this.buscarPorId(id);
+    const usuarioCadastrado = await this.porId(id);
 
     if (!usuarioCadastrado) {
       throw new EntityNotFoundException(
@@ -133,36 +149,55 @@ export class UsuarioService {
       );
     }
 
-    try {
-      const dadosNovos = UsuarioConverter.toUsuario(usuarioRequest);
-      const usuarioParaSalvar = Object.assign(usuarioCadastrado, dadosNovos);
-      const usuarioExistente =
-        await this.usuarioRepository.save(usuarioParaSalvar);
+    return await this.dataSource.transaction(async (manager) => {
+      try {
+        const dadosNovos = UsuarioConverter.toUsuario(usuarioRequest);
+        Object.assign(usuarioCadastrado, dadosNovos);
 
-      return GenericConverter.toResponse(UsuarioResponse, usuarioExistente);
-    } catch (error: any) {
-      if (error.code === PostgresErrorCode.UniqueViolation) {
-        throw new EmailException(USUARIO.MENSAGEM.EMAIL_CADASTRADO);
+        if (usuarioRequest.roleIds) {
+          usuarioCadastrado.roles = usuarioRequest.roleIds.map((roleId) => ({
+            idRoles: roleId,
+          })) as any;
+        }
+
+        const usuarioAtualizado = await manager.save(
+          Usuario,
+          usuarioCadastrado,
+        );
+
+        await manager.update(
+          Credentials,
+          { usuarioId: id },
+          { email: usuarioRequest.email },
+        );
+
+        return GenericConverter.toResponse(UsuarioResponse, usuarioAtualizado);
+      } catch (error: any) {
+        if (error.code === PostgresErrorCode.UniqueViolation) {
+          throw new EmailException(USUARIO.MENSAGEM.EMAIL_CADASTRADO);
+        }
+        throw new ServerErrorExceptions(
+          USUARIO.MENSAGEM.SERVER_ERROR,
+          error.message,
+        );
       }
-
-      throw new ServerErrorExceptions(
-        USUARIO.MENSAGEM.SERVER_ERROR,
-        error.message,
-      );
-    }
+    });
   }
 
   async excluir(id: number): Promise<void> {
+    const usuario = await this.usuarioRepository.findOne({
+      where: { idUsuario: id },
+      relations: ["credentials"],
+    });
+
+    if (!usuario) {
+      throw new EntityNotFoundException(
+        USUARIO.MENSAGEM.ENTIDADE_NAO_ENCONTRADA,
+      );
+    }
+
     try {
-      const usuario = await this.buscarPorId(id);
-
-      if (!usuario) {
-        throw new EntityNotFoundException(
-          USUARIO.MENSAGEM.ENTIDADE_NAO_ENCONTRADA,
-        );
-      }
-
-      await this.usuarioRepository.remove(usuario);
+      await this.usuarioRepository.softRemove(usuario);
     } catch (error: any) {
       throw new ServerErrorExceptions(
         USUARIO.MENSAGEM.SERVER_ERROR,
@@ -174,8 +209,9 @@ export class UsuarioService {
   async buscarPorId(id: number): Promise<Usuario> {
     try {
       const usuario = await this.usuarioRepository
-        .createQueryBuilder(USUARIO.ENTITY)
-        .where(`${USUARIO.SEARCH.POR_ID} = :id`, { id })
+        .createQueryBuilder("usuario") // Nome da entidade
+        .leftJoinAndSelect("usuario.roles", "roles") // Carrega as roles atuais
+        .where("usuario.idUsuario = :id", { id })
         .getOne();
 
       if (!usuario) {
@@ -192,13 +228,42 @@ export class UsuarioService {
     }
   }
 
-  async markEmailAsConfirmed(email: string) {
-    return this.usuarioRepository.update(
-      { email },
-      {
-        emailVerified: true,
-      },
-    );
+  async markEmailAsConfirmed(token: string) {
+    try {
+      const payload = await this.jwtService.verify(token, {
+        secret: this.configService.getOrThrow("JWT_VERIFICATION_TOKEN_SECRET"),
+      });
+
+      if (typeof payload === "object" && "email" in payload) {
+        const credentials = await this.credentialsRepository.findOne({
+          where: { email: payload.email },
+          relations: ["usuario"],
+        });
+
+        if (!credentials) {
+          throw new EntityNotFoundException(
+            USUARIO.MENSAGEM.ENTIDADE_NAO_ENCONTRADA,
+          );
+        }
+
+        if (credentials.usuario.emailVerified) {
+          throw new EmailException(AUTH.MENSAGEM.EMAIL_CONFIRMADO_NO_SISTEMA);
+        }
+
+        credentials.usuario.emailVerified = true;
+        await this.usuarioRepository.save(credentials.usuario);
+
+        await this.emailService.sendEmailConfirmed(
+          credentials.email,
+          credentials.usuario.firstName,
+        );
+      }
+    } catch (error: any) {
+      throw new BadRequestException(
+        USUARIO.MENSAGEM.TOKEN_INVALIDO_EXPIRADO,
+        error.message,
+      );
+    }
   }
 
   async setTwoFactorAuthenticationSecret(
@@ -214,7 +279,7 @@ export class UsuarioService {
 
   async removeRefreshToken(userId: number) {
     return await this.usuarioRepository.update(userId, {
-      currentHashedRefreshToken: '',
+      currentHashedRefreshToken: "",
     });
   }
 
@@ -236,26 +301,26 @@ export class UsuarioService {
       where: { idUsuario: userId },
     });
     if (!usuario) {
-      throw new UnauthorizedException('Usuário não encontrado.');
+      throw new UnauthorizedException("Usuário não encontrado.");
     }
     const isMatching = await bcrypt.compare(
       refreshToken,
-      usuario.currentHashedRefreshToken ?? '',
+      usuario.currentHashedRefreshToken ?? "",
     );
     if (isMatching) return usuario;
-    throw new UnauthorizedException('Refresh token inválido.');
+    throw new UnauthorizedException("Refresh token inválido.");
   }
 
   async hashedRefreshToken(userId: number) {
     try {
       await this.usuarioRepository.update(userId, {
-        currentHashedRefreshToken: '',
+        currentHashedRefreshToken: "",
       });
 
-      return { message: 'Senha redefinida com sucesso!' };
+      return { message: "Senha redefinida com sucesso!" };
     } catch (error: any) {
       throw new BadRequestException(
-        'Token de recuperação inválido ou expirado.',
+        "Token de recuperação inválido ou expirado.",
         error.message,
       );
     }
@@ -291,8 +356,17 @@ export class UsuarioService {
           return GenericConverter.toResponse(UsuarioResponse, usuarioSalvo);
         },
       );
-      await this.emailConfirmationService.sendVerificationLink(
+
+      const payload = { email: registerUsuarioRequest.email };
+      const token = this.jwtService.sign(payload, {
+        secret: this.configService.getOrThrow("JWT_VERIFICATION_TOKEN_SECRET"),
+        expiresIn: "900s", // 15 minutos
+      });
+
+      await this.emailService.sendRegisterConfirmation(
         registerUsuarioRequest.email,
+        registerUsuarioRequest.firstName,
+        token,
       );
 
       return usuarioSalvoResponse;

@@ -3,12 +3,13 @@
 import { revalidatePath } from 'next/cache';
 
 import { getServerDictionary } from '../../lib/get-dictionary';
+import { PermissionsResponse } from '../../schemas/permissions-schemas';
 import { RolesResponse } from '../../schemas/roles-schemas';
-import { RolesService } from '../../service/connection/RolesService';
+import { PermissionsService } from '../../service/connection/PermissionsService';
 import { ApiResponse } from '../../type/api';
 
-export async function excluirRolesAction(
-  prevState: ApiResponse<RolesResponse>,
+export async function excluirPermissionsAction(
+  prevState: ApiResponse<PermissionsResponse>,
   payload: {
     id: number;
     url: string;
@@ -26,12 +27,12 @@ export async function excluirRolesAction(
   }
 
   try {
-    const rolesService = new RolesService(payload.url);
+    const permissionsService = new PermissionsService(payload.url);
 
-    const result = await rolesService.excluir(payload.id);
+    const result = await permissionsService.excluir(payload.id);
 
     if (result.status >= 200 && result.status < 300) {
-      revalidatePath('/dashboard/roles');
+      revalidatePath('/dashboard/permissions');
     }
 
     return result;
@@ -45,6 +46,6 @@ export async function excluirRolesAction(
       errors: apiError.dados || {},
       timestamp: new Date().toISOString(),
       isNetworkError: true,
-    } as ApiResponse<RolesResponse> & { isNetworkError: boolean };
+    } as ApiResponse<PermissionsResponse> & { isNetworkError: boolean };
   }
 }

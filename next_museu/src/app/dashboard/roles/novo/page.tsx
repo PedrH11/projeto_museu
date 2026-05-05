@@ -1,5 +1,5 @@
-import { SalvarUsuario } from '../../../../components/usuario/salvar-usuario';
+import { SalvarRoles } from "@/components/roles/salvar-roles";
 
 export default async function UsuarioSalvar() {
-  return <SalvarUsuario />;
+  return <SalvarRoles />;
 }

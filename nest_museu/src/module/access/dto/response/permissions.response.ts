@@ -1,46 +1,55 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
-import { PERMISSIONS } from '../../constants/permissions.constants';
-import { Resources } from '../../entities/resources.entity';
-import { Roles } from '../../entities/role.entity';
+import { ApiProperty } from "@nestjs/swagger";
+import { Expose, Type } from "class-transformer";
+import { PERMISSIONS } from "../../constants/permissions.constants";
+import { Permissions } from "../../entities/permissions.entitty";
+import { ResourcesResponse } from "./resources.response";
+import { RolesResponse } from "./roles.response";
 
 export class PermissionsResponse {
   @ApiProperty({
     description: PERMISSIONS.SWAGGER.ID_PERMISSIONS,
-    example: '1',
+    example: "1",
   })
   @Expose()
-  idPermission!: number;
+  idPermissions!: number;
 
   @ApiProperty({
     description: PERMISSIONS.SWAGGER.ROLE,
-    example: 'administrador',
+    example: "administrador",
   })
   @Expose()
-  role!: Roles;
+  @Type(() => RolesResponse)
+  role!: RolesResponse;
+  @Expose()
+  nomeRoles?: string;
 
   @ApiProperty({
     description: PERMISSIONS.SWAGGER.RESOURCE,
-    example: 'eventos',
+    example: "eventos",
   })
   @Expose()
-  resource!: Resources;
+  @Type(() => ResourcesResponse)
+  resource!: ResourcesResponse;
 
+  @Expose()
+  nomeResources?: string;
   @ApiProperty({
     description: PERMISSIONS.SWAGGER.ACTION,
-    example: 'leitura',
+    example: "leitura",
   })
   @Expose()
   action!: string;
 
   @ApiProperty({
     description: PERMISSIONS.SWAGGER.POSSESSION,
-    example: 'qualquer um',
+    example: "qualquer um",
   })
   @Expose()
   possession!: string;
 
-  constructor(data: Partial<PermissionsResponse> = {}) {
+  constructor(data: Partial<Permissions> = {}) {
     Object.assign(this, data);
+    this.nomeRoles = data.role?.nomeRoles;
+    this.nomeResources = data.resource?.nomeResources;
   }
 }

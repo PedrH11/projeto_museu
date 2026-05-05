@@ -119,6 +119,8 @@ export default function DeleteContactForm({
       confirm={dict.contact.form.confirm}
       href="/dashboard/contact"
       cancel={dict.contact.form.cancel}
+      ariaLabelCon={dict.contact.management.action_delete}
+      ariaLabelCancel={dict.contact.management.action_cancel}
     >
       <div className="bg-background space-y-4">
         <div className="bg-background space-y-6">

@@ -1,45 +1,47 @@
 'use client';
 
 import Link from 'next/link';
-import { UsuarioResponse } from '../../schemas/usuario-schemas';
+import { PermissionsResponse } from '../../schemas/permissions-schemas';
 import { useDictionary } from '../../service/providers/i18n-providers';
 import { ApiResponse } from '../../type/api';
-import ExcluirUsuarioForm from '../forms/usuario/ExcluirUsuarioForm';
+import ExcluirPermissionsForm from '../forms/permissions/ExcluirPermissionsForm';
 import { ToastHandler } from '../message/DisplayMessage';
 import { PageShell } from '../pageshell/page-shell';
 import { Button } from '../ui/button';
 
-export function ExcluirUsuario({
-  idUsuario,
+export function ExcluirPermissions({
+  idPermissions,
   result,
 }: {
-  idUsuario: string;
-  result: ApiResponse<UsuarioResponse>;
+  idPermissions: string;
+  result: ApiResponse<PermissionsResponse>;
 }) {
   const dict = useDictionary();
   return (
     <>
-      <section aria-labelledby="usuarios-heading">
+      <section aria-labelledby="permissions-heading">
         {result.mensagem && <ToastHandler message={result.mensagem} />}
         <PageShell
-          title={dict.usuario.management.title}
-          description={dict.usuario.management.description}
+          title={dict.permissions.management.title}
+          description={dict.permissions.management.description}
+          headingId="permissions-heading"
           actions={
             <Button
               asChild
               className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-sans"
+              aria-label={dict.permissions.management.action_delete}
             >
-              <Link href="/dashboard/usuario">
-                {dict.usuario.management.lista_usuario}
+              <Link href="/dashboard/permissions">
+                {dict.permissions.management.lista_permissions}
               </Link>
             </Button>
           }
         >
           {result.dados ? (
-            <ExcluirUsuarioForm usuario={result.dados} idUsuario={idUsuario} />
+            <ExcluirPermissionsForm permissions={result.dados} idPermissions={idPermissions} />
           ) : (
             <div className="p-4 text-center border rounded-lg bg-muted">
-              <p>{dict.usuario.management.not_found}</p>
+              <p>{dict.permissions.management.not_found}</p>
             </div>
           )}
         </PageShell>

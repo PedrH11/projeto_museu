@@ -1,10 +1,10 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 import * as React from 'react';
-import { DataTable } from '../components/datatable/data-table';
+import { DataTable } from '../components/shared/datatable/data-table';
 
 interface UniversalPickerProps<T> {
   title: string;
@@ -47,11 +47,17 @@ export function UniversalPicker<T extends { id: string | number }>({
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-[400px] sm:w-[600px] overflow-y-auto"
+        className="w-full sm:max-w-[90vw] md:w-[600px] lg:w-[800px] p-6 md:p-10 overflow-y-auto"
       >
-        <div className="py-4">
-          <h2 className="text-lg font-bold mb-4">{title}</h2>
 
+        <SheetHeader className="mb-6">
+          <SheetTitle className="text-2xl font-bold">{title}</SheetTitle>
+          <SheetDescription className="sr-only">
+            Selecione os itens para vincular ao registro atual.
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="py-4">
           <DataTable
             columns={columns}
             data={data}

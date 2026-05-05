@@ -1,12 +1,16 @@
-import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
+import { Exclude } from "class-transformer";
+import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from "typeorm";
 
 export abstract class BaseEntity {
-  @CreateDateColumn({ name: 'created_at' })
+  @Exclude()
+  @CreateDateColumn({ name: "created_at" })
   createdAt!: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @Exclude()
+  @UpdateDateColumn({ name: "updated_at" })
   updatedAt!: Date;
 
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
+  @Exclude()
+  @DeleteDateColumn({ name: "deleted_at", nullable: true })
   deletedAt?: Date | null;
 }

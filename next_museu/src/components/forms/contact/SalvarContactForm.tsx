@@ -116,6 +116,8 @@ export default function SaveContactForm() {
       confirm={dict.contact.form.confirm}
       href="/dashboard/contact"
       cancel={dict.contact.form.cancel}
+      ariaLabelCon={dict.contact.management.action_new}
+      ariaLabelCancel={dict.contact.management.action_cancel}
     >
       <div className="bg-background space-y-4">
         <Controller

@@ -20,7 +20,10 @@ export class Pageable {
 
     this.field = allowedFields.includes(field ?? '') ? field! : defaultField;
 
-    this.order = order?.toUpperCase() === PAGINATION.DESC ? PAGINATION.DESC : PAGINATION.ASC;
+    this.order =
+      order?.toUpperCase() === PAGINATION.DESC
+        ? PAGINATION.DESC
+        : PAGINATION.ASC;
   }
 
   get offset(): number {
@@ -29,5 +32,13 @@ export class Pageable {
 
   get limit(): number {
     return this.pageSize;
+  }
+
+  get fields(): string {
+    return this.field;
+  }
+
+  get orders(): string {
+    return this.order;
   }
 }

@@ -13,16 +13,18 @@ import {
 export function ForgotPassword() {
   const dict = useDictionary();
   return (
-    <Auth>
-      <AuthHeader>
-        <AuthTitle>{dict.auth.forgotPassword.title}</AuthTitle>
-        <AuthDescription>
-          {dict.auth.forgotPassword.description}
-        </AuthDescription>
-      </AuthHeader>
-      <AuthForm>
-        <ForgotPasswordForm />
-      </AuthForm>
-    </Auth>
+    <section aria-labelledby="forgotpassword-heading">
+      <Auth>
+        <AuthHeader>
+          <AuthTitle headingId='forgotpassword-heading'>{dict.auth.forgotPassword.title}</AuthTitle>
+          <AuthDescription>
+            {dict.auth.forgotPassword.description}
+          </AuthDescription>
+        </AuthHeader>
+        <AuthForm>
+          <ForgotPasswordForm />
+        </AuthForm>
+      </Auth>
+    </section>
   );
 }

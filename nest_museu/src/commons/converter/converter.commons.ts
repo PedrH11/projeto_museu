@@ -14,6 +14,7 @@ export class GenericConverter {
   static toResponse<T, V>(cls: ClassConstructor<T>, plain: V): T {
     return plainToInstance(cls, plain, {
       excludeExtraneousValues: true,
+      enableImplicitConversion: true, // Tenta converter tipos primitivos automaticamente
     });
   }
 
@@ -23,6 +24,7 @@ export class GenericConverter {
   static toListResponse<T, V>(cls: ClassConstructor<T>, plain: V[]): T[] {
     return plainToInstance(cls, plain, {
       excludeExtraneousValues: true,
+      enableImplicitConversion: true,
     });
   }
 }

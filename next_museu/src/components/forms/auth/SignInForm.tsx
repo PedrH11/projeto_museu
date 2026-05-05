@@ -149,12 +149,20 @@ export function SignInForm() {
         </FieldGroup>
       </div>
 
-      <ButtonLoading isLoading={isPending} disabled={isPending}>
+      <ButtonLoading
+        isLoading={isPending}
+        disabled={isPending}
+        aria-label={dict.auth.signIn}
+      >
         {dict.auth.signIn}
       </ButtonLoading>
       <div className="-mt-4 text-center text-sm">
         {dict.auth.dontHaveAccount}{' '}
-        <Link href="/register" className="underline">
+        <Link
+          href="/register"
+          className="underline"
+          aria-label={dict.auth.signUp}
+        >
           {dict.auth.signUp}
         </Link>
       </div>

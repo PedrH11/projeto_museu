@@ -1,19 +1,19 @@
 import { notFound, redirect } from 'next/navigation';
-import { ConsultarRoles } from '../../../../../components/roles/consultar-roles';
-import { RolesResponse } from '../../../../../schemas/roles-schemas';
-import { getResource } from '../../../../../service/connection/ResourceService';
-import { RolesService } from '../../../../../service/connection/RolesService';
+import { ConsultarPermissions } from '../../../../../components/permissions/consultar-permissions';
+import { PermissionsResponse } from '../../../../../schemas/permissions-schemas';
+import { PermissionsService } from '../../../../../service/connection/PermissionsService';
+import { getResource } from '../../../../../service/connection/RecursosService';
 import { ApiResponse } from '../../../../../type/api';
 
-async function getPorId(id: string): Promise<ApiResponse<RolesResponse>> {
+async function getPorId(id: string): Promise<ApiResponse<PermissionsResponse>> {
   let endpoint: string | undefined;
 
   try {
     const resources = await getResource();
 
     endpoint = resources
-      .find((r) => r.name === 'roles' && r.endpoint.includes(':id'))
-      ?.endpoint.replace(':id', id);
+      .find((r) => r.name === 'permissions' && r.endpoint.includes(':id'))
+      ?.endpoint.replace('/:id', '');
   } catch (error) {
     const apiError = error as ApiResponse<never> & { isNetworkError?: boolean };
     if (apiError.isNetworkError || apiError.status === 503) {
@@ -26,8 +26,9 @@ async function getPorId(id: string): Promise<ApiResponse<RolesResponse>> {
   }
 
   try {
-    const rolesService = new RolesService(endpoint);
-    const data = await rolesService.porId(id);
+    const permissionsService = new PermissionsService(endpoint);
+    const data = await permissionsService.porId(id);
+
     return data;
   } catch (error: any) {
     if (error.digest?.includes('NEXT_REDIRECT')) throw error;
@@ -41,15 +42,17 @@ async function getPorId(id: string): Promise<ApiResponse<RolesResponse>> {
   }
 }
 
-export default async function RolesConsultar({
+export default async function PermissionsConsultar({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   const result = await getPorId(id);
+
   if (!result.dados) {
     notFound();
   }
-  return <ConsultarRoles result={result} />;
+
+  return <ConsultarPermissions result={result} />;
 }

@@ -1,7 +1,8 @@
 {
   "lang": "es",
   "navigation": {
-    "dashboards": "Panel Principal",
+    "dashboards": "Página Principal",
+    "back_dashboards": "Volver a la Página Principal",
     "usuario": {
       "usuario": "Usuario",
       "gestao": "Gestión de Usuarios",
@@ -141,6 +142,14 @@
       "title": "Gestión de Usuarios",
       "description": "Gestionar los datos de los usuarios en el sistema.",
       "lista_usuario": "Lista de Usuarios",
+      "action_list": "Actions",
+      "select_all": "Seleccionar todas las filas",
+      "select_row": "Seleccionar fila",
+      "action_consult": "Consultar Registro de Usuarios",
+      "action_edit": "Editar Registro de Usuarios",
+      "action_delete": "Eliminar Registro de Usuarios",
+      "action_new": "Agregar Registro de Usuarios",
+      "action_cancel": "Cancelar la transacción en el Registro de Usuario",
       "not_found": "Usuário no encontrado",
       "id_not_found": "Identificador de usuario no encontrado"
     },
@@ -197,6 +206,14 @@
       "title": "Gestión de Contactos",
       "description": "Gestionar los datos de contactos en el sistema.",
       "lista_contact": "Lista de Contactos",
+      "action_list": " Acciones",
+      "select_all": "Seleccionar todas las filas",
+      "select_row": "Seleccionar fila",
+      "action_consult": "Consultar Registro de Contactos",
+      "action_edit": "Editar Registro de Contactos",
+      "action_delete": "Eliminar Registro de Contactos",
+      "action_new": "Agregar Registro de Contactos",
+      "action_cancel": "Cancelar la transacción en el Registro de Contactos",
       "id_not_found": "Identificador de contactos no encontrado"
     },
     "form": {
@@ -291,13 +308,39 @@
       "title": "Gestión de Permisos",
       "description": "Gestionar los datos de los permisos en el sistema.",
       "lista_permissions": "Lista de Permisos",
+      "action_list": "Actions",
+      "select_all": "Seleccionar todas las filas",
+      "select_row": "Seleccionar fila",
+      "action_consult": "Consultar Registro de Permisos",
+      "action_edit": "Editar Registro de Permisos",
+      "action_delete": "Eliminar Registro de Permisos",
+      "action_new": "Agregar Registro de Permisos",
+      "action_cancel": "Cancelar la transacción en el Registro de Permisos",
+      "not_found": "Permisos no encontrado",
+      "id_not_found": "No se encontró el identificador de permisos.",
       "message_permissions": "Los cambios en esta matriz afectan a todos los usuarios vinculados a este perfil.",
-      "matrix_permissions": "Matriz de Permisos"
+      "matrix_permissions": "Matriz de Permisos",
+      "matrix_allowed": "Permitido",
+      "matrix_denied": "Denegado",
+      "resources": "Recursos",
+      "module": "Módulo",
+      "enums": {
+        "action": {
+          "create": "Crear",
+          "read": "Leer",
+          "update": "Actualizar",
+          "delete": "Eliminar"
+        },
+        "possession": {
+          "any": "Cualquiera",
+          "own": "Propio"
+        }
+      }
     },
     "form": {
       "create_title": "Nuevos Permisos",
       "create_description": "Complete los datos para crear un nuevo permiso",
-      "edit_title": "Editar Roles",
+      "edit_title": "Editar Permisos",
       "edit_description": "Edite los datos para modificar la información del permiso",
       "delete_title": "Eliminar Permisos",
       "delete_description": "Eliminar los datos del permiso",
@@ -312,8 +355,16 @@
       "confirm_title": "¿Está seguro de que deseja cambiar los datos del permiso?",
       "confirm_description": "Esta acción cambiará los datos del permiso en el sistema. Verifique si la información es correcta.",
       "label": {
-        "namePermission": "Permiso:",
-        "placeHolderNamePermission": "Ingrese el nombre del permiso"
+        "roleId": "Rol",
+        "placeHolderRoleId": "Ingrese el nombre del rol",
+        "resourceId": "Recurso",
+        "placeHolderResourceId": "Ingrese el nombre del recurso",
+        "action": "Acción",
+        "placeHolderAction": "Informe la acción",
+        "possession": "Posesión",
+        "placeHolderPossession": "Ingrese la posesión",
+        "roleName": "Nombre del Role",
+        "resourcesName": "Nombre del Recurso"
       }
     },
     "validation": {
@@ -328,7 +379,16 @@
       "title": "Gestión de Roles",
       "description": "Gestionar los datos de los roles en el sistema.",
       "lista_roles": "Lista de Roles",
-      "id_not_found": "Identificador de roles no encontrado"
+      "action_list": "Actions",
+      "select_all": "Seleccionar todas las filas",
+      "select_row": "Seleccionar fila",
+      "action_consult": "Consultar Registro de Roles",
+      "action_edit": "Editar Registro de Roles",
+      "action_delete": "Eliminar Registro de Roles",
+      "action_new": "Agregar Registro de Roles",
+      "action_cancel": "Cancelar la transacción en el Registro de Roles",
+      "id_not_found": "Identificador de roles no encontrado",
+      "not_found": "Roles no encontrado"
     },
     "form": {
       "create_title": "Nuevo Role",
@@ -355,6 +415,49 @@
     "validation": {
       "invalidMinNameRole": "El nombre debe contener al menos 8 caracteres",
       "invalidMaxNameRole": "El nombre contiene más de 100 caracteres"
+    }
+  },
+  "resources": {
+    "management": {
+      "title": "Gestión de Recursos",
+      "description": "Gestionar los datos de los recursos en el sistema.",
+      "lista_resources": "Lista de Recursos",
+      "action_list": "Acciones",
+      "select_all": "Seleccionar todas las filas",
+      "select_row": "Seleccionar fila",
+      "action_consult": "Consultar Registro de Recursos",
+      "action_edit": "Editar Registro de Recursos",
+      "action_delete": "Eliminar Registro de Recursos",
+      "action_new": "Agregar Registro de Recursos",
+      "action_cancel": "Cancelar la transacción en el Registro de Recursos",
+      "not_found": "Recurso no encontrado",
+      "id_not_found": "Identificador de recursos no encontrado"
+    },
+    "form": {
+      "create_title": "Nuevos Recursos",
+      "create_description": "Complete los datos para crear un nuevo recurso",
+      "edit_title": "Editar Recursos",
+      "edit_description": "Edite los datos para cambiar la información del recurso",
+      "delete_title": "Eliminar Recursos",
+      "delete_description": "Eliminar los datos del recurso",
+      "consult_title": "Consultar Recursos",
+      "consult_description": "Consultar los datos del recurso",
+      "action": "Enviando",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar",
+      "new_resources": "Nuevos Recursos",
+      "open": "Abierto",
+      "close": "Cerrado",
+      "confirm_title": "¿Está seguro de que desea cambiar los datos del recurso?",
+      "confirm_description": "Esta acción cambiará los datos del recurso en el sistema. Verifique que la información sea correcta.",
+      "label": {
+        "nameResources": "Recurso",
+        "placeHolderNameResources": "Ingrese el nombre del recurso"
+      }
+    },
+    "validation": {
+      "invalidMinNameResources": "El nombre debe contener al menos 8 caracteres",
+      "invalidMaxNameResources": "El nombre contiene más de 100 caracteres"
     }
   }
 }

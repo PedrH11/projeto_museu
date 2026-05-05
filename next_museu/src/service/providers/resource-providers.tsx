@@ -1,6 +1,6 @@
 import React from 'react';
 import { VERBO_HTTP } from '../../type/type';
-import { getResource } from '../connection/ResourceService';
+import { getResource } from '../connection/RecursosService';
 
 export interface Resource {
   name: string;
@@ -52,12 +52,15 @@ export function ResourceProvider({ children }: { children: React.ReactNode }) {
   const getEndpoint = React.useCallback(
     (name: string, id?: string | number) => {
       const resource = resources.find((r) => {
-        const hasIdPlaceholder = r.endpoint.includes(':id');
-        return r.name === name && (id ? hasIdPlaceholder : !hasIdPlaceholder);
+        // Verifica se o endpoint contém um parâmetro dinâmico (ex: :id, :roleId, :slug)
+        const hasDynamicParam = /:(\w+)/.test(r.endpoint);
+        return r.name === name && (id ? hasDynamicParam : !hasDynamicParam);
       });
 
       if (resource) {
-        return id ? resource.endpoint.replace('/:id', '') : resource.endpoint;
+        return id
+          ? resource.endpoint.replace(/:(\w+)/, String(id))
+          : resource.endpoint;
       }
 
       return undefined;

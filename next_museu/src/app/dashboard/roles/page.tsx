@@ -1,11 +1,11 @@
 import { redirect } from 'next/navigation';
 import ListarRoles from '../../../components/roles/lista-roles';
 import { RolesResponse } from '../../../schemas/roles-schemas';
-import { getResource } from '../../../service/connection/ResourceService';
+import { getResource } from '../../../service/connection/RecursosService';
 import { RolesService } from '../../../service/connection/RolesService';
 import { ApiResponse, PageResponse } from '../../../type/api';
 
-async function listarRoles(
+export async function listarRoles(
   page?: string,
   pageSize?: string,
   field?: string,

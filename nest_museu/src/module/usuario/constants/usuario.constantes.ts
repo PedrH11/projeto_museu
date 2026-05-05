@@ -1,43 +1,41 @@
-import { criarMensagensOperacao } from '../../../commons/constants/constants.entity';
+import { criarMensagensOperacao } from "../../../commons/constants/constants.entity";
 import {
   gerarMensagem,
   MENSAGEM_GENERICA,
-} from '../../../commons/constants/mensagem.sistema';
+} from "../../../commons/constants/mensagem.sistema";
 import {
   gerarRotaRecurso,
   RotaRecurso,
-} from '../../../commons/constants/url.sistema';
+} from "../../../commons/constants/url.sistema";
 
-const ENTITY_NAME = 'usuario';
-const ALIAS_NAME = 'Usuário';
+const ENTITY_NAME = "usuario";
+const ALIAS_NAME = "Usuário";
 
 export const USUARIO = {
   ENTITY: ENTITY_NAME,
 
   ALIAS: ALIAS_NAME,
 
-  REGISTER: '/register',
+  REGISTER: "/register",
 
   TABLE_FIELDS: {
-    ID_USUARIO: 'id_usuario',
-    FIRSTNAME: 'firstname',
-    LASTNAME: 'lastname',
-    USERNAME: 'username',
-    EMAIL: 'email',
-    PASSWORD: 'password',
-    ACTIVE: 'active',
-    IMAGE_PATH: 'image_path',
+    ID_USUARIO: "id_usuario",
+    FIRSTNAME: "firstname",
+    LASTNAME: "lastname",
+    USERNAME: "username",
+    EMAIL_VERIFIED: "emailverified",
+    ACTIVE: "active",
+    IMAGE_PATH: "image_path",
   },
 
   FIELDS: {
-    ID_USUARIO: 'idUsuario',
-    FIRSTNAME: 'firstname',
-    LASTNAME: 'lastname',
-    USERNAME: 'username',
-    EMAIL: 'email',
-    PASSWORD: 'password',
-    ACTIVE: 'active',
-    IMAGE_PATH: 'image_path',
+    ID_USUARIO: "idUsuario",
+    FIRSTNAME: "firstname",
+    LASTNAME: "lastname",
+    USERNAME: "username",
+    EMAIL_VERIFIED: "emailverified",
+    ACTIVE: "active",
+    IMAGE_PATH: "image_path",
   },
 
   SEARCH: {
@@ -49,11 +47,13 @@ export const USUARIO = {
     FIRSTNAME: `Primeiro nome do ${ALIAS_NAME} `,
     LASTNAME: `Último nome do ${ALIAS_NAME}`,
     USERNAME: `Nome de acesso do ${ALIAS_NAME}`,
-    EMAIL: `E-mail do ${ALIAS_NAME}`,
+    EMAIL: `E-mail do ${ALIAS_NAME} `,
+    EMAIL_VERIFIED: `E-mail do ${ALIAS_NAME} confirmado`,
     PASSWORD: `Senha de acesso do ${ALIAS_NAME}`,
     CONFIRM_PASSWORD: `Senha de confirmação do ${ALIAS_NAME}`,
     ACTIVE: `Status do ${ALIAS_NAME} no sistema `,
     IMAGE_PATH: `Imagem - Foto do ${ALIAS_NAME} no sistema `,
+    ROLE: `IDs das roles / papéis atribuídas ao ${ALIAS_NAME}`,
   },
 
   MENSAGEM: getMensagem(ALIAS_NAME),
@@ -88,6 +88,10 @@ function getMensagem(ALIAS: string) {
     ),
     ENITDADE_LISTADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_LISTADA, ALIAS),
     SERVER_ERROR: gerarMensagem(MENSAGEM_GENERICA.ERROR_SERVICE, ALIAS),
+    TOKEN_INVALIDO_EXPIRADO: gerarMensagem(
+      MENSAGEM_GENERICA.TOKEN_INVALIDO_EXPIRADO,
+      ALIAS,
+    ),
   };
 }
 

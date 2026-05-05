@@ -19,11 +19,12 @@ export function ExcluirRoles({
   const dict = useDictionary();
   return (
     <>
-      <section aria-labelledby="roless-heading">
+      <section aria-labelledby="roles-heading">
         {result.mensagem && <ToastHandler message={result.mensagem} />}
         <PageShell
           title={dict.roles.management.title}
           description={dict.roles.management.description}
+          headingId='roles-heading'
           actions={
             <Button
               asChild

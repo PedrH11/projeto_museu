@@ -32,7 +32,7 @@ const initialState: ApiResponse<VerifyEmailResponse> = {
 };
 
 export function VerifyEmailForm() {
-  const [state, action, isPending] = React.useActionState(
+  const [state, action] = React.useActionState(
     verifayEmailAction,
     initialState,
   );
@@ -116,12 +116,13 @@ export function VerifyEmailForm() {
         />
 
         {/* BOTÃO SUBMIT */}
-        <Button type="submit">{dict.auth.resend}</Button>
+        <Button type="submit" aria-label={dict.auth.resend}>{dict.auth.resend}</Button>
 
         {/* SKIP */}
         <Link
           href="/login"
           className={cn(buttonVariants({ variant: 'ghost' }))}
+          aria-label={dict.auth.skipForNow}
         >
           {dict.auth.skipForNow}
         </Link>

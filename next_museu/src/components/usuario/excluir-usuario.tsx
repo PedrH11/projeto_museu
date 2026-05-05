@@ -24,10 +24,12 @@ export function ExcluirUsuario({
         <PageShell
           title={dict.usuario.management.title}
           description={dict.usuario.management.description}
+          headingId="usuarios-heading"
           actions={
             <Button
               asChild
               className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-sans"
+              aria-label={dict.usuario.management.action_delete}
             >
               <Link href="/dashboard/usuario">
                 {dict.usuario.management.lista_usuario}

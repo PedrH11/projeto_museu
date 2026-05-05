@@ -24,7 +24,7 @@ export default function ConsultarRolesForm({
     resolver: zodResolver(getRolesSchema(dict)),
     defaultValues: {
       idRoles: roles.idRoles,
-      nameRoles: roles.nameRoles,
+      nomeRoles: roles.nomeRoles,
     },
   });
 
@@ -41,7 +41,7 @@ export default function ConsultarRolesForm({
           <FieldGroup>
             {/* Nome */}
             <Controller
-              name="nameRoles"
+              name="nomeRoles"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>

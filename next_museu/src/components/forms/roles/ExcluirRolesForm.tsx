@@ -54,7 +54,7 @@ export default function ExcluirRolesForm({
     resolver: zodResolver(getRolesSchema(dict)),
     defaultValues: {
       idRoles: roles.idRoles,
-      nameRoles: roles.nameRoles,
+      nomeRoles: roles.nomeRoles,
     },
   });
 
@@ -72,10 +72,10 @@ export default function ExcluirRolesForm({
   const { status, mensagem, erro, errors } = state;
 
   React.useEffect(() => {
-    if (status === 0) return;
+    if (status === 0 || (!mensagem && !erro)) return;
 
     if (status >= 400) {
-      toast.error('Erro', { description: erro || mensagem });
+      toast.error(erro || mensagem);
       if (errors) {
         Object.entries(errors).forEach(([field, messages]) => {
           form.setError(field as keyof RolesUpdate, {
@@ -85,7 +85,7 @@ export default function ExcluirRolesForm({
         });
       }
     } else {
-      toast.success('Sucesso!', { description: mensagem });
+      toast.success(mensagem);
     }
   }, [status, mensagem, errors, erro, form]);
 
@@ -120,6 +120,8 @@ export default function ExcluirRolesForm({
         confirm={dict.roles.form.confirm}
         href="/dashboard/roles"
         cancel={dict.roles.form.cancel}
+        ariaLabelCon={dict.roles.management.action_delete}
+        ariaLabelCancel={dict.roles.management.action_cancel}
       >
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           <div className="md:col-span-8 space-y-6">

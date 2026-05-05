@@ -182,7 +182,7 @@ CREATE TABLE usuario_roles (
 -- tabela de roles X permissions
 
 CREATE TABLE permissions (
-    id_permission SERIAL PRIMARY KEY,
+    id_permissions SERIAL PRIMARY KEY,
     role_id INT NOT NULL REFERENCES roles(id_role) ON DELETE CASCADE,
     recurso_id INT NOT NULL REFERENCES resources(id_recurso) ON DELETE CASCADE,
     action VARCHAR(20) NOT NULL,

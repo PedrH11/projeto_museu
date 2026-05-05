@@ -1,55 +1,96 @@
-import { notFound, redirect } from 'next/navigation';
-import { AtualizarRoles } from '../../../../../components/roles/atualizar-roles';
-import { RolesResponse } from '../../../../../schemas/roles-schemas';
-import { getResource } from '../../../../../service/connection/ResourceService';
-import { RolesService } from '../../../../../service/connection/RolesService';
-import { ApiResponse } from '../../../../../type/api';
+import { AtualizarPermissions } from "@/components/permissions/atualizar-permissions";
+import { notFound, redirect } from "next/navigation";
+import { PermissionsResponse } from "../../../../../schemas/permissions-schemas";
+import { PermissionsService } from "../../../../../service/connection/PermissionsService";
+import { getResource } from "../../../../../service/connection/RecursosService";
+import { ApiResponse } from "../../../../../type/api";
+import { listarRecursos } from "../../../resources/page";
+import { listarRoles } from "../../../roles/page";
 
-async function getPorId(id: string): Promise<ApiResponse<RolesResponse>> {
+interface PageProps {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{
+    page?: string;
+    pageSize?: string;
+    field?: string;
+    order?: string;
+    search?: string;
+  }>;
+}
+
+export async function getPorId(
+  id: string,
+): Promise<ApiResponse<PermissionsResponse>> {
   let endpoint: string | undefined;
 
   try {
     const resources = await getResource();
 
     endpoint = resources
-      .find((r) => r.name === 'roles' && r.endpoint.includes(':id'))
-      ?.endpoint.replace('/:id', '');
+      .find((r) => r.name === "permissions" && r.endpoint.includes(":id"))
+      ?.endpoint.replace("/:id", "");
   } catch (error) {
     const apiError = error as ApiResponse<never> & { isNetworkError?: boolean };
     if (apiError.isNetworkError || apiError.status === 503) {
-      redirect('/status/offline');
+      redirect("/status/offline");
     }
   }
 
   if (!endpoint) {
-    redirect('/status/offline');
+    redirect("/status/offline");
   }
 
   try {
-    const rolesService = new RolesService(endpoint);
-    const data = await rolesService.porId(id);
+    const permissionsService = new PermissionsService(endpoint);
+    const data = await permissionsService.porId(id);
     return data;
   } catch (error: any) {
-    if (error.digest?.includes('NEXT_REDIRECT')) throw error;
+    if (error.digest?.includes("NEXT_REDIRECT")) throw error;
     const apiError = error as ApiResponse<never> & { isNetworkError?: boolean };
 
     if (apiError.isNetworkError || apiError.status === 503) {
-      redirect('/status/offline');
+      redirect("/status/offline");
     }
 
     return apiError;
   }
 }
 
-export default async function RolesAtualizar({
+export default async function PermissionsAtualizar({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+  searchParams,
+}: PageProps) {
+  const resolveParams = await params;
+  const resolvedSearchParams = await searchParams;
+
+  const roles = await listarRoles(
+    resolvedSearchParams.page,
+    resolvedSearchParams.pageSize,
+    resolvedSearchParams.field,
+    resolvedSearchParams.order,
+    resolvedSearchParams.search,
+  );
+
+  const resources = await listarRecursos(
+    resolvedSearchParams.page,
+    resolvedSearchParams.pageSize,
+    resolvedSearchParams.field,
+    resolvedSearchParams.order,
+    resolvedSearchParams.search,
+  );
+
+  const { id } = resolveParams;
   const result = await getPorId(id);
   if (!result.dados) {
     notFound();
   }
-  return <AtualizarRoles result={result} idRoles={id} />;
+
+  return (
+    <AtualizarPermissions
+      result={result}
+      idPermissions={id}
+      roles={roles}
+      resources={resources}
+    />
+  );
 }

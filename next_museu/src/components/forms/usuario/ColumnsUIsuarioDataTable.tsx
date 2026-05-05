@@ -10,9 +10,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 import { UsuarioResponse } from '../../../schemas/usuario-schemas';
 import { ApiResponse, PageResponse } from '../../../type/api';
+import { DictionaryType } from '../../../type/type';
 
 export const getUsuarioColumns = (
   result: ApiResponse<PageResponse<UsuarioResponse>>,
+  dict: DictionaryType,
 ): ColumnDef<UsuarioResponse>[] => {
   const canView = !!result._links?.self || !!result._links?.list;
   const canUpdate = !!result._links?.update;
@@ -28,14 +30,14 @@ export const getUsuarioColumns = (
             (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="selecionar tudo"
+          aria-label={dict.contact.management.select_all}
         />
       ),
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="selecionar a linha"
+          aria-label={dict.contact.management.select_row}
         />
       ),
       enableSorting: false,
@@ -48,7 +50,7 @@ export const getUsuarioColumns = (
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Nome
+          {dict.usuario.form.label.name}
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
@@ -60,7 +62,7 @@ export const getUsuarioColumns = (
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          E-mail
+          {dict.usuario.form.label.email}
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
@@ -79,7 +81,11 @@ export const getUsuarioColumns = (
     },
     {
       id: 'actions',
-      header: () => <div className="text-center font-bold">Ações</div>,
+      header: () => (
+        <div className="text-center font-bold">
+          {dict.usuario.management.action_list}
+        </div>
+      ),
       cell: ({ row }) => {
         const usuario = row.original;
 
@@ -87,7 +93,13 @@ export const getUsuarioColumns = (
           <div className="flex items-center justify-center gap-2">
             {/* Visualizar */}
             {canView && (
-              <Button variant="outline" size="icon" asChild title="Visualizar">
+              <Button
+                variant="outline"
+                size="icon"
+                asChild
+                title={dict.usuario.form.consult_title}
+                aria-label={dict.usuario.management.action_consult}
+              >
                 <Link
                   href={`/dashboard/usuario/${usuario.idUsuario}/consultar`}
                 >
@@ -98,7 +110,13 @@ export const getUsuarioColumns = (
 
             {/* Editar */}
             {canUpdate && (
-              <Button variant="outline" size="icon" asChild title="Editar">
+              <Button
+                variant="outline"
+                size="icon"
+                asChild
+                title={dict.usuario.form.edit_title}
+                aria-label={dict.usuario.management.action_edit}
+              >
                 <Link href={`/dashboard/usuario/${usuario.idUsuario}/editar`}>
                   <Edit className="h-4 w-4 text-emerald-950" />
                 </Link>
@@ -107,7 +125,13 @@ export const getUsuarioColumns = (
 
             {/* Excluir */}
             {canDelete && (
-              <Button variant="outline" size="icon" asChild title="Excluir">
+              <Button
+                variant="outline"
+                size="icon"
+                asChild
+                title={dict.usuario.form.delete_title}
+                aria-label={dict.usuario.management.action_delete}
+              >
                 <Link href={`/dashboard/usuario/${usuario.idUsuario}/excluir`}>
                   <Trash className="h-4 w-4 text-red-800" />
                 </Link>

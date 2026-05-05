@@ -12,10 +12,11 @@ export function ConsultarContact({ contact }: { contact: ContactResponse }) {
   const dict = useDictionary();
   return (
     <>
-      <section aria-labelledby="contacts-heading">
+      <section aria-labelledby="contato-heading">
         <PageShell
           title={dict.contact.management.title}
           description={dict.contact.management.description}
+          headingId='contato-heading'
           actions={
             <Button
               asChild

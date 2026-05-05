@@ -2,6 +2,7 @@
   "lang": "en",
   "navigation": {
     "dashboards": "Dashboard",
+    "back_dashboards": "Back to Home Page",
     "usuario": {
       "usuario": "User",
       "gestao": "User Management",
@@ -141,6 +142,14 @@
       "title": "User Management",
       "description": "Manage user data in the system.",
       "lista_usuario": "User List",
+      "action_list": "Actions",
+      "select_all": "Select all rows",
+      "select_row": "Select row",
+      "action_consult": "Consult User Record",
+      "action_edit": "Edit User Record",
+      "action_delete": "Delete User Record",
+      "action_new": "Add User Record",
+      "action_cancel": "Cancel transaction in User Record",
       "not_found": "User not found",
       "id_not_found": "User identifier not found "
     },
@@ -198,6 +207,15 @@
       "title": "Contact Management",
       "description": "Manage contact data in the system.",
       "lista_contact": "Contact List",
+      "action_list": "Actions",
+      "select_all": "Select all rows",
+      "select_row": "Select row",
+      "action_consult": "Consult Contact Record",
+      "action_edit": "Edit Contact Record",
+      "action_delete": "Delete Contact Record",
+      "action_new": "Add Contact Record",
+      "action_cancel": "Cancel transaction in Contact Record",
+      "not_found": "Contact not found",
       "id_not_found": "Contact identifier not found"
     },
     "form": {
@@ -292,13 +310,39 @@
       "title": "Permissions Management",
       "description": "Manage permission data in the system.",
       "lista_permissions": "Permissions List",
+      "action_list": "Actions",
+      "select_all": "Select all rows",
+      "select_row": "Select row",
+      "action_consult": "Consult Permission Record",
+      "action_edit": "Edit Permission Record",
+      "action_delete": "Delete Permission Record",
+      "action_new": "Add Permission Record",
+      "action_cancel": "Cancel transaction in Permission Record",
       "message_permissions": "Changes to this matrix affect all users linked to this profile.",
-      "matrix_permissions": "Permissions Matrix"
+      "matrix_permissions": "Permissions Matrix",
+      "matrix_allowed": "Allowed",
+      "matrix_denied": "Danied",
+      "resources": "Resources",
+      "module": "Module",
+      "id_not_found": "Permissions identifier not found",
+      "not_found": "Permissions not found",
+      "enums": {
+        "action": {
+          "create": "Create",
+          "read": "Read",
+          "update": "Update",
+          "delete": "Delete"
+        },
+        "possession": {
+          "any": "Any",
+          "own": "Own"
+        }
+      }
     },
     "form": {
       "create_title": "New Permissions",
       "create_description": "Fill in the details to create a new permission",
-      "edit_title": "Edit Roles",
+      "edit_title": "Edit Permissions",
       "edit_description": "Edit the details to change permission information",
       "delete_title": "Delete Permissions",
       "delete_description": "Delete permission data",
@@ -313,8 +357,16 @@
       "confirm_title": "Are you sure you want to change the permission data?",
       "confirm_description": "This action will change the permission data in the system. Please verify if the information is correct.",
       "label": {
-        "namePermission": "Permission:",
-        "placeHolderNamePermission": "Enter permission name"
+        "roleId": "Role",
+        "placeHolderRoleId": "Enter role name",
+        "resourceId": "Resource",
+        "placeHolderResourceId": "Enter resource name",
+        "action": "Action",
+        "placeHolderAction": "Select action",
+        "possession": "Possession",
+        "placeHolderPossession": "Enter possession",
+        "roleName": "Role name",
+        "resourcesName": "Resources name"
       }
     },
     "validation": {
@@ -329,6 +381,14 @@
       "title": "Role Management",
       "description": "Manage role data in the system.",
       "lista_roles": "Role List",
+      "action_list": "Actions",
+      "select_all": "Select all rows",
+      "select_row": "Select row",
+      "action_consult": "Consult Role Record",
+      "action_edit": "Edit Role Record",
+      "action_delete": "Delete Role Record",
+      "action_new": "Add Role Record",
+      "action_cancel": "Cancel transaction in Role Record",
       "id_not_found": "Role identifier not found"
     },
     "form": {
@@ -356,6 +416,49 @@
     "validation": {
       "invalidMinNameRole": "The name must be at least 8 characters long",
       "invalidMaxNameRole": "The name contains more than 100 characters"
+    }
+  },
+  "resources": {
+    "management": {
+      "title": "Resource Management",
+      "description": "Manage resource data in the system.",
+      "lista_resources": "Resource List",
+      "action_list": "Actions",
+      "select_all": "Select all rows",
+      "select_row": "Select row",
+      "action_consult": "Consult Resource Record",
+      "action_edit": "Edit Resource Record",
+      "action_delete": "Delete Resource Record",
+      "action_new": "Add Resource Record",
+      "action_cancel": "Cancel transaction in Resource Record",
+      "not_found": "Resource not found",
+      "id_not_found": "Resource identifier not found"
+    },
+    "form": {
+      "create_title": "New Resources",
+      "create_description": "Fill in the details to create a new resource",
+      "edit_title": "Edit Resources",
+      "edit_description": "Edit the details to change resource information",
+      "delete_title": "Delete Resources",
+      "delete_description": "Delete resource data",
+      "consult_title": "Consult Resources",
+      "consult_description": "Consult resource data",
+      "action": "Sending",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "new_resources": "New Resources",
+      "open": "Open",
+      "close": "Closed",
+      "confirm_title": "Are you sure you want to change the resource data?",
+      "confirm_description": "This action will change the resource data in the system. Please ensure the information is correct.",
+      "label": {
+        "nameResources": "Resource",
+        "placeHolderNameResources": "Enter the resource name"
+      }
+    },
+    "validation": {
+      "invalidMinNameResources": "The name must be at least 8 characters long",
+      "invalidMaxNameResources": "The name exceeds 100 characters"
     }
   }
 }

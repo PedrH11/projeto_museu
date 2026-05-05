@@ -1,5 +1,5 @@
 import { EventService } from '../../service/connection/EventService';
-import { getResource } from '../../service/connection/ResourceService';
+import { getResource } from '../../service/connection/RecursosService';
 import { ApiResponse } from '../../type/api';
 import { CalendarEvent } from '../../type/type';
 

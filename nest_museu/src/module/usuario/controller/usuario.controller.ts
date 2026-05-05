@@ -10,24 +10,37 @@ import {
   Put,
   Query,
   Req,
-} from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
-import { PARAMS } from '../../../commons/constants/param.constants';
-import { ApiPaginatedResponse } from '../../../commons/decorators/swagger/api-paginated-response.decorator';
-import { ApiPaginationQuery } from '../../../commons/decorators/swagger/api-pagination-query.decorator';
-import { ApiGetDoc } from '../../../commons/decorators/swagger/swagger.decorators';
-import { BaseController } from '../../../commons/entities/base.controller';
-import { PAGINATION } from '../../../commons/enum/pagination.enum';
-import { Page } from '../../../commons/pagination/paginacao.sistema';
-import { ApiResponse } from '../../../commons/response/api.response';
-import { ResponseBuilder } from '../../../commons/response/builder.response';
-import { USUARIO } from '../constants/usuario.constantes';
-import { UsuarioRequest } from '../dto/request/usuario.request';
-import { UsuarioResponse } from '../dto/response/usuario.response';
-import { UsuarioService } from '../service/usuario.service';
+} from "@nestjs/common";
+import { ApiExtraModels, ApiTags } from "@nestjs/swagger";
+import { Crud } from "@nestjsx/crud";
+import { Request } from "express";
+import { PARAMS } from "../../../commons/constants/param.constants";
+import { ApiPaginatedResponse } from "../../../commons/decorators/swagger/api-paginated-response.decorator";
+import { ApiPaginationQuery } from "../../../commons/decorators/swagger/api-pagination-query.decorator";
+import {
+  ApiDeleteDoc,
+  ApiGetDoc,
+  ApiPostDoc,
+  ApiPutDoc,
+} from "../../../commons/decorators/swagger/swagger.decorators";
+import { BaseController } from "../../../commons/entities/base.controller";
+import { GLOBAL_CRUD_OPTIONS } from "../../../commons/entities/crud.options";
+import { PAGINATION } from "../../../commons/enum/pagination.enum";
+import { Page } from "../../../commons/pagination/paginacao.sistema";
+import { ApiResponse, Link } from "../../../commons/response/api.response";
+import { ResponseBuilder } from "../../../commons/response/builder.response";
+import { USUARIO } from "../constants/usuario.constantes";
+import { UsuarioRequest } from "../dto/request/usuario.request";
+import { UsuarioResponse } from "../dto/response/usuario.response";
+import { Usuario } from "../entities/usuario.entity";
+import { UsuarioService } from "../service/usuario.service";
 
+@Crud({
+  model: { type: Usuario },
+  ...GLOBAL_CRUD_OPTIONS,
+})
 @ApiTags(USUARIO.ALIAS)
+@ApiExtraModels(ApiResponse, UsuarioResponse, Link)
 @Controller(USUARIO.ROTAS.BASE)
 export class UsuarioController extends BaseController {
   protected readonly entityPath = USUARIO.ROTAS.BASE;
@@ -40,11 +53,11 @@ export class UsuarioController extends BaseController {
   @ApiPaginatedResponse(UsuarioResponse)
   async listar(
     @Req() req: Request,
-    @Query('page') page?: string,
-    @Query('pageSize') pageSize?: string,
-    @Query('field') field?: string,
-    @Query('order') order?: string,
-    @Query('search') search?: string,
+    @Query("page") page?: string,
+    @Query("pageSize") pageSize?: string,
+    @Query("field") field?: string,
+    @Query("order") order?: string,
+    @Query("search") search?: string,
   ): Promise<ApiResponse<Page<UsuarioResponse>>> {
     const pageControler = Number(page) ? Number(page) : PAGINATION.PAGE;
     const pageSizeController = Number(pageSize)
@@ -70,6 +83,7 @@ export class UsuarioController extends BaseController {
   }
 
   @Get(USUARIO.ROTAS.ID)
+  @ApiGetDoc(USUARIO.OPERACAO.PORID, UsuarioResponse)
   async porId(@Param(PARAMS.ID, ParseIntPipe) id: number, @Req() req: Request) {
     const response = await this.usuarioService.porId(id);
     return ResponseBuilder.status<UsuarioResponse>(HttpStatus.OK)
@@ -82,6 +96,7 @@ export class UsuarioController extends BaseController {
   }
 
   @Post()
+  @ApiPostDoc(USUARIO.OPERACAO.SALVAR, UsuarioRequest, UsuarioResponse)
   async salvar(@Body() usuarioRequest: UsuarioRequest, @Req() req: Request) {
     const response = await this.usuarioService.salvar(usuarioRequest);
     return ResponseBuilder.status<UsuarioResponse>(HttpStatus.OK)
@@ -94,6 +109,7 @@ export class UsuarioController extends BaseController {
   }
 
   @Put(USUARIO.ROTAS.ID)
+  @ApiPutDoc(USUARIO.OPERACAO.ATUALIZAR, UsuarioRequest, UsuarioResponse)
   async atualizar(
     @Param(PARAMS.ID, ParseIntPipe) id: number,
     @Body() usuarioRequest: UsuarioRequest,
@@ -110,6 +126,7 @@ export class UsuarioController extends BaseController {
   }
 
   @Delete(USUARIO.ROTAS.ID)
+  @ApiDeleteDoc(USUARIO.OPERACAO.EXCLUIR)
   async excluir(
     @Param(PARAMS.ID, ParseIntPipe) id: number,
     @Req() req: Request,

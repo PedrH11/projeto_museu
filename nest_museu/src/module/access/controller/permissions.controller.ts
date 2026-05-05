@@ -16,7 +16,12 @@ import { Request } from 'express';
 import { PARAMS } from '../../../commons/constants/param.constants';
 import { ApiPaginatedResponse } from '../../../commons/decorators/swagger/api-paginated-response.decorator';
 import { ApiPaginationQuery } from '../../../commons/decorators/swagger/api-pagination-query.decorator';
-import { ApiGetDoc } from '../../../commons/decorators/swagger/swagger.decorators';
+import {
+  ApiDeleteDoc,
+  ApiGetDoc,
+  ApiPostDoc,
+  ApiPutDoc,
+} from '../../../commons/decorators/swagger/swagger.decorators';
 import { BaseController } from '../../../commons/entities/base.controller';
 import { Page } from '../../../commons/pagination/paginacao.sistema';
 import { PaginationDto } from '../../../commons/pagination/pagination.dto';
@@ -43,7 +48,6 @@ export class PermissionsController extends BaseController {
     @Query() pagination: PaginationDto,
   ): Promise<ApiResponse<Page<PermissionsResponse>>> {
     const response = await this.permissionsService.listar(pagination);
-
     return ResponseBuilder.status<Page<PermissionsResponse>>(HttpStatus.OK)
       .path(req.path)
       .message(PERMISSIONS.MENSAGEM.ENITDADE_LISTADA)
@@ -53,6 +57,7 @@ export class PermissionsController extends BaseController {
       .build();
   }
 
+  @ApiGetDoc(PERMISSIONS.OPERACAO.PORID, PermissionsResponse)
   @Get(PERMISSIONS.ROTAS.ID)
   async porId(@Param(PARAMS.ID, ParseIntPipe) id: number, @Req() req: Request) {
     const response = await this.permissionsService.porId(id);
@@ -61,10 +66,15 @@ export class PermissionsController extends BaseController {
       .path(req.path)
       .data(response)
       .metodo(req.method)
-      .links(this.getResourceLinks(response?.idPermission))
+      .links(this.getResourceLinks(response?.idPermissions))
       .build();
   }
 
+  @ApiPostDoc(
+    PERMISSIONS.OPERACAO.LISTAR,
+    PermissionsRequest,
+    PermissionsResponse,
+  )
   @Post()
   async salvar(
     @Body() permissionsRequest: PermissionsRequest,
@@ -80,6 +90,11 @@ export class PermissionsController extends BaseController {
       .build();
   }
 
+  @ApiPutDoc(
+    PERMISSIONS.OPERACAO.LISTAR,
+    PermissionsRequest,
+    PermissionsResponse,
+  )
   @Put(PERMISSIONS.ROTAS.ID)
   async atualizar(
     @Param(PARAMS.ID, ParseIntPipe) id: number,
@@ -95,10 +110,11 @@ export class PermissionsController extends BaseController {
       .path(req.path)
       .data(response)
       .metodo(req.method)
-      .links(this.getResourceLinks(response?.idPermission))
+      .links(this.getResourceLinks(response?.idPermissions))
       .build();
   }
 
+  @ApiDeleteDoc(PERMISSIONS.OPERACAO.LISTAR)
   @Delete(PERMISSIONS.ROTAS.ID)
   async excluir(
     @Param(PARAMS.ID, ParseIntPipe) id: number,
@@ -112,19 +128,17 @@ export class PermissionsController extends BaseController {
       .links(this.getResourceLinks())
       .build();
   }
+
+  @ApiPostDoc(
+    PERMISSIONS.OPERACAO.SALVAR,
+    PermissionsRequest,
+    PermissionsResponse,
+  )
+  @Post('sync/:roleId')
+  async syncPermissions(
+    @Param('roleId') roleId: number,
+    @Body() permissionsRequest: PermissionsRequest[],
+  ) {
+    return this.permissionsService.syncPermissions(roleId, permissionsRequest);
+  }
 }
-
-/*
-
-  controller - criar a rota do recurso - permissions. define o prefixo.
-
-  Get() - mapear para /permissions - listar tudo.
-  Get('id') - mapear para /permissions/id - listar um objeto específico
-
-  Post() - criar o objeto permissions na rota /permissions
-  Put('id') - atualizar o permissions na rota /permissions/id
-  Patch()
-
-  @delete('id') excluir o objeto usuário na rota /permissions/id
-
-*/

@@ -33,6 +33,14 @@ interface DataTableProps<TData, TValue> {
   pageCount?: number;
   pageIndex?: number;
   pageSize?: number;
+  onParamsChange?: (
+    pageIndex: number,
+    pageSize: number,
+    field?: string,
+    order?: 'ASC' | 'DESC',
+  ) => void;
+  field?: string;
+  order?: string;
   onSelectionChange?: OnChangeFn<RowSelectionState>;
   children?: React.ReactNode;
 }
@@ -44,36 +52,72 @@ export function DataTable<TData, TValue>({
   pageCount,
   pageIndex,
   pageSize,
+  onParamsChange,
+  field,
+  order,
   onSelectionChange,
   children,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [pagination, setPagination] = React.useState({
-    pageIndex: 0,
-    pageSize: 5,
+  const [sorting, setSorting] = React.useState<SortingState>(
+    field ? [{ id: field, desc: order === 'DESC' }] : [],
+  );
+  const [internalPagination, setInternalPagination] = React.useState({
+    pageIndex: pageIndex ?? 0,
+    pageSize: pageSize ?? 5,
   });
   //const [rowSelection, setRowSelection] = React.useState({});
   const [internalSelection, setInternalSelection] =
     React.useState<RowSelectionState>({});
   const [globalFilter, setGlobalFilter] = React.useState<string>('');
+
+  React.useEffect(() => {
+    setInternalPagination({
+      pageIndex: pageIndex ?? 0,
+      pageSize: pageSize ?? 5,
+    });
+  }, [pageIndex, pageSize]);
+
   const table = useReactTable({
     state: {
-      pagination: {
-        pageIndex: pageIndex ?? pagination.pageIndex,
-        pageSize: pageSize ?? pagination.pageSize,
-      },
+      pagination: internalPagination,
       sorting,
       rowSelection: selectedIds !== undefined ? selectedIds : internalSelection,
       globalFilter,
     },
-    manualPagination: pageCount !== undefined,
+    manualPagination: true,
+    manualSorting: true,
     pageCount: pageCount,
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
-    onSortingChange: setSorting,
+    onPaginationChange: (updater) => {
+      const nextState =
+        typeof updater === 'function' ? updater(internalPagination) : updater;
+      setInternalPagination(nextState);
+      const currentSort = sorting[0];
+      onParamsChange?.(
+        nextState.pageIndex,
+        nextState.pageSize,
+        currentSort?.id,
+        currentSort?.desc ? 'DESC' : 'ASC',
+      );
+      if (onParamsChange) {
+        onParamsChange(nextState.pageIndex, nextState.pageSize);
+      }
+    },
+    onSortingChange: (updater) => {
+      const nextSorting =
+        typeof updater === 'function' ? updater(sorting) : updater;
+      setSorting(nextSorting);
+      const sort = nextSorting[0];
+      onParamsChange?.(
+        0,
+        internalPagination.pageSize,
+        sort?.id,
+        sort?.desc ? 'DESC' : 'ASC',
+      );
+    },
     getSortedRowModel: getSortedRowModel(),
     onRowSelectionChange: onSelectionChange ?? setInternalSelection,
     onGlobalFilterChange: setGlobalFilter,

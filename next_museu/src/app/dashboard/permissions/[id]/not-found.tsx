@@ -12,15 +12,18 @@ export default function NotFound() {
       </div>
 
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold tracking-tight">Registro não encontrado</h2>
+        <h2 className="text-2xl font-bold tracking-tight">
+          Registro não encontrado
+        </h2>
         <p className="text-muted-foreground max-w-[400px]">
-          O usuário ou recurso que você está procurando não existe ou foi removido do sistema.
+          O recurso que você está procurando não existe ou foi removido do
+          sistema.
         </p>
       </div>
 
       <div className="flex gap-2">
         <Button asChild variant="default">
-          <Link href="/dashboard/usuario">Voltar para a listagem</Link>
+          <Link href="/dashboard/permissions">Voltar para a listagem</Link>
         </Button>
         <Button asChild variant="outline">
           <Link href="/dashboard">Ir para o início</Link>

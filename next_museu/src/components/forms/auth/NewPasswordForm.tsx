@@ -139,10 +139,18 @@ export function NewPasswordForm() {
         </FieldGroup>
       </div>
 
-      <ButtonLoading isLoading={isPending} disabled={isPending}>
+      <ButtonLoading
+        isLoading={isPending}
+        disabled={isPending}
+        aria-label={dict.auth.setNewPassword}
+      >
         {dict.auth.setNewPassword}
       </ButtonLoading>
-      <Link href="/sign-in" className="-mt-4 text-center text-sm underline">
+      <Link
+        href="/sign-in"
+        className="-mt-4 text-center text-sm underline"
+        aria-label={dict.auth.backToSignIn}
+      >
         {dict.auth.backToSignIn}
       </Link>
     </form>

@@ -11,21 +11,15 @@ export class RolesSeedService implements OnModuleInit {
     private rolesRepository: Repository<Roles>,
   ) {}
   async onModuleInit() {
-    await this.seedResources();
+    await this.seedRoles();
   }
 
-  async seedResources() {
+  async seedRoles() {
     const nomes = Object.values(ROLES_NAME);
-    for (const nome of nomes) {
-      const existe = await this.rolesRepository.findOne({
-        where: { nomeRoles: nome },
-      });
-      if (!existe) {
-        const novaRole = this.rolesRepository.create({
-          nomeRoles: nome,
-        });
-        await this.rolesRepository.save(novaRole);
-      }
-    }
+    const rolesToUpsert = nomes.map((nome) => ({
+      nomeRoles: nome,
+    }));
+
+    await this.rolesRepository.upsert(rolesToUpsert, ['nomeRoles']);
   }
 }

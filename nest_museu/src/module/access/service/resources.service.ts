@@ -11,12 +11,15 @@ import { fieldResources, RESOURCES } from '../constants/resources.constants';
 import { ResourcesRequest } from '../dto/request/resources.request';
 import { ResourcesResponse } from '../dto/response/resources.response';
 import { Resources } from '../entities/resources.entity';
+import { Roles } from '../entities/role.entity';
 
 @Injectable()
 export class ResourcesService {
   constructor(
     @InjectRepository(Resources)
     private resourcesRepository: Repository<Resources>,
+    @InjectRepository(Roles)
+    private rolesRepository: Repository<Roles>,
   ) {}
 
   async listar(pagination: PaginationDto): Promise<Page<ResourcesResponse>> {
@@ -150,5 +153,50 @@ export class ResourcesService {
     } catch (error: any) {
       throw new ServerErrorExceptions(error.message);
     }
+  }
+
+  async listarMatriz(pagination: PaginationDto, roleId: number) {
+    const { page, pageSize, search, field, order } = pagination;
+    const pageable = new Pageable(page, pageSize, field, order, fieldResources);
+
+    // 1. Buscamos o nome da Role uma única vez (evita joins repetitivos em cada linha)
+    const role = await this.rolesRepository.findOne({
+      where: { idRoles: roleId },
+    });
+    if (!role) throw new EntityNotFoundException('Role não encontrada');
+
+    // 2. QueryBuilder focado em Recursos
+    const query = this.resourcesRepository
+      .createQueryBuilder('resource')
+      .leftJoinAndSelect(
+        'resource.permissions',
+        'permission',
+        'permission.roleId = :roleId',
+        { roleId },
+      )
+      .skip(pageable.offset)
+      .take(pageable.limit)
+      .orderBy(
+        `resource.${pageable.field || 'nomeResources'}`,
+        pageable.order || 'ASC',
+      );
+
+    if (search) {
+      query.where('resource.nomeResources ILIKE :search', {
+        search: `%${search}%`,
+      });
+    }
+
+    const [resources, totalElements] = await query.getManyAndCount();
+
+    const content = resources.map((res) => ({
+      idResources: res.idResources,
+      nomeResources: res.nomeResources,
+      roleId: role.idRoles,
+      nomeRole: role.nomeRoles,
+      acoesAtivas: res.permissions.map((p) => p.action),
+    }));
+
+    return Page.of(content, totalElements, pageable);
   }
 }

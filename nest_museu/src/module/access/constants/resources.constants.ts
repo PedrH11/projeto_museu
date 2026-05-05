@@ -31,7 +31,7 @@ export const RESOURCES = {
   },
 
   SEARCH: {
-    POR_ID: `${ENTITY_NAME}.idResource`,
+    POR_ID: `${ENTITY_NAME}.id_recurso`,
   },
 
   MENSAGEM: getMensagem(ALIAS_NAME),

@@ -226,12 +226,12 @@ export function RegisterForm() {
         />
       </div>
 
-      <ButtonLoading isLoading={isPending} disabled={isPending}>
+      <ButtonLoading isLoading={isPending} disabled={isPending} aria-label={dict.auth.access}>
         {dict.auth.access}
       </ButtonLoading>
       <div className="-mt-4 text-center text-sm">
         {dict.auth.alreadyHaveAccount}{' '}
-        <Link href="/sign-in" className="underline">
+        <Link href="/sign-in" className="underline" aria-label={dict.auth.signIn}>
           {dict.auth.signIn}
         </Link>
       </div>

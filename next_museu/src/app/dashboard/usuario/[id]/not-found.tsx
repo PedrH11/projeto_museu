@@ -14,7 +14,7 @@ export default function NotFound() {
       <div className="space-y-2">
         <h2 className="text-2xl font-bold tracking-tight">Registro não encontrado</h2>
         <p className="text-muted-foreground max-w-[400px]">
-          O usuário ou recurso que você está procurando não existe ou foi removido do sistema.
+          O recurso que você está procurando não existe ou foi removido do sistema.
         </p>
       </div>
 
