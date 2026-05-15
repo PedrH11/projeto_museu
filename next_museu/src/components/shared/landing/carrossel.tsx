@@ -27,7 +27,7 @@ const PECAS = [
     startDate: '10/04/2026',
     endDate: '18/08/2026',
     featured: false,
-    img: 'https://images.unsplash.com/photo-1510131435222-383794b150c7?auto=format&fit=crop&w=1200&q=80',
+    img: '/images/imagem_teste_card.jpg',
   },
   {
     title: 'Relógio de Bolso',
@@ -82,67 +82,64 @@ export function HighlightCarousel() {
                 key={i}
                 className="pl-6 basis-[70%] sm:basis-[50%] md:basis-[38%] lg:basis-[30%] xl:basis-[24%]"
               >
-                <div className="relative pt-8">
-                  {peca.featured && (
-                    <div
-                      className="absolute top-0 left-0 w-full h-20 rounded-t-3xl flex items-start justify-center pt-3"
-                      style={{ background: 'rgba(0,0,0,0.60)' }}
-                    >
-                      <span className="text-white text-2xl font-medium tracking-wide">
-                        Destaque
-                      </span>
+                <Card className="overflow-hidden border-0 pt-0 pb-5 rounded-3xl group cursor-pointer bg-white shadow-2xl h-full">
+                  <CardContent className="p-0 m-0 h-full flex flex-col gap-0">
+                    {/* IMAGEM */}
+                    <div className="relative w-full h-[320px] overflow-hidden m-0">
+                      {peca.featured && (
+                        <div
+                          className="absolute top-3 right-3 px-4 py-2 rounded-lg flex items-center justify-center z-20"
+                          style={{ background: 'rgba(0,0,0,0.60)' }}
+                        >
+                          <span className="text-white text-sm font-medium tracking-wide">
+                            Destaque
+                          </span>
+                        </div>
+                      )}
+                      <Image
+                        src={peca.img}
+                        alt={peca.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        style={{
+                          filter: 'sepia(0.18) brightness(0.88)',
+                          objectPosition: '50% 20%',
+                        }}
+                      />
                     </div>
-                  )}
 
-                  <Card className="overflow-hidden border-0 rounded-3xl group cursor-pointer shadow-2xl bg-white h-full">
-                    <CardContent className="p-0 h-full flex flex-col">
-                      {/* IMAGEM */}
-                      <div className="relative w-full h-[320px] overflow-hidden">
-                        <Image
-                          src={peca.img}
-                          alt={peca.title}
-                          fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-105"
-                          style={{
-                            filter: 'sepia(0.18) brightness(0.88)',
-                            objectPosition: '50% 20%',
-                          }}
-                        />
+                    {/* INFOS */}
+                    <div className="flex flex-col justify-between flex-1 p-4 text-left bg-white">
+                      <div>
+                        <p className="text-[10px] tracking-[0.25em] uppercase font-semibold text-zinc-500">
+                          EXPOSIÇÃO | MUSEU HISTÓRICO
+                        </p>
+
+                        <div className="w-10 h-[2px] bg-[#96460A] my-4 rounded-full" />
+
+                        <h3 className="text-lg font-bold text-zinc-900 mb-3 leading-snug">
+                          {peca.title}
+                        </h3>
+
+                        <p className="text-sm text-zinc-600 leading-relaxed line-clamp-3 min-h-[54px]">
+                          {peca.description}
+                        </p>
                       </div>
 
-                      {/* INFOS */}
-                      <div className="flex flex-col justify-between flex-1 p-4 text-left bg-white">
-                        <div>
-                          <p className="text-[10px] tracking-[0.25em] uppercase font-semibold text-zinc-500">
-                            EXPOSIÇÃO | MUSEU HISTÓRICO
-                          </p>
+                      <div className="mt-5 flex flex-col gap-1">
+                        <p className="text-xs text-zinc-700">
+                          <span className="font-semibold">Início</span> |{' '}
+                          {peca.startDate}
+                        </p>
 
-                          <div className="w-10 h-[2px] bg-[#96460A] my-4 rounded-full" />
-
-                          <h3 className="text-lg font-bold text-zinc-900 mb-3 leading-snug">
-                            {peca.title}
-                          </h3>
-
-                          <p className="text-sm text-zinc-600 leading-relaxed line-clamp-3 min-h-[54px]">
-                            {peca.description}
-                          </p>
-                        </div>
-
-                        <div className="mt-5 flex flex-col gap-1">
-                          <p className="text-xs text-zinc-700">
-                            <span className="font-semibold">Início</span> |{' '}
-                            {peca.startDate}
-                          </p>
-
-                          <p className="text-xs text-zinc-700">
-                            <span className="font-semibold">Término</span> |{' '}
-                            {peca.endDate}
-                          </p>
-                        </div>
+                        <p className="text-xs text-zinc-700">
+                          <span className="font-semibold">Término</span> |{' '}
+                          {peca.endDate}
+                        </p>
                       </div>
-                    </CardContent>
-                  </Card>
-                </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </CarouselItem>
             ))}
           </CarouselContent>
