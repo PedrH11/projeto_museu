@@ -27,7 +27,7 @@
     "@tabler/icons-react": "^3.40.0",
     "@tanstack/react-table": "^8.21.3",
     "@wojtekmaj/react-recaptcha-v3": "^0.1.4",
-    "axios": "^1.13.6",
+    "axios": "^1.16.1",
     "browser-image-compression": "^2.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
