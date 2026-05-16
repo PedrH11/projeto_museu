@@ -2,8 +2,21 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-const OBRAS = [
+type ScreenSize = 'small' | 'medium' | 'large';
+
+type Format = 'rectangular' | 'square';
+
+interface Obra {
+  id: string;
+  title: string;
+  description: string;
+  img: string;
+  format: Format;
+}
+
+const OBRAS: Obra[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440000',
     title: 'Bússola Antiga',
@@ -33,7 +46,7 @@ const OBRAS = [
     title: 'Lanterna Vintage',
     description:
       'Lanterna de latão utilizada em expedições noturnas durante o século XIX.',
-    img: '/images/imagem_teste_card.jpg',
+    img: '/images/sistine-chapel.jpg',
     format: 'rectangular',
   },
   {
@@ -44,18 +57,91 @@ const OBRAS = [
     img: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=1200&q=80',
     format: 'square',
   },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440005',
+    title: 'Mapa Antigo',
+    description:
+      'Mapa do século XVII mostrando as rotas comerciais entre Europa e Ásia durante a Era dos Descobrimentos.',
+    img: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80',
+    format: 'square',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440006',
+    title: 'Mona Lisa',
+    description:
+      'Lente de aumento ornamentada com cabo em madeira nobre, usada por cientistas e antiquários.',
+    img: '/images/mona_lisa.jpg',
+    format: 'square',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440007',
+    title: 'Louvre',
+    description:
+      'Tinteiro de porcelana chinesa com motivos florais, utilizado na caligrafia tradicional.',
+    img: '/images/louvre-museum.jpg',
+    format: 'rectangular',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440008',
+    title: 'Câmera Fotográfica',
+    description:
+      'Câmera de vidro e metal dos anos 1920, marca de precursora da fotografia moderna.',
+    img: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=80',
+    format: 'square',
+  },
 ];
 
 export function RotatingArtworks() {
+  const [screenSize, setScreenSize] = useState<ScreenSize>('large');
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setScreenSize('small');
+      } else if (window.innerWidth < 1024) {
+        setScreenSize('medium');
+      } else {
+        setScreenSize('large');
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const getGridClass = () => {
+    switch (screenSize) {
+      case 'small':
+        return 'grid-cols-1';
+      case 'medium':
+        return 'grid-cols-2';
+      default:
+        return 'grid-cols-3';
+    }
+  };
+
+  const getColSpanClass = (format: Format) => {
+    if (screenSize === 'small') {
+      return 'col-span-1';
+    }
+
+    if (screenSize === 'medium') {
+      return format === 'rectangular' ? 'col-span-2' : 'col-span-1';
+    }
+
+    // Large screen
+    return format === 'rectangular' ? 'col-span-2' : 'col-span-1';
+  };
+
   return (
     <section
       className="w-full py-8 px-2 md:px-4 lg:px-6 bg-black/80"
       style={{ background: 'var(--foreground)' }}
     >
-      <div className="grid grid-cols-2 auto-rows-max">
+      <div className={`grid ${getGridClass()} auto-rows-max gap-4`}>
         {OBRAS.map((obra) => {
-          const colSpan =
-            obra.format === 'rectangular' ? 'col-span-2' : 'col-span-1';
+          const colSpan = getColSpanClass(obra.format);
 
           return (
             <Link
