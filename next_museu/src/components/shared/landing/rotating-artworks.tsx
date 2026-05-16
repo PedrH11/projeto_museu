@@ -1,9 +1,11 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 const OBRAS = [
   {
+    id: '550e8400-e29b-41d4-a716-446655440000',
     title: 'Bússola Antiga',
     description:
       'Uma rara bússola marítima utilizada por navegadores europeus durante o final do século XIX em grandes expedições oceânicas.',
@@ -11,6 +13,7 @@ const OBRAS = [
     format: 'rectangular',
   },
   {
+    id: '550e8400-e29b-41d4-a716-446655440001',
     title: 'Máquina de Escrever',
     description:
       'Equipamento histórico utilizado em escritórios e redações no início do século XX.',
@@ -18,6 +21,7 @@ const OBRAS = [
     format: 'square',
   },
   {
+    id: '550e8400-e29b-41d4-a716-446655440002',
     title: 'Relógio de Bolso',
     description:
       'Peça sofisticada produzida artesanalmente com acabamento em ouro e mecanismos internos de alta precisão.',
@@ -25,6 +29,7 @@ const OBRAS = [
     format: 'square',
   },
   {
+    id: '550e8400-e29b-41d4-a716-446655440003',
     title: 'Lanterna Vintage',
     description:
       'Lanterna de latão utilizada em expedições noturnas durante o século XIX.',
@@ -32,6 +37,7 @@ const OBRAS = [
     format: 'rectangular',
   },
   {
+    id: '550e8400-e29b-41d4-a716-446655440004',
     title: 'Óculos Antigos',
     description:
       'Óculos de armação dourada da época vitoriana, exemplo de artesanato óptico.',
@@ -47,14 +53,15 @@ export function RotatingArtworks() {
       style={{ background: 'var(--foreground)' }}
     >
       <div className="grid grid-cols-2 auto-rows-max">
-        {OBRAS.map((obra, index) => {
+        {OBRAS.map((obra) => {
           const colSpan =
             obra.format === 'rectangular' ? 'col-span-2' : 'col-span-1';
 
           return (
-            <div
-              key={index}
-              className={`${colSpan} h-[380px] relative overflow-hidden group cursor-pointer`}
+            <Link
+              href={`/obra/${obra.id}`}
+              key={obra.id}
+              className={`${colSpan} h-[380px] relative overflow-hidden group cursor-pointer block`}
             >
               {/* Background Image */}
               <Image
@@ -79,7 +86,7 @@ export function RotatingArtworks() {
                   {obra.description}
                 </p>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>
