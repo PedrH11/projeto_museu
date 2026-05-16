@@ -60,8 +60,7 @@ export function HighlightCarousel() {
             href="/exposicoes"
             className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-6 py-4 transition-all duration-200 hover:bg-white/10 rounded-full"
             style={{
-              borderColor: 'rgba(255,240,200,0.50)',
-              color: '#fff8ee',
+              color: 'var(--background)',
             }}
           >
             Confira todas as exposições
@@ -69,13 +68,7 @@ export function HighlightCarousel() {
           </Link>
         </div>
 
-        <Carousel
-          opts={{
-            align: 'start',
-            loop: false,
-          }}
-          className="w-full"
-        >
+        <Carousel opts={{ align: 'start', loop: false }} className="w-full">
           <CarouselContent className="-ml-6">
             {PECAS.map((peca, i) => (
               <CarouselItem
@@ -87,11 +80,11 @@ export function HighlightCarousel() {
                     {/* IMAGEM */}
                     <div className="relative w-full h-[320px] overflow-hidden m-0">
                       {peca.featured && (
-                        <div
-                          className="absolute top-3 right-3 px-4 py-2 rounded-lg flex items-center justify-center z-20"
-                          style={{ background: 'rgba(0,0,0,0.60)' }}
-                        >
-                          <span className="text-white text-sm font-medium tracking-wide">
+                        <div className="absolute top-3 right-3 px-4 py-2 rounded-lg flex items-center justify-center z-20 bg-black/75">
+                          <span
+                            className="text-white text-sm font-medium tracking-wide"
+                            style={{ color: 'rgba(214, 205, 141, 1)' }}
+                          >
                             Destaque
                           </span>
                         </div>
@@ -145,8 +138,7 @@ export function HighlightCarousel() {
           </CarouselContent>
 
           <CarouselPrevious
-            className="border transition-all duration-200 hover:bg-white/10 -left-2 h-14 w-14
-            "
+            className="border transition-all duration-200 hover:bg-white/10 -left-2 h-14 w-14"
             style={{
               borderColor: 'rgba(255,240,200,0.40)',
               background: 'rgba(150,70,10,0.70)',

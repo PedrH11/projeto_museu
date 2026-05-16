@@ -1,10 +1,9 @@
+import { RotatingArtworks } from '@/components/shared/landing/rotating-artworks';
 import { HighlightCarousel } from '../components/shared/landing/carrossel';
-import { Events } from '../components/shared/landing/evento';
 import { Faqs } from '../components/shared/landing/faq';
 import { Footer } from '../components/shared/landing/footer';
 import { HeroMuseum } from '../components/shared/landing/hero';
 import { Navbar } from '../components/shared/landing/nav-bar';
-import { SearchSection } from '../components/shared/landing/pesquisa';
 
 export default function Home() {
   return (
@@ -13,8 +12,9 @@ export default function Home() {
       <main className="flex-grow flex flex-col items-center w-full overflow-x-hidden">
         <HeroMuseum />
         <HighlightCarousel />
-        <SearchSection />
-        <Events />
+        <RotatingArtworks />
+        {/* <SearchSection /> */}
+        {/* <Events /> */}
         <Faqs />
       </main>
       <Footer />
