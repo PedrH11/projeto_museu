@@ -3,7 +3,7 @@
 import { Navbar } from '@/components/shared/landing/nav-bar';
 import { Footer } from '@/components/shared/landing/footer';
 import { useParams } from 'next/navigation';
-import { ArtworkDetails } from '@/components/shared/details/artwork-details';
+import { ArtworkDetails } from '@/components/shared/collection/artwork-details';
 
 export default function ArtworkDetailsPage() {
     const params = useParams();
