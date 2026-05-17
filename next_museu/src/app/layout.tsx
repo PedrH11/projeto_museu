@@ -4,9 +4,9 @@ import { ThemeProvider } from 'next-themes';
 import { Inter, Lora } from 'next/font/google';
 import { ReactNode } from 'react';
 import { Toaster } from 'sonner';
-import './globals.css';
 import { getClientDictionary } from '../lib/get-dictionary';
-import { Providers } from '../service/providers'; 
+import { Providers } from '../service/providers';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Museu - Dashboard',
@@ -16,15 +16,20 @@ export const metadata: Metadata = {
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const lora = Lora({ subsets: ['latin'], variable: '--font-lora' });
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
-
-  const { locale, dictionary } = await getClientDictionary();
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const { locale, dict } = await getClientDictionary();
 
   return (
     <html lang={locale} suppressHydrationWarning data-scroll-behavior="smooth">
-      <body className={`${inter.variable} ${lora.variable} font-sans scroll-smooth`}>
+      <body
+        className={`${inter.variable} ${lora.variable} font-sans scroll-smooth`}
+      >
         {}
-        <Providers locale={locale} dictionary={dictionary}>
+        <Providers locale={locale} dictionary={dict}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

@@ -6,53 +6,130 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const PECAS = [
   {
-    title: "Bússola Antiga",
-    year: "1890",
-    img: "https://images.unsplash.com/photo-1524499982521-1ffd58dd89ea?auto=format&fit=crop&w=800&q=80",
+    title: 'Bússola Antiga',
+    description:
+      'Uma rara bússola marítima utilizada por navegadores europeus durante o final do século XIX em grandes expedições oceânicas.',
+    startDate: '24/03/2026',
+    endDate: '24/06/2026',
+    featured: true,
+    img: 'https://images.unsplash.com/photo-1524499982521-1ffd58dd89ea?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    title: "Máquina de Escrever",
-    year: "1925",
-    img: "https://images.unsplash.com/photo-1510131435222-383794b150c7?auto=format&fit=crop&w=800&q=80",
+    title: 'Máquina de Escrever',
+    description:
+      'Equipamento histórico utilizado em escritórios e redações no início do século XX, representando a evolução da comunicação escrita.',
+    startDate: '10/04/2026',
+    endDate: '18/08/2026',
+    featured: false,
+    img: '/images/imagem_teste_card.jpg',
   },
   {
-    title: "Relógio de Bolso",
-    year: "1910",
-    img: "https://images.unsplash.com/photo-1518544801976-3e159e50e5bb?auto=format&fit=crop&w=800&q=80",
+    title: 'Relógio de Bolso',
+    description:
+      'Peça sofisticada produzida artesanalmente com acabamento em ouro e mecanismos internos de alta precisão para a época.',
+    startDate: '02/05/2026',
+    endDate: '30/09/2026',
+    featured: false,
+    img: 'https://images.unsplash.com/photo-1518544801976-3e159e50e5bb?auto=format&fit=crop&w=1200&q=80',
   },
-]
+];
 
 export function HighlightCarousel() {
   return (
-    <section id="acervo" className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-10">
-          <h2 className="font-serif text-3xl font-bold">Peças em Destaque</h2>
-          <p className="text-muted-foreground mt-2">
-            Uma amostra do acervo histórico
-          </p>
+    <section
+      id="exposicoes"
+      className="relative py-8 overflow-hidden w-full"
+      style={{ backgroundColor: '#96460A' }}
+    >
+      {/* container MUITO maior */}
+      <div className="w-full px-8 xl:px-8 2xl:px-8">
+        <div className="flex items-end justify-between mb-14">
+          <div>
+            <h2 className="text-white text-2xl md:text-3xl font-bold drop-shadow-lg">
+              Exposições
+            </h2>
+          </div>
+
+          <Link
+            href="/exposicoes"
+            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-6 py-4 transition-all duration-200 hover:bg-white/10 rounded-full"
+            style={{
+              color: 'var(--background)',
+            }}
+          >
+            Confira todas as exposições
+            <ArrowRight size={14} />
+          </Link>
         </div>
 
-        <Carousel className="max-w-5xl mx-auto">
-          <CarouselContent>
+        <Carousel opts={{ align: 'start', loop: false }} className="w-full">
+          <CarouselContent className="-ml-6">
             {PECAS.map((peca, i) => (
-              <CarouselItem key={i} className="md:basis-1/3">
-                <Card className="overflow-hidden">
-                  <CardContent className="p-0 relative aspect-square">
-                    <Image
-                      src={peca.img}
-                      alt={peca.title}
-                      fill
-                      className="object-cover"
-                    />
+              <CarouselItem
+                key={i}
+                className="pl-6 basis-[70%] sm:basis-[50%] md:basis-[38%] lg:basis-[30%] xl:basis-[24%]"
+              >
+                <Card className="overflow-hidden border-0 pt-0 pb-5 rounded-3xl group cursor-pointer bg-white shadow-2xl h-full">
+                  <CardContent className="p-0 m-0 h-full flex flex-col gap-0">
+                    {/* IMAGEM */}
+                    <div className="relative w-full h-[320px] overflow-hidden m-0">
+                      {peca.featured && (
+                        <div className="absolute top-3 right-3 px-4 py-2 rounded-lg flex items-center justify-center z-20 bg-black/75">
+                          <span
+                            className="text-white text-sm font-medium tracking-wide"
+                            style={{ color: 'rgba(214, 205, 141, 1)' }}
+                          >
+                            Destaque
+                          </span>
+                        </div>
+                      )}
+                      <Image
+                        src={peca.img}
+                        alt={peca.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        style={{
+                          filter: 'sepia(0.18) brightness(0.88)',
+                          objectPosition: '50% 20%',
+                        }}
+                      />
+                    </div>
 
-                    <div className="absolute bottom-0 w-full p-4 bg-black/40 text-white">
-                      <p className="font-semibold">{peca.title}</p>
-                      <p className="text-xs opacity-80">{peca.year}</p>
+                    {/* INFOS */}
+                    <div className="flex flex-col justify-between flex-1 p-4 text-left bg-white">
+                      <div>
+                        <p className="text-[10px] tracking-[0.25em] uppercase font-semibold text-zinc-500">
+                          EXPOSIÇÃO | MUSEU HISTÓRICO
+                        </p>
+
+                        <div className="w-10 h-[2px] bg-[#96460A] my-4 rounded-full" />
+
+                        <h3 className="text-lg font-bold text-zinc-900 mb-3 leading-snug">
+                          {peca.title}
+                        </h3>
+
+                        <p className="text-sm text-zinc-600 leading-relaxed line-clamp-3 min-h-[54px]">
+                          {peca.description}
+                        </p>
+                      </div>
+
+                      <div className="mt-5 flex flex-col gap-1">
+                        <p className="text-xs text-zinc-700">
+                          <span className="font-semibold">Início</span> |{' '}
+                          {peca.startDate}
+                        </p>
+
+                        <p className="text-xs text-zinc-700">
+                          <span className="font-semibold">Término</span> |{' '}
+                          {peca.endDate}
+                        </p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -60,8 +137,31 @@ export function HighlightCarousel() {
             ))}
           </CarouselContent>
 
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious
+            className="border transition-all duration-200 hover:bg-white/10 -left-2 h-14 w-14"
+            style={{
+              borderColor: 'rgba(255,240,200,0.40)',
+              background: 'rgba(150,70,10,0.70)',
+              color: '#fff8ee',
+            }}
+          />
+
+          <CarouselNext
+            className="
+              border
+              transition-all
+              duration-200
+              hover:bg-white/10
+              -right-2
+              h-14
+              w-14
+            "
+            style={{
+              borderColor: 'rgba(255,240,200,0.40)',
+              background: 'rgba(150,70,10,0.70)',
+              color: '#fff8ee',
+            }}
+          />
         </Carousel>
       </div>
     </section>
