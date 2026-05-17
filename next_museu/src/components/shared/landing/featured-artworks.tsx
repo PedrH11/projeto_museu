@@ -72,7 +72,7 @@ export function FeaturedArtworks() {
                 className="pl-2 md:pl-4 lg:pl-8 basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/2"
               >
                 <Link
-                  href={`/obra/${obra.id}`}
+                  href={`/acervo/${obra.id}/detalhes`}
                   className="h-[320px] relative overflow-hidden group cursor-pointer block"
                 >
                   <div className="absolute top-3 right-3 px-4 py-2 rounded-lg flex items-center justify-center z-20 bg-black/75">

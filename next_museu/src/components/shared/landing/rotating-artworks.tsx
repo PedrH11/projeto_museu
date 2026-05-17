@@ -145,7 +145,7 @@ export function RotatingArtworks() {
 
           return (
             <Link
-              href={`/obra/${obra.id}`}
+              href={`/acervo/${obra.id}/detalhes`}
               key={obra.id}
               className={`${colSpan} h-[380px] relative overflow-hidden group cursor-pointer block`}
             >

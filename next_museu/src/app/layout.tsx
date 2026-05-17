@@ -28,7 +28,6 @@ export default async function RootLayout({
       <body
         className={`${inter.variable} ${lora.variable} font-sans scroll-smooth`}
       >
-        {}
         <Providers locale={locale} dictionary={dict}>
           <ThemeProvider
             attribute="class"
