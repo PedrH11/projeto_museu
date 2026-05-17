@@ -20,22 +20,16 @@ export function Navbar() {
         <div className="flex items-center gap-4 mr-3">
           <div className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground">
             <Link
-              href="#acervo"
+              href="/acervo"
               className="hover:text-primary transition-colors"
             >
-              Coleção
+              Acervo
             </Link>
             <Link
               href="#pesquisa"
               className="hover:text-primary transition-colors"
             >
               Histórias
-            </Link>
-            <Link
-              href="#eventos"
-              className="hover:text-primary transition-colors"
-            >
-              Acervo
             </Link>
             <Link href="#faq" className="hover:text-primary transition-colors">
               Suporte
