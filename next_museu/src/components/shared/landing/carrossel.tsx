@@ -58,10 +58,7 @@ export function HighlightCarousel() {
 
           <Link
             href="/exposicoes"
-            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-6 py-4 transition-all duration-200 hover:bg-white/10 rounded-full"
-            style={{
-              color: 'var(--background)',
-            }}
+            className="flex items-center gap-2 text-xs font-bold uppercase text-white tracking-widest px-6 py-4 transition-all duration-200 hover:bg-white/10 rounded-full"
           >
             Confira todas as exposições
             <ArrowRight size={14} />

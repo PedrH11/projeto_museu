@@ -4,7 +4,7 @@ export function HeroMuseum() {
   return (
     <section
       id="hero"
-      className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden"
+      className="relative w-full h-[700px] md:h-[600px] lg:h-[700px] overflow-hidden"
     >
       {/* Imagem de fundo */}
       <Image
@@ -20,7 +20,7 @@ export function HeroMuseum() {
 
       {/* Título no topo, centralizado */}
       <div className="relative z-10 flex flex-col items-center pt-6 md:pt-8 px-4">
-        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white text-center drop-shadow-lg">
+        <h1 className="font-inter text-4xl sm:text-5xl lg:text-6xl font-bold text-white text-center drop-shadow-lg">
           MUSEU VIRTUAL DE BIRIGUI
         </h1>
       </div>
@@ -32,7 +32,7 @@ export function HeroMuseum() {
           <p className="text-white text-sm md:text-base font-bold drop-shadow-lg">
             DESTAQUES E INGRESSOS
           </p>
-          <p className="text-white/80 text-sm md:text-base mt-1 drop-shadow">
+          <p className=" text-white/80 text-sm md:text-base mt-1 drop-shadow">
             Aberto hoje das 8h às 17h
           </p>
         </div>

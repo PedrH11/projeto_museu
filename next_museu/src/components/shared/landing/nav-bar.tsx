@@ -7,8 +7,8 @@ import { ThemeSwitch } from '../../layout/theme-switch';
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 w-full border-b backdrop-blur">
-      <div className="container flex h-16 items-center justify-between">
+    <nav className="sticky top-0 z-50 w-full border-b backdrop-blur bg-background/75">
+      <div className="w-full flex h-16 items-center justify-between">
         <div className="flex items-center gap-8  ml-3">
           <Link
             href="/"
