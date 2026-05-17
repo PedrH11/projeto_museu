@@ -11,7 +11,7 @@ export function HeroMuseum() {
         src="/images/capa_dashboard.png"
         alt="Capa do Museu de Birigui"
         fill
-        className="object-cover object-[50%_70%]"
+        className="object-cover"
         priority
       />
 
