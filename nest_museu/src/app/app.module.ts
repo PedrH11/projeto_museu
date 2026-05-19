@@ -13,6 +13,7 @@ import { EmailModule } from "../module/email/email.module";
 import { EventModule } from "../module/event/event.module";
 import { FotoModule } from "../module/imagem/foto.module";
 import { ResourceModule } from "../module/resource/resource.module";
+import { SchoolModule } from "../module/school/school.module";
 import { UsuarioModule } from "../module/usuario/usuario.module";
 
 const modules = [
@@ -24,6 +25,7 @@ const modules = [
   EventModule,
   ResourceModule,
   EmailModule,
+  SchoolModule,
   AcessoModule,
 ];
 
