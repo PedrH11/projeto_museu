@@ -19,10 +19,10 @@ interface Obra {
 const OBRAS: Obra[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440000',
-    title: 'Bússola Antiga',
+    title: 'Troféu Locomotiva de Prata',
     description:
-      'Uma rara bússola marítima utilizada por navegadores europeus durante o final do século XIX em grandes expedições oceânicas.',
-    img: 'https://images.unsplash.com/photo-1524499982521-1ffd58dd89ea?auto=format&fit=crop&w=1200&q=80',
+      'Prêmio comemorativo institucional em formato de locomotiva sobre base metálica',
+    img: 'https://images.unsplash.com/photo-1654426875983-a441ea09ad80?q=80&w=813&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     format: 'rectangular',
   },
   {
@@ -164,7 +164,7 @@ export function RotatingArtworks() {
               <div className="absolute bottom-0 left-0 p-3 md:p-5 w-full text-left">
                 <h3
                   className="text-lg md:text-xl font-bold mb-0.5 leading-tight"
-                  style={{ color: 'var(--accent)' }}
+                  style={{ color: 'rgb(241, 228, 178)' }}
                 >
                   {obra.title}
                 </h3>

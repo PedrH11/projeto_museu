@@ -63,7 +63,7 @@ export function FeaturedArtworks() {
         </h2>
       </div>
 
-      <div className="relative">
+      <div className="relative px-10">
         <Carousel opts={{ align: 'start', loop: false }} className="w-full">
           <CarouselContent className="-ml-2 md:-ml-4 lg:-ml-8">
             {OBRAS_DESTAQUE.map((obra) => (
@@ -96,7 +96,7 @@ export function FeaturedArtworks() {
                   <div className="absolute bottom-0 left-0 p-3 md:p-5 w-full text-left">
                     <h3
                       className="text-lg md:text-xl font-bold mb-0.5 leading-tight"
-                      style={{ color: 'var(--accent)' }}
+                      style={{ color: 'rgb(241, 228, 178)' }}
                     >
                       {obra.title}
                     </h3>
@@ -109,8 +109,8 @@ export function FeaturedArtworks() {
             ))}
           </CarouselContent>
 
-          <CarouselPrevious className="border transition-all duration-200 hover:bg-white/20 -left-2" />
-          <CarouselNext className="border transition-all duration-200 hover:bg-white/20 -right-2" />
+          <CarouselPrevious className="border transition-all duration-200 hover:bg-white/20 -left-12" />
+          <CarouselNext className="border transition-all duration-200 hover:bg-white/20 -right-12" />
         </Carousel>
       </div>
     </section>

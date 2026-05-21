@@ -12,31 +12,31 @@ import Link from 'next/link';
 
 const PECAS = [
   {
-    title: 'Bússola Antiga',
+    title: 'O solo vira arte',
     description:
-      'Uma rara bússola marítima utilizada por navegadores europeus durante o final do século XIX em grandes expedições oceânicas.',
+      'Venha explorar as cores e texturas naturais do solo como matéria-prima artistica.',
     startDate: '24/03/2026',
     endDate: '24/06/2026',
     featured: true,
-    img: 'https://images.unsplash.com/photo-1524499982521-1ffd58dd89ea?auto=format&fit=crop&w=1200&q=80',
+    img: '/images/expo_solo.png',
   },
   {
-    title: 'Máquina de Escrever',
+    title: 'O mundo em grafite',
     description:
-      'Equipamento histórico utilizado em escritórios e redações no início do século XX, representando a evolução da comunicação escrita.',
+      'A exposição "O Mundo em Grafite" apresenta uma coleção impressionante de obras de arte criadas exclusivamente com grafite, revelando a versatilidade e a expressividade desse material aparentemente simples. Desde retratos detalhados até paisagens surreais, cada peça é uma demonstração do talento e da criatividade dos artistas que transformam o grafite em verdadeiras obras-primas visuais.',
     startDate: '10/04/2026',
     endDate: '18/08/2026',
     featured: false,
-    img: '/images/imagem_teste_card.jpg',
+    img: '/images/expo_grafite.png',
   },
   {
-    title: 'Relógio de Bolso',
+    title: 'Tipografia urbana',
     description:
-      'Peça sofisticada produzida artesanalmente com acabamento em ouro e mecanismos internos de alta precisão para a época.',
+      'A exposição "Tipografia Urbana" mergulha no fascinante mundo das letras e fontes que compõem a paisagem urbana. Apresentando uma coleção diversificada de tipografias encontradas em fachadas, placas de rua, grafites e anúncios publicitários, esta exposição celebra a arte da tipografia como um elemento essencial da identidade visual das cidades. Desde estilos clássicos até designs contemporâneos, os visitantes serão convidados a explorar a riqueza e a criatividade presentes nas letras que moldam o ambiente urbano.',
     startDate: '02/05/2026',
     endDate: '30/09/2026',
     featured: false,
-    img: 'https://images.unsplash.com/photo-1518544801976-3e159e50e5bb?auto=format&fit=crop&w=1200&q=80',
+    img: '/images/expo_tipografia.png',
   },
 ];
 
@@ -65,14 +65,14 @@ export function HighlightCarousel() {
           </Link>
         </div>
 
-        <Carousel opts={{ align: 'start', loop: false }} className="w-full">
+        <Carousel opts={{ align: 'start', loop: false }} className="w-full [&>div]:overflow-visible">
           <CarouselContent className="-ml-6">
             {PECAS.map((peca, i) => (
               <CarouselItem
                 key={i}
                 className="pl-6 basis-[70%] sm:basis-[50%] md:basis-[38%] lg:basis-[30%] xl:basis-[24%]"
               >
-                <Card className="overflow-hidden border-0 pt-0 pb-5 rounded-3xl group cursor-pointer bg-white shadow-2xl h-full">
+                <Card className="overflow-hidden border-0 pt-0 pb-5 rounded-3xl group cursor-pointer bg-white shadow-[0_8px_40px_rgba(0,0,0,0.5)] h-full">
                   <CardContent className="p-0 m-0 h-full flex flex-col gap-0">
                     {/* IMAGEM */}
                     <div className="relative w-full h-[320px] overflow-hidden m-0">
