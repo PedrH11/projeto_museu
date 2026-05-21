@@ -51,18 +51,18 @@ const OBRAS: Obra[] = [
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440004',
-    title: 'Óculos Antigos',
+    title: 'Cálice de Madeira Indígena',
     description:
-      'Óculos de armação dourada da época vitoriana, exemplo de artesanato óptico.',
-    img: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=1200&q=80',
+      'Cálice artesanal esculpido em madeira nobre com acabamento polido, de origem indígena.',
+    img: '/images/cup.jpg',
     format: 'square',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440005',
-    title: 'Mapa Antigo',
+    title: 'Telefone de Parede Antigo',
     description:
-      'Mapa do século XVII mostrando as rotas comerciais entre Europa e Ásia durante a Era dos Descobrimentos.',
-    img: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80',
+      'Telefone de parede vintage em madeira e metal com sistema de manivela magnética do início do século XX.',
+    img: '/images/old_telephone.jpg',
     format: 'square',
   },
   {

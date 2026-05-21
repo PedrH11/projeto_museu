@@ -20,31 +20,31 @@ interface ObraDestaque {
 const OBRAS_DESTAQUE: ObraDestaque[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440000',
-    title: 'Monte Fuji',
+    title: 'Troféu Locomotiva de Prata',
     description:
-      'Uma rara bússola marítima utilizada por navegadores europeus durante o final do século XIX.',
-    img: '/images/mount_fuji.jpg',
+      'Prêmio comemorativo institucional em formato de locomotiva sobre base metálica.',
+    img: '/images/metal_train.jpg',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440001',
-    title: 'Locomotiva',
+    title: 'Microfone Condensador Behringer B-1',
     description:
-      'Peça sofisticada produzida artesanalmente com acabamento em ouro e mecanismos internos de alta precisão.',
-    img: '/images/locomotiva.png',
+      'Microfone de estúdio condensador de grande diafragma com padrão polar cardioide.',
+    img: '/images/microphone.png',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440004',
-    title: 'Óculos Antigos',
+    title: 'Cálice de Madeira Indígena',
     description:
-      'Óculos de armação dourada da época vitoriana, exemplo de artesanato óptico refinado.',
-    img: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=1200&q=80',
+      'Cálice artesanal esculpido em madeira nobre com acabamento polido, de origem indígena.',
+    img: '/images/cup.jpg',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440005',
-    title: 'Mapa Antigo',
+    title: 'Telefone de Parede Antigo',
     description:
-      'Mapa do século XVII mostrando as rotas comerciais entre Europa e Ásia durante a Era dos Descobrimentos.',
-    img: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80',
+      'Telefone de parede vintage em madeira e metal com sistema de manivela magnética do início do século XX.',
+    img: '/images/old_telephone.jpg',
   },
 ];
 
