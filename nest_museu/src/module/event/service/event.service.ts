@@ -2,9 +2,9 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GenericConverter } from '../../../commons/converter/converter.commons';
-import { EmailException } from '../../../commons/excpetions/error/email.exceptions';
-import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
-import { EVENT } from '../constants/event.constantes';
+import { EmailException } from '../../../commons/exceptions/error/email.exception';
+import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
+import { EVENT } from '../constants/event.constants';
 import { EventRequest } from '../dto/request/event.request';
 import { EventResponse } from '../dto/response/event.response';
 import { Event } from '../entities/event.entity';
@@ -22,7 +22,6 @@ export class EventService {
     endDate?: string,
   ): Promise<EventResponse[]> {
     try {
-
       const query = this.eventRepository.createQueryBuilder(EVENT.ENTITY);
 
       if (search) {
@@ -82,7 +81,6 @@ export class EventService {
 
       return GenericConverter.toResponse(EventResponse, eventSalvo);
     } catch (error: any) {
-
       throw new InternalServerErrorException(
         `Erro ao criar usuário: ${error.message}`,
       );

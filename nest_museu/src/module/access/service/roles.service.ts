@@ -1,16 +1,16 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { GenericConverter } from "../../../commons/converter/converter.commons";
-import { EntityNotFoundException } from "../../../commons/excpetions/error/entityNotFound.exceptions";
-import { ServerErrorExceptions } from "../../../commons/excpetions/error/server.error.exceptions";
-import { Pageable } from "../../../commons/pagination/page.response";
-import { Page } from "../../../commons/pagination/paginacao.sistema";
-import { PaginationDto } from "../../../commons/pagination/pagination.dto";
-import { fieldsRoles, ROLES } from "../constants/roles.constants";
-import { RolesRequest } from "../dto/request/roles.request";
-import { RolesResponse } from "../dto/response/roles.response";
-import { Roles } from "../entities/role.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { GenericConverter } from '../../../commons/converter/converter.commons';
+import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
+import { ServerErrorExceptions } from '../../../commons/exceptions/error/server-error.exception';
+import { Pageable } from '../../../commons/pagination/page.response';
+import { Page } from '../../../commons/pagination/pagination.sistema';
+import { PaginationDto } from '../../../commons/pagination/pagination.dto';
+import { fieldsRole, ROLES } from '../constants/roles.constants';
+import { RolesRequest } from '../dto/request/roles.request';
+import { RolesResponse } from '../dto/response/roles.response';
+import { Roles } from '../entities/role.entity';
 
 @Injectable()
 export class RolesService {
@@ -23,11 +23,11 @@ export class RolesService {
     const {
       page,
       pageSize,
-      field = ROLES.FIELDS.ID_ROLES,
+      field = ROLES.FIELDS.ID_ROLE,
       order,
       search,
     } = pagination;
-    const pageable = new Pageable(page, pageSize, field, order, fieldsRoles);
+    const pageable = new Pageable(page, pageSize, field, order, fieldsRole);
     try {
       const query = this.rolesRepository
         .createQueryBuilder(ROLES.ENTITY)

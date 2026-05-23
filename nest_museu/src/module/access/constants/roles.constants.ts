@@ -16,18 +16,18 @@ export const ROLES = {
   ALIAS: ALIAS_NAME,
 
   TABLE_FIELDS: {
-    ID_ROLES: 'id_roles',
-    NOME_ROLES: 'nome_roles',
+    ID_ROLE: 'id_role',
+    NOME_ROLE: 'nome_role',
   },
 
   FIELDS: {
-    ID_ROLES: 'idRoles',
-    NOME_ROLES: 'nomeRoles',
+    ID_ROLE: 'idRole',
+    NOME_ROLE: 'nomeRole',
   },
 
   SWAGGER: {
-    ID_ROLES: `Código da ${ALIAS_NAME} de identificação único `,
-    NOME_ROLES: `Nome da ${ALIAS_NAME}`,
+    ID_ROLE: `Código da ${ALIAS_NAME} de identificação único `,
+    NOME_ROLE: `Nome da ${ALIAS_NAME}`,
   },
 
   SEARCH: {
@@ -63,12 +63,12 @@ function getMensagem(ALIAS: string) {
       MENSAGEM_GENERICA.ENTIDADE_LOCALIZADA,
       ALIAS,
     ),
-    ENITDADE_LISTADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_LISTADA, ALIAS),
+    ENTIDADE_LISTADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_LISTADA, ALIAS),
     SERVER_ERROR: gerarMensagem(MENSAGEM_GENERICA.ERROR_SERVICE, ALIAS),
   };
 }
 
-export const fieldsRoles = Object.values(ROLES.FIELDS);
+export const fieldsRole = Object.values(ROLES.FIELDS);
 
 function getRotas(ENTITY: string): RotaRecurso {
   return gerarRotaRecurso(ENTITY);

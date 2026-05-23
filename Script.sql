@@ -34,8 +34,8 @@ CREATE TABLE visitors (
 
 -- tabela de papeis de usuários
 CREATE TABLE roles (
-    id_roles SERIAL PRIMARY KEY,
-    nome_roles VARCHAR(50) UNIQUE NOT NULL,
+    id_role SERIAL PRIMARY KEY,
+    nome_role VARCHAR(50) UNIQUE NOT NULL,
     created_at TIMESTAMP DEFAULT now() NOT NULL,
     updated_at TIMESTAMP DEFAULT now() NOT NULL,
     deleted_at TIMESTAMP
