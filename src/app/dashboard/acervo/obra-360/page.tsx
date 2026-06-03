@@ -17,14 +17,19 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Info, Link2, MonitorPlay, Upload, View, X } from 'lucide-react';
-import { useState } from 'react';
+import { Box, Info, Link2, MonitorPlay, Upload, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export default function CadastrarObra360() {
   const [fileName, setFileName] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  // Importa a biblioteca do motor 3D apenas do lado do cliente (Next.js)
+  useEffect(() => {
+    import('@google/model-viewer').catch(console.error);
+  }, []);
 
   const formSchema = z
     .object({
@@ -39,7 +44,8 @@ export default function CadastrarObra360() {
       'threed-description': z.string().optional(),
     })
     .refine((data) => data['threed-embed'] || data['threed-file'], {
-      message: 'Você precisa fornecer um link ou fazer o upload do arquivo.',
+      message:
+        'Você precisa fornecer um link ou fazer o upload do arquivo .glb.',
       path: ['threed-file'],
     });
 
@@ -47,14 +53,13 @@ export default function CadastrarObra360() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       'threed-title': '',
-      'threed-type': 'panoramica',
+      'threed-type': 'glb', // Define o GLB como padrão
       'threed-embed': '',
       'threed-file': '',
       'threed-description': '',
     },
   });
 
-  // Observamos as mudanças ao vivo para atualizar a pré-visualização
   const watchMediaType = form.watch('threed-type');
   const watchEmbedUrl = form.watch('threed-embed');
 
@@ -76,17 +81,18 @@ export default function CadastrarObra360() {
       className="space-y-8 p-6 max-w-6xl mx-auto"
     >
       <div className="grid grid-cols-12 gap-8">
-        {/* COLUNA ESQUERDA: FORMULÁRIO (Ocupa 7 das 12 colunas) */}
+        {/* COLUNA ESQUERDA: FORMULÁRIO */}
         <div className="col-span-12 lg:col-span-7 space-y-6">
           <div>
             <p className="leading-7">
               <span className="text-2xl font-bold tracking-tight flex items-center gap-2">
-                <View className="size-6 text-green-800" />
-                Cadastro de Mídia 360° e Modelos 3D
+                <Box className="size-6 text-green-800" />
+                Cadastro de Modelos 3D (.glb)
               </span>
               <br />
               <span className="text-sm text-muted-foreground">
-                Cadastre experiências imersivas para as obras do acervo.
+                Faça o upload do arquivo 3D para visualizar e girar a obra em
+                tempo real.
               </span>
             </p>
             <hr className="mt-4 border-border/40" />
@@ -104,7 +110,7 @@ export default function CadastrarObra360() {
                   Título da Visualização
                 </FieldLabel>
                 <Input
-                  placeholder="Ex: Tour Virtual pela Capela"
+                  placeholder="Ex: Vaso Indígena Guarani (Digitalização 3D)"
                   type="text"
                   {...field}
                 />
@@ -124,14 +130,13 @@ export default function CadastrarObra360() {
                 data-invalid={fieldState.invalid}
               >
                 <FieldLabel className="font-semibold">
-                  Tecnologia da Mídia
+                  Formato do Arquivo
                 </FieldLabel>
                 <Select
                   value={field.value}
                   onValueChange={(val) => {
                     field.onChange(val);
-                    // Limpa a mídia anterior ao trocar de tipo para evitar confusão visual
-                    if (val === 'panoramica') form.setValue('threed-embed', '');
+                    if (val === 'glb') form.setValue('threed-embed', '');
                     if (val === 'embed') {
                       setPreviewUrl(null);
                       setFileName(null);
@@ -143,8 +148,8 @@ export default function CadastrarObra360() {
                     <SelectValue placeholder="Selecione o tipo" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="panoramica">
-                      Upload de Foto Panorâmica (Equiretangular)
+                    <SelectItem value="glb">
+                      Arquivo de Modelo 3D (.glb)
                     </SelectItem>
                     <SelectItem value="embed">
                       Link de Iframe (Sketchfab, Matterport, etc)
@@ -177,8 +182,7 @@ export default function CadastrarObra360() {
                     {...field}
                   />
                   <FieldDescription>
-                    Cole apenas o link fonte (src) do Iframe para visualizar ao
-                    lado.
+                    Cole apenas o link fonte (src) do modelo hospedado fora.
                   </FieldDescription>
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -188,7 +192,7 @@ export default function CadastrarObra360() {
             />
           )}
 
-          {watchMediaType === 'panoramica' && (
+          {watchMediaType === 'glb' && (
             <Controller
               control={form.control}
               name="threed-file"
@@ -201,12 +205,12 @@ export default function CadastrarObra360() {
                   data-invalid={fieldState.invalid}
                 >
                   <FieldLabel className="font-semibold">
-                    Arquivo de Imagem (2:1)
+                    Upload do Arquivo 3D (.glb)
                   </FieldLabel>
                   <div className="w-full relative flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/20 rounded-xl p-6 hover:bg-muted/40 transition-all bg-background min-h-[120px]">
                     <input
                       type="file"
-                      accept="image/*"
+                      accept=".glb"
                       className="absolute inset-0 opacity-0 cursor-pointer z-10"
                       onChange={(e) => {
                         const file = e.target.files?.[0];
@@ -223,7 +227,7 @@ export default function CadastrarObra360() {
                         <Upload className="size-5" />
                       </div>
                       <p className="text-sm font-medium">
-                        Arraste ou clique para upar a imagem
+                        Arraste ou clique para carregar o arquivo .glb
                       </p>
                     </div>
                   </div>
@@ -244,10 +248,10 @@ export default function CadastrarObra360() {
                 data-invalid={fieldState.invalid}
               >
                 <FieldLabel className="font-semibold">
-                  Instruções Extras
+                  Notas sobre a Digitalização
                 </FieldLabel>
                 <Textarea
-                  placeholder="Detalhes sobre esta visualização..."
+                  placeholder="Qual equipamento foi usado? A escala está em 1:1?"
                   {...field}
                 />
                 {fieldState.invalid && (
@@ -270,14 +274,12 @@ export default function CadastrarObra360() {
               type="submit"
               className="flex-1 bg-green-800 hover:bg-green-900 text-white font-bold"
             >
-              Salvar Mídia 360°
+              Salvar Modelo no Acervo
             </Button>
           </div>
         </div>
 
-        {/* ================================================================= */}
-        {/* COLUNA DIREITA: VISOR DE PRÉ-VISUALIZAÇÃO AO VIVO                 */}
-        {/* ================================================================= */}
+        {/* COLUNA DIREITA: VISOR DE PRÉ-VISUALIZAÇÃO AO VIVO */}
         <div className="col-span-12 lg:col-span-5 relative mt-6 lg:mt-0">
           <div className="sticky top-6 p-1 bg-gradient-to-b from-border/50 to-transparent rounded-2xl">
             <div className="bg-card rounded-xl border shadow-sm overflow-hidden h-[450px] flex flex-col">
@@ -285,12 +287,12 @@ export default function CadastrarObra360() {
               <div className="bg-muted/50 px-4 py-3 border-b flex items-center gap-2">
                 <MonitorPlay className="size-4 text-green-800" />
                 <h3 className="text-sm font-bold tracking-wide uppercase text-muted-foreground">
-                  Preview em Tempo Real
+                  Motor de Renderização 3D
                 </h3>
               </div>
 
               {/* Área do Player/Imagem */}
-              <div className="flex-1 bg-black/5 relative flex items-center justify-center overflow-hidden">
+              <div className="flex-1 bg-gradient-to-tr from-gray-100 to-gray-50 dark:from-zinc-900 dark:to-zinc-800 relative flex items-center justify-center overflow-hidden">
                 {/* PREVIEW 1: LINK IFRAME */}
                 {watchMediaType === 'embed' && watchEmbedUrl ? (
                   <iframe
@@ -308,22 +310,31 @@ export default function CadastrarObra360() {
                   </div>
                 ) : null}
 
-                {/* PREVIEW 2: IMAGEM PANORÂMICA (UPLOAD) */}
-                {watchMediaType === 'panoramica' && previewUrl ? (
-                  <div className="w-full h-full relative animate-in fade-in group cursor-crosshair">
-                    <img
+                {/* PREVIEW 2: MODELO 3D .GLB (UPLOAD) */}
+                {watchMediaType === 'glb' && previewUrl ? (
+                  <div className="w-full h-full relative animate-in fade-in cursor-grab active:cursor-grabbing">
+                    {/* @ts-ignore - Evita erro de tipagem no Web Component */}
+                    <model-viewer
                       src={previewUrl}
-                      alt="Panorama Preview"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                      <p className="text-white text-xs flex items-center gap-2">
-                        <Info className="size-4" />
-                        Apenas visualização plana (2D). No site público, esta
-                        imagem será convertida em uma esfera navegável.
+                      alt="Modelo 3D"
+                      auto-rotate
+                      camera-controls
+                      shadow-intensity="1"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'transparent',
+                      }}
+                    ></model-viewer>
+
+                    <div className="absolute inset-x-0 bottom-0 p-4 pointer-events-none">
+                      <p className="text-black dark:text-white text-xs text-center drop-shadow-md flex justify-center items-center gap-2">
+                        <Info className="size-4" /> Use o mouse para rotacionar
+                        • Scroll para zoom
                       </p>
                     </div>
-                    {/* Botão flutuante para remover imagem */}
+
+                    {/* Botão flutuante para remover modelo */}
                     <button
                       type="button"
                       onClick={(e) => {
@@ -332,16 +343,19 @@ export default function CadastrarObra360() {
                         setPreviewUrl(null);
                         form.setValue('threed-file', '');
                       }}
-                      className="absolute top-4 right-4 p-2 bg-black/60 hover:bg-destructive text-white rounded-full transition-colors"
+                      className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-destructive text-white rounded-full transition-colors"
                     >
                       <X className="size-4" />
                     </button>
                   </div>
-                ) : watchMediaType === 'panoramica' && !previewUrl ? (
+                ) : watchMediaType === 'glb' && !previewUrl ? (
                   <div className="text-center p-6 text-muted-foreground flex flex-col items-center gap-2">
-                    <View className="size-8 opacity-20" />
-                    <p className="text-sm">
-                      Faça o upload da imagem para ver a miniatura.
+                    <Box className="size-10 opacity-20" />
+                    <p className="text-sm font-medium">
+                      Motor 3D Aguardando Arquivo
+                    </p>
+                    <p className="text-xs">
+                      Faça o upload do .glb ao lado para renderizar o objeto.
                     </p>
                   </div>
                 ) : null}
