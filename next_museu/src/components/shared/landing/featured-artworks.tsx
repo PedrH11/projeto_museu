@@ -20,10 +20,10 @@ interface ObraDestaque {
 const OBRAS_DESTAQUE: ObraDestaque[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440000',
-    title: 'Troféu Locomotiva de Prata',
+    title: 'Troféu Locomotiva de Bronze',
     description:
       'Prêmio comemorativo institucional em formato de locomotiva sobre base metálica.',
-    img: '/images/metal_train.jpg',
+    img: '/images/train.jpg',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440001',
@@ -45,6 +45,13 @@ const OBRAS_DESTAQUE: ObraDestaque[] = [
     description:
       'Telefone de parede vintage em madeira e metal com sistema de manivela magnética do início do século XX.',
     img: '/images/old_telephone.jpg',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440006',
+    title: 'Jarro de Terracota',
+    description:
+      'Jarro de terracota artesanal, com acabamento único e detalhes handcrafted.',
+    img: '/images/terracota_jug.jpg',
   },
 ];
 
@@ -73,7 +80,7 @@ export function FeaturedArtworks() {
               >
                 <Link
                   href={`/acervo/${obra.id}/detalhes`}
-                  className="h-[320px] relative overflow-hidden group cursor-pointer block"
+                  className="h-[320px] relative overflow-hidden group cursor-pointer block bg-black/5 rounded-lg"
                 >
                   <div className="absolute top-3 right-3 px-4 py-2 rounded-lg flex items-center justify-center z-20 bg-black/75">
                     <span
@@ -88,10 +95,9 @@ export function FeaturedArtworks() {
                     src={obra.img}
                     alt={obra.title}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="object-contain p-4 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"
                   />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent rounded-lg" />
 
                   <div className="absolute bottom-0 left-0 p-3 md:p-5 w-full text-left">
                     <h3
