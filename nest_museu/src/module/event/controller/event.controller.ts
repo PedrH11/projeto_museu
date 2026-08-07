@@ -27,6 +27,7 @@ import { AssignSponsorToEventRequest } from '../dto/request/assign-sponsor-to-ev
 import { EventRequest } from '../dto/request/event.request';
 import { EventResponse } from '../dto/response/event.response';
 import { EventService } from '../service/event.service';
+import { RemoveSponsorToEventRequest } from '../dto/request/remove-sponsor-from-event.request';
 
 @ApiTags(EVENT.ALIAS)
 @Controller(EVENT.ROTAS.BASE)
@@ -124,7 +125,30 @@ export class EventController {
     );
 
     return ResponseBuilder.status<EventResponse>(HttpStatus.OK)
-      .message(EVENT.MENSAGEM.ENTIDADE_CADASTRADA)
+      .message('Patrocinador atribuído ao evento com sucesso.')
+      .path(req.path)
+      .metodo(req.method)
+      .links(this.eventLinks())
+      .build();
+  }
+
+  @Delete(':eventId/sponsor/:sponsorId')
+  async removerPatrocinadorDoEvento(
+    @Param('eventId', ParseIntPipe) eventId: number,
+    @Param('sponsorId', ParseIntPipe) sponsorId: number,
+    @Req() req: Request,
+  ) {
+    const removeEventSponsorRequest: RemoveSponsorToEventRequest = {
+      idEvent: eventId,
+      idSponsor: sponsorId,
+    };
+
+    await this.eventService.removerPatrocinadorDoEvento(
+      removeEventSponsorRequest,
+    );
+
+    return ResponseBuilder.status<EventResponse>(HttpStatus.OK)
+      .message('Patrocinador removido do evento com sucesso.')
       .path(req.path)
       .metodo(req.method)
       .links(this.eventLinks())

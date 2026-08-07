@@ -6,6 +6,7 @@ import { EntityNotFoundException } from '../../../commons/exceptions/error/entit
 import { EVENT } from '../constants/event.constants';
 import { AssignSponsorToEventRequest } from '../dto/request/assign-sponsor-to-event.request';
 import { EventRequest } from '../dto/request/event.request';
+import { RemoveSponsorToEventRequest } from '../dto/request/remove-sponsor-from-event.request';
 import { EventResponse } from '../dto/response/event.response';
 import { Event } from '../entities/event.entity';
 import { EventSponsor } from '../entities/eventsponsor.entity';
@@ -159,6 +160,29 @@ export class EventService {
     } catch (error: any) {
       throw new InternalServerErrorException(
         `Erro ao atribuir um patrocinador ao evento: ${error.message}`,
+      );
+    }
+  }
+
+  async removerPatrocinadorDoEvento(
+    request: RemoveSponsorToEventRequest,
+  ): Promise<void> {
+    try {
+      const eventSponsor = await this.eventSponsorRepository.findOneBy({
+        idEvent: request.idEvent,
+        idSponsor: request.idSponsor,
+      });
+
+      if (!eventSponsor) {
+        throw new EntityNotFoundException(
+          EVENT.MENSAGEM.ENTIDADE_NAO_ENCONTRADA,
+        );
+      }
+
+      await this.eventSponsorRepository.remove(eventSponsor);
+    } catch (error: any) {
+      throw new InternalServerErrorException(
+        `Erro ao remover um patrocinador do evento: ${error.message}`,
       );
     }
   }
