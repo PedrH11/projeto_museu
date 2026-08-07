@@ -2,18 +2,20 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GenericConverter } from '../../../commons/converter/converter.commons';
-import { EmailException } from '../../../commons/exceptions/error/email.exception';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { EVENT } from '../constants/event.constants';
+import { AssignSponsorToEventRequest } from '../dto/request/assign-sponsor-to-event.request';
 import { EventRequest } from '../dto/request/event.request';
 import { EventResponse } from '../dto/response/event.response';
 import { Event } from '../entities/event.entity';
+import { EventSponsor } from '../entities/eventsponsor.entity';
 
 @Injectable()
 export class EventService {
   constructor(
     @InjectRepository(Event)
     private eventRepository: Repository<Event>,
+    private eventSponsorRepository: Repository<EventSponsor>,
   ) {}
 
   async listar(
@@ -141,6 +143,23 @@ export class EventService {
       return event;
     } catch (error: any) {
       throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  async atribuirPatrocinadorAoEvento(
+    request: AssignSponsorToEventRequest,
+  ): Promise<void> {
+    try {
+      const newEventSponsorAssing = GenericConverter.toEntity(
+        EventSponsor,
+        request,
+      );
+
+      await this.eventSponsorRepository.save(newEventSponsorAssing);
+    } catch (error: any) {
+      throw new InternalServerErrorException(
+        `Erro ao atribuir um patrocinador ao evento: ${error.message}`,
+      );
     }
   }
 }

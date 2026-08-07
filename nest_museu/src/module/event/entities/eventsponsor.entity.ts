@@ -8,4 +8,8 @@ export class EventSponsor {
 
   @PrimaryColumn({ name: 'id_colaborator' })
   idSponsor!: number;
+
+  constructor(data: Partial<EventSponsor> = {}) {
+    Object.assign(this, data);
+  }
 }

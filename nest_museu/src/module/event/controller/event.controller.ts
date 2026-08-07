@@ -23,6 +23,7 @@ import { Page } from '../../../commons/pagination/pagination.sistema';
 import { ApiResponse, Link } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
 import { EVENT } from '../constants/event.constants';
+import { AssignSponsorToEventRequest } from '../dto/request/assign-sponsor-to-event.request';
 import { EventRequest } from '../dto/request/event.request';
 import { EventResponse } from '../dto/response/event.response';
 import { EventService } from '../service/event.service';
@@ -93,11 +94,37 @@ export class EventController {
   }
 
   @Delete(EVENT.ROTAS.ID)
-  excluir(@Param(PARAMS.ID, ParseIntPipe) id: number, @Req() req: Request) {
-    this.eventService.excluir(id);
+  async excluir(
+    @Param(PARAMS.ID, ParseIntPipe) id: number,
+    @Req() req: Request,
+  ) {
+    await this.eventService.excluir(id);
 
     return ResponseBuilder.status<EventResponse>(HttpStatus.OK)
       .message(EVENT.MENSAGEM.ENTIDADE_EXCLUIDA)
+      .path(req.path)
+      .metodo(req.method)
+      .links(this.eventLinks())
+      .build();
+  }
+
+  @Post(':eventId/sponsor/:sponsorId')
+  async atribuirPatrocinadorAoEvento(
+    @Param('eventId', ParseIntPipe) eventId: number,
+    @Param('sponsorId', ParseIntPipe) sponsorId: number,
+    @Req() req: Request,
+  ) {
+    const assignEventSponsorRequest: AssignSponsorToEventRequest = {
+      idEvent: eventId,
+      idSponsor: sponsorId,
+    };
+
+    await this.eventService.atribuirPatrocinadorAoEvento(
+      assignEventSponsorRequest,
+    );
+
+    return ResponseBuilder.status<EventResponse>(HttpStatus.OK)
+      .message(EVENT.MENSAGEM.ENTIDADE_CADASTRADA)
       .path(req.path)
       .metodo(req.method)
       .links(this.eventLinks())
