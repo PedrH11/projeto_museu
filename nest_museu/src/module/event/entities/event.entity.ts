@@ -8,7 +8,8 @@ import {
 } from 'typeorm';
 import { BaseEntity } from '../../../commons/entities/base.entity';
 import { EVENT } from '../constants/event.constants';
-
+//import { EventSpotlight } from './event-spotlight.entity';
+//import { EventBooking } from './eventbooking.entity';
 @Entity(EVENT.ENTITY)
 export class Event extends BaseEntity {
   @PrimaryGeneratedColumn({ name: EVENT.TABLE_FIELDS.ID_EVENT })
@@ -57,6 +58,11 @@ export class Event extends BaseEntity {
   // @OneToMany(() => EventBooking, (booking: EventBooking) => booking.event)
   // bookings!: EventBooking[];
 
+  //@OneToMany(() => EventSpotlight, (spotlight) => spotlight.event)
+  //event_spotlights!: EventSpotlight[];
+
+  //@OneToMany(() => EventBooking, (booking) => booking.event)
+  //event_bookings!: EventBooking[];
   @BeforeInsert()
   @BeforeUpdate()
   calculateDates() {

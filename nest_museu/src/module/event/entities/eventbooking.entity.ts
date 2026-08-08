@@ -8,7 +8,7 @@ import {
 import { BaseEntity } from '../../../commons/entities/base.entity';
 import { SchoolRepresentative } from './schoolrepresentaives.entity';
 import { Student } from './students.entity';
-import { Visitor } from './visitors.entoty';
+import { Visitor } from './visitors.entity';
 
 @Entity('event_bookings')
 export class EventBooking extends BaseEntity {
