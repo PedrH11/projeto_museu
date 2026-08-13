@@ -1,5 +1,5 @@
-import { GenericConverter } from '../../../../commons/converter/converter.commons';
-import { Event } from '../../entities/event.entity';
+import { GenericConverter } from '../../../../../commons/converter/converter.commons';
+import { Event } from '../../../entities/event.entity';
 import { EventRequest } from '../request/event.request';
 import { EventResponse } from '../response/event.response';
 

@@ -1,17 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import {
-  IsString,
+  IsHexColor,
+  IsInt,
   IsNotEmpty,
   IsOptional,
-  IsInt,
   IsPositive,
-  IsHexColor,
+  IsString,
 } from 'class-validator';
-import { BooleanField } from '../../../../commons/decorators/validation/boolean.decorator';
-import { DateField } from '../../../../commons/decorators/validation/date.decorator';
-import { TextField } from '../../../../commons/decorators/validation/text.decorator';
-import { EVENT } from '../../constants/event.constants';
+import { BooleanField } from '../../../../../commons/decorators/validation/boolean.decorator';
+import { DateField } from '../../../../../commons/decorators/validation/date.decorator';
+import { TextField } from '../../../../../commons/decorators/validation/text.decorator';
+import { EVENT } from '../../../constants/event.constants';
 
 export class EventRequest {
   static entityName = EVENT.ALIAS.toLowerCase();

@@ -23,8 +23,8 @@ import { Page } from '../../../commons/pagination/pagination.sistema';
 import { ApiResponse, Link } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
 import { EVENT } from '../constants/event.constants';
-import { EventRequest } from '../dto/request/event.request';
-import { EventResponse } from '../dto/response/event.response';
+import { EventRequest } from '../dto/events/request/event.request';
+import { EventResponse } from '../dto/events/response/event.response';
 import { EventService } from '../service/event.service';
 
 @ApiTags(EVENT.ALIAS)
