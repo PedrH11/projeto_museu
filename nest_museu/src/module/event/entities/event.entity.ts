@@ -4,10 +4,13 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BaseEntity } from '../../../commons/entities/base.entity';
 import { EVENT } from '../constants/event.constants';
+import { Colaborator } from './colaborators.entity';
 //import { EventSpotlight } from './event-spotlight.entity';
 //import { EventBooking } from './eventbooking.entity';
 @Entity(EVENT.ENTITY)
@@ -51,9 +54,19 @@ export class Event extends BaseEntity {
   @Column({ name: 'max_capacity', type: 'integer', nullable: true })
   maxCapacity!: number;
 
-  // @ManyToMany(() => Sponsor, (sponsor: Sponsor) => sponsor.events)
-  // @JoinTable({ name: 'event_sponsors_relation' })
-  // sponsors!: Sponsor[];
+  @ManyToMany(
+    () => Colaborator,
+    (colaborator: Colaborator) => colaborator.events,
+  )
+  @JoinTable({
+    name: 'event_colaborator_relation',
+    joinColumn: { name: 'id_event', referencedColumnName: 'idEvent' },
+    inverseJoinColumn: {
+      name: 'id_colaborator',
+      referencedColumnName: 'idColaborator',
+    },
+  })
+  colaborators!: Colaborator[];
 
   // @OneToMany(() => EventBooking, (booking: EventBooking) => booking.event)
   // bookings!: EventBooking[];
