@@ -1,6 +1,7 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -12,8 +13,11 @@ export class Visitor extends BaseEntity {
   @PrimaryGeneratedColumn({ name: 'id_visitor' })
   idVisitor!: number;
 
-  @Column({ type: 'varchar', length: 255 })
-  name!: string;
+  @Column({ name: 'firstname', type: 'varchar', length: 255 })
+  firstName!: string;
+
+  @Column({ name: 'lastname', type: 'varchar', length: 255 })
+  lastName!: string;
 
   @Column({ type: 'varchar', length: 255, unique: true })
   email!: string;
@@ -24,7 +28,9 @@ export class Visitor extends BaseEntity {
   @Column({ type: 'varchar', length: 20, nullable: true })
   phone?: string;
 
-  // Relacionamento: Um visitante pode ter vários agendamentos ao longo do tempo
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date;
+
   @OneToMany(() => EventBooking, (booking: EventBooking) => booking.visitor)
   bookings!: EventBooking[];
 
