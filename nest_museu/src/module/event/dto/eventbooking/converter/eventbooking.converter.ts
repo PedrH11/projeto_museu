@@ -1,5 +1,5 @@
-import { GenericConverter } from '../../../../commons/converter/converter.commons';
-import { EventBooking } from '../../entities/eventbooking.entity';
+import { GenericConverter } from '../../../../../commons/converter/converter.commons';
+import { EventBooking } from '../../../entities/eventbooking.entity';
 import { EventBookingRequest } from '../request/eventbooking.request';
 import { EventBookingResponse } from '../response/eventbooking.response';
 

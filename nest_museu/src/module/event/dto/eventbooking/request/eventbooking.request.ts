@@ -8,9 +8,9 @@ import {
   IsPositive,
   IsEnum,
 } from 'class-validator';
-import { DateField } from '../../../../commons/decorators/validation/date.decorator';
-import { TextField } from '../../../../commons/decorators/validation/text.decorator';
-import { BookingStatusEnum } from '../../entities/eventbooking.entity';
+import { DateField } from '../../../../../commons/decorators/validation/date.decorator';
+import { TextField } from '../../../../../commons/decorators/validation/text.decorator';
+import { BookingStatusEnum } from '../../../entities/eventbooking.entity';
 
 export class EventBookingRequest {
   @ApiProperty({

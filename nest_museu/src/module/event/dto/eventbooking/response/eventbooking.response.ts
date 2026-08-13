@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { BookingStatusEnum } from '../../entities/eventbooking.entity';
+import { BookingStatusEnum } from '../../../entities/eventbooking.entity';
 
 export class EventBookingResponse {
   @ApiProperty({ description: 'ID único da Reserva', example: 1 })

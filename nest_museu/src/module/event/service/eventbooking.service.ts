@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { GenericConverter } from '../../../commons/converter/converter.commons';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { EVENT_BOOKING } from '../constants/eventbooking.constants';
-import { EventBookingRequest } from '../dto/request/eventbooking.request';
-import { EventBookingResponse } from '../dto/response/eventbooking.response';
+import { EventBookingRequest } from '../dto/eventbooking/request/eventbooking.request';
+import { EventBookingResponse } from '../dto/eventbooking/response/eventbooking.response';
 import { EventBooking } from '../entities/eventbooking.entity';
 
 @Injectable()

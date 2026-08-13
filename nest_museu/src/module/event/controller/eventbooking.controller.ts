@@ -5,8 +5,8 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
-  Post,
   Patch,
+  Post,
   Query,
   Req,
 } from '@nestjs/common';
@@ -22,8 +22,8 @@ import { Page } from '../../../commons/pagination/pagination.sistema';
 import { ApiResponse, Link } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
 import { EVENT_BOOKING } from '../constants/eventbooking.constants';
-import { EventBookingRequest } from '../dto/request/eventbooking.request';
-import { EventBookingResponse } from '../dto/response/eventbooking.response';
+import { EventBookingRequest } from '../dto/eventbooking/request/eventbooking.request';
+import { EventBookingResponse } from '../dto/eventbooking/response/eventbooking.response';
 import { EventBookingService } from '../service/eventbooking.service';
 
 @ApiTags(EVENT_BOOKING.ALIAS)
@@ -79,11 +79,11 @@ export class EventBookingController {
       .path(req.path)
       .data(response)
       .metodo(req.method)
-      .links(this.eventBookingLinks(response?.id_booking))
+      .links(this.eventBookingLinks())
       .build();
   }
 
-  private eventBookingLinks(id?: number): Record<string, Link> {
+  private eventBookingLinks(): Record<string, Link> {
     return HateoasHelper.generateResourceLinks(this.path);
   }
 

@@ -1,15 +1,15 @@
 import {
   Column,
   Entity,
-  ManyToOne,
   JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BaseEntity } from '../../../commons/entities/base.entity';
 
+import { Usuario } from '../../usuario/entities/usuario.entity';
 import { Event } from './event.entity';
 import { Visitor } from './visitors.entity';
-import { Usuario } from '../../usuario/entities/usuario.entity';
 //import { Group } from './groups.entity';
 
 export enum BookingStatusEnum {
