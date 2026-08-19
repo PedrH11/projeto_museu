@@ -166,7 +166,7 @@ CREATE TABLE event_bookings (
 CREATE TABLE event_booking_groups (
     id_booking INTEGER NOT NULL REFERENCES event_bookings(id_booking) ON DELETE CASCADE,
     id_group INTEGER NOT NULL REFERENCES school_groups(id_group) ON DELETE CASCADE,
-    attending_students INTEGER, 
+    attending_students JSONB NOT NULL DEFAULT '[]'::jsonb
     PRIMARY KEY (id_booking, id_group)
 );
 
