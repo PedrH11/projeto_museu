@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { EVENT_SPOTLIGHT } from '../constants/event_spotlight.constants';
-import { EventSpotlightConverter } from '../dto/events/converter/event_spotlight.converter';
-import { EventSpotlightRequest } from '../dto/events/request/event_spotlight.request';
-import { EventSpotlightResponse } from '../dto/events/response/event_spotlight.response';
+import { EventSpotlightConverter } from '../dto/event_spotlight/converter/event_spotlight.converter';
+import { EventSpotlightRequest } from '../dto/event_spotlight/request/event_spotlight.request';
+import { EventSpotlightResponse } from '../dto/event_spotlight/response/event_spotlight.response';
 import { EventSpotlight } from '../entities/event_spotlight.entity';
 
 @Injectable()
