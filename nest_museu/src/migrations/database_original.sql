@@ -254,3 +254,20 @@ create table event_spotlight (
 	start_date TIMESTAMPTZ, 
 	end_date TIMESTAMPTZ
 );
+
+-- 20/08/2026 - criação da tabela estudantes e seus relacionamentos
+alter table school_groups drop column student_list;
+
+create table student (
+    id_student SERIAL primary key,
+    full_name VARCHAR(300) NOT NULL,
+    phone VARCHAR(20),
+    email VARCHAR(100) NOT NULL,
+    identification VARCHAR(14) NOT NULL
+);
+
+create TABLE students_in_group (
+    id_student INTEGER REFERENCES student(id_student) ON DELETE CASCADE,
+    id_group INTEGER REFERENCES school_groups(id_group) ON DELETE CASCADE,
+    PRIMARY KEY (id_student, id_group)
+);
